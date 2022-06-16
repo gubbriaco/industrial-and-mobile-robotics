@@ -1,0 +1,116 @@
+classdef PUMA560Configuration
+
+    properties (Access=private)
+        link1
+        link2
+        link3
+        
+        alpha1
+        alpha2
+        alpha3
+        
+        d1
+        d2 
+        d3
+        
+        theta1 theta2
+        theta3
+    end
+    
+    properties (Access=private)
+        R0b
+    end
+    
+    properties (Access=private, Constant)
+        revolute = 0;
+        prismatic = 1;
+    end
+    
+    properties (Access=private)
+        LINK1
+        LINK2
+        LINK3
+    end
+    
+    %% COSTRUTTORE
+    methods
+        function robot = PUMA560Configuration(links, alphas, ds, thetas)
+            this.link1 = links(1);
+            this.link2 = links(2);
+            this.link3 = links(3);
+            
+            this.alpha1 = alphas(1);
+            this.alpha2 = alphas(2);
+            this.alpha3 = alphas(3);
+            
+            this.d1 = ds(1);
+            this.d2 = ds(2);
+            this.d3 = ds(3);
+            
+            this.theta1 = thetas(1);
+            this.theta2 = thetas(2);
+            this.theta3 = thetas(3);
+        end 
+    end
+    
+    %% LEGAME TRA SISTEMA DI RIFERIMENTO (0) E (b)
+    methods (Access=protected) 
+    	function robot = SistemaRiferimentoMatriceRotoTraslazione(R0b)
+            robot.R0b = R0b;
+        end
+    end
+    
+    %% METODI PER IMPOSTAZIONE TIPOLOGIA GIUNTI
+    methods
+        
+        %% IMPOSTA LA TIPOLOGIA DEL GIUNTO 1
+        function LINK1Type(type)
+            if type==0
+                LINK1 = Link( [theta1, d1, link1, alpha1, revolute], 'standard' );
+            end
+            if type==1
+                LINK1 = Link( [theta1, d1, link1, alpha1, prismatic], 'standard' );
+                q1Min=0; q1Max=pi/2;
+                LINK1.qlim = [q1Min q1Max];
+            end
+        end
+        
+        %% IMPOSTA LA TIPOLOGIA DEL GIUNTO 2
+        function LINK2Type(type)
+            if type==0
+                LINK2 = Link( [theta2, d2, link2, alpha2, revolute], 'standard' );
+            end
+            if type==1
+                LINK2 = Link( [theta2, d2, link2, alpha2, prismatic], 'standard' );
+            end
+        end
+        
+        %% IMPOSTA LA TIPOLOGIA DEL GIUNTO 3
+        function LINK3Type(type)
+            if type==0
+                LINK3 = Link( [theta3, d3, link3, alpha3, revolute], 'standard' );
+            end
+            if type==1
+                LINK3 = Link( [theta3, d3, link3, alpha3, prismatic], 'standard' );
+            end
+        end
+          
+    end
+    
+    methods (Static)
+          %% PUMA560 PLOT
+        function PUMA560plot()
+            LINK1 = Link( [theta1, d1, link1, alpha1, PUMA560Configuration.LINK1.sigma], 'standard' );
+            LINK2 = Link( [theta2, d2, link2, alpha2, PUMA560Configuration.revolute], 'standard' );
+            LINK3 = Link( [theta3, d3, link3, alpha3, PUMA560Configuration.revolute], 'standard' );
+            
+            LINKS = [LINK1 LINK2 LINK3];
+            puma560 = SerialLink(LINKS, 'name', 'PUMA 560');
+
+            figure();
+            puma560.plot(theta);
+        end
+    end
+
+    
+end
