@@ -60,6 +60,7 @@ robot.plot( [puma560.theta1 puma560.theta2 puma560.theta3] );
 P1 = [0.8 0.8 0.5]';
 P2 = [1.2 0.8 0.5]';
 P3 = [1.0 1.2 0.5]';
+POINTS = [P1 P2 P3];
 
 figure();
 plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'b');
@@ -81,24 +82,62 @@ T23 = CinematicaDiretta(links, Qp3);
 
 
 %% PERCORSO TRIANGOLO
-POINTS = [P1 P2 P3];
-lambda = 0:0.025:1;
+passoLambda = 0.025;
+lambda = 0:passoLambda:1;
 
-[P1P2, Q1Q2, Q12] = PercorsoTriangolo(lambda, P1, P2, Qp1, Qp2);
-[P2P3, Q2Q3, Q23] = PercorsoTriangolo(lambda, P2, P3, Qp2, Qp3);
-[P3P1, Q3Q1, Q31] = PercorsoTriangolo(lambda, P3, P1, Qp3, Qp1);
+[P1P2, Q1Q2, Q12] = Percorso.Triangolo(lambda, P1, P2, Qp1, Qp2);
+[P2P3, Q2Q3, Q23] = Percorso.Triangolo(lambda, P2, P3, Qp2, Qp3);
+[P3P1, Q3Q1, Q31] = Percorso.Triangolo(lambda, P3, P1, Qp3, Qp1);
 
-figure();
-plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'*','Color','b'); hold on;
-plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'*','Color','b'); hold on;
-plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'*','Color','b');
+figure(); title("PERCORSO TRIANGOLO");
+plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
+plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'green'); hold on;
+plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'blue'); hold on;
+plot3(P1P2(:,1), P1P2(:,2), P1P2(:,3), '>'); hold on;
+plot3(P2P3(:,1), P2P3(:,2), P2P3(:,3), '<'); hold on;
+plot3(P3P1(:,1), P3P1(:,2), P3P1(:,3), '<');
+legend("P1", "P2", "P3","P1->P2", "P2->P3", "P3->P1");
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
-figure();
-subplot(3,1,1); plot(lambda, Q1Q2*180/pi);
-title("P1->P2"); xlabel("lambda"); ylabel("degrees"); legend('Q1','Q2','Q3');
-subplot(3,1,2); plot(lambda, Q2Q3*180/pi);
-title("P2->P3");  xlabel("lambda"); ylabel("degrees"); legend('Q1','Q2','Q3');
-subplot(3,1,3); plot(lambda, Q3Q1*180/pi);
-title("P3->P1");  xlabel("lambda"); ylabel("degrees"); legend('Q1','Q2','Q3');
+figure(); title("PERCORSO TRIANGOLO");
+subplot(3,1,1); plot(lambda, Q1Q2);
+title("P1->P2"); xlabel("\lambda"); ylabel("radians"); legend('Q1','Q2','Q3');
+subplot(3,1,2); plot(lambda, Q2Q3);
+title("P2->P3");  xlabel("\lambda"); ylabel("radians"); legend('Q1','Q2','Q3');
+subplot(3,1,3); plot(lambda, Q3Q1);
+title("P3->P1");  xlabel("\lambda"); ylabel("radians"); legend('Q1','Q2','Q3');
 
+%% PERCORSO CIRCONFERENZA
+passoLambda = 0.00125;
+lambda = 0:passoLambda:1;
+
+%centro circonferenza
+centro = [1;0.95;0.5];
+%raggio circonferenza
+raggio = 0.25;
+
+lambda12 = 0:passoLambda:1/3;
+lambda23 = 1/3:passoLambda:2/3;
+lambda31 = 2/3:passoLambda:1;
+
+[P1P2, Q1Q2, Q12] = Percorso.Circonferenza(links, lambda12, centro, raggio);
+[P2P3, Q2Q3, Q23] = Percorso.Circonferenza(links, lambda23, centro, raggio);
+[P3P1, Q3Q1, Q31] = Percorso.Circonferenza(links, lambda31, centro, raggio);
+
+figure(); title("PERCORSO CIRCONFERENZA");
+plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
+plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'green'); hold on;
+plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'blue'); hold on;
+plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'>'); hold on;
+plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'<'); hold on;
+plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'<');
+legend("P1", "P2", "P3","P1->P2", "P2->P3", "P3->P1");
+grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
+
+figure(); title("PERCORSO CIRCONFERENZA");
+subplot(3,1,1); plot(lambda, Q1Q2);
+title("P1->P2"); xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
+subplot(3,1,2); plot(lambda, Q2Q3);
+title("P2->P3");  xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
+subplot(3,1,3); plot(lambda, Q3Q1);
+title("P3->P1");  xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
