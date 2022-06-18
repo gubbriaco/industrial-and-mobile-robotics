@@ -2,7 +2,7 @@ classdef Percorso
 
     methods(Static)
     
-        function [PP, QQ, Q0] = Triangolo(lambda, P1, P2, Q1, Q2)
+        function [PP, QQ, QQd] = Triangolo(links, lambda, lambda_d,T1,T2, P1, P2, Q1, Q2)
             N = length(lambda);
             for i=1:N
                 % percorso lineare
@@ -15,6 +15,15 @@ classdef Percorso
                 %raggiunti
                 QQ(i,:) = Q;
                 PP(i,:) = P;
+                
+                
+                % calcolare J(Q)
+                J = Jacobiano(links,[Q1 Q2]);
+
+                % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
+                Pd = (P2-P1)*lambda_d(i) / (T2-T1);
+                Qd = inv(J) * Pd;
+                QQd(i,:) = Qd;
 
                 %la nuova postura sara' quella trovata da Q con fminsearch
                 Q0=Q;
@@ -22,12 +31,16 @@ classdef Percorso
         end
 
         
-        function [PP, QQ, Q0] = Circonferenza(links, sigma, centro, raggio)
-            N = length(sigma);
+        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1P2)
+            N = length(lambda);
             for i=1:N
-                theta = sigma(i)*2*pi;
-                P(i,:) = centro + raggio * [cos(theta);sin(theta);0];
-                Q(i,:) = CinematicaInversa(links, P);
+                
+                angoloAlCentro =  2*asin( P1P2(i,:)/(2*raggio) );
+                
+                arco = angoloAlCentro*raggio;
+
+                P(i,:) = arco;
+                Q(i,:) = angoloAlCentro;
                 
                 %definisco le variabili che mi serviranno per i grafici
                 %corrispondono alle variazioni delle var. dei giunti e dei punti
