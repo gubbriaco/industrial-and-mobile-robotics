@@ -6,8 +6,7 @@ classdef Percorso
             N = length(lambda);
             for i=1:N
                 % percorso lineare
-                P = P1+lambda(i)*(P2-P1);
-
+                P = P1+lambda(i)*(P2-P1); 
                 Q = Q1+lambda(i)*(Q2-Q1);
 
                 %definisco le variabili che mi serviranno per i grafici
@@ -16,9 +15,9 @@ classdef Percorso
                 QQ(i,:) = Q;
                 PP(i,:) = P;
                 
-                plot3(PP(:,1), PP(:,2), PP(:,3), '>'); hold on;
+                % plot
+                plot3(PP(:,1), PP(:,2), PP(:,3), '>', 'Color', 'b'); hold on;
                 robot.plot(QQ(i,:));
-                
                 
                 % calcolare J(Q)
                 JP = JacobianoGeometrico(links,[Q1 Q2]);
@@ -28,29 +27,30 @@ classdef Percorso
                 PPd(i,:) = Pd;
                 Qd = inv(JP) * Pd;
                 QQd(i,:) = Qd;
-
-%                 Q0=Q;
             end
         end
 
         
-        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1P2)
+        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1, P2)
             N = length(lambda);
             for i=1:N
                 
-                angoloAlCentro =  2*asin( P1P2(i,:)/(2*raggio) );
-                
-                arco = angoloAlCentro*raggio;
+                corda = sqrt( ((P1(1)-P2(1))^2) + ((P1(2)-P2(2))^2) + ((P1(3)-P2(3))^2) );
+                angoloAlCentro(i) = lambda(i)*asin( corda/(2*raggio) )*2;
+                arco(i,:) = centro - (raggio * [cos(angoloAlCentro(i)+pi/5);sin(angoloAlCentro(i)+pi/5);0]);
 
-                P(i,:) = arco;
-                Q(i,:) = angoloAlCentro;
+                PP = arco;
+                Q(i,:) = angoloAlCentro(i);
                 
                 %definisco le variabili che mi serviranno per i grafici
                 %corrispondono alle variazioni delle var. dei giunti e dei punti
                 %raggiunti
-                QQ(i,:) = Q(i,:);
-                PP(i,:) = P(i,:);
+                 QQ(i,:) = Q(i,:);
+%                 PP(i,:) = P(i,:);
 
+                plot3(arco(:,1), arco(:,2), arco(:,3), '>', 'Color', 'b'); hold on;
+%                robot.plot(QQ(i,:));
+                
                 Q0 = Q;
             end
         end

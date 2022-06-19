@@ -56,32 +56,22 @@ robot = SerialLink(LINKS, 'name', 'PUMA 560');
 
 
 %% PUNTI
-
 P1 = [0.8 0.8 0.5]';
 P2 = [1.2 0.8 0.5]';
 P3 = [1.0 1.2 0.5]';
 POINTS = [P1 P2 P3];
 
-figure();
-plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'b');
-hold on;
-plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'b');
-hold on;
-plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'b');
-grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
+
+%% CINEMATICA INVERSA
 Qp1 = CinematicaInversa(links, P1);
 Qp2 = CinematicaInversa(links, P2);
 Qp3 = CinematicaInversa(links, P3);
-
 
 %% CINEMATICA DIRETTA
 T01 = CinematicaDiretta(links, Qp1);
 T12 = CinematicaDiretta(links, Qp2);
 T23 = CinematicaDiretta(links, Qp3);
-
-T03 = T01*T12*T23;
-
 
 %% TEMPO
 TEMPO_TOTALE = 40;
@@ -90,77 +80,108 @@ TEMPO_TOTALE = 40;
 % P3->P1 t4-t3 40/3
 offset = 10;
 T1 = 0;
-T2 = offset;
-T3 = T2+offset;
-T4 = T3+(offset*2);
+T2 = T1+(TEMPO_TOTALE/3);
+T3 = T2+(TEMPO_TOTALE/3);
+T4 = T3+(TEMPO_TOTALE/3);
 
 %% LAMBDA E SIGMA
-passoSigma=0.05;
-sigma=0:passoSigma:1;
+passoSigma = 0.05;
+sigma = 0:passoSigma:1;
 
-lambda = poly5(sigma);
-lambda_d = poly5d(sigma);
+lambda = poly3(sigma);
+lambda_d = poly3d(sigma);
 
 
 %% PERCORSO TRIANGOLO
-%passoLambda = 0.00125;
-%lambda = 0:passoLambda:1;
+figure();
+plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
+plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'red'); hold on;
+plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'red');
+
 [P1P2, P1P2d, Q1Q2, Q1Q2d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T1,T2, P1, P2, Qp1, Qp2);
 [P2P3, P2P3d, Q2Q3, Q2Q3d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T2,T3, P2, P3, Qp2, Qp3);
 [P3P1, P3P1d, Q3Q1, Q3Q1d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T3,T4, P3, P1, Qp3, Qp1);
+grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
+
+%% TRIANGOLO
+figure();
+plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'*','Color','b'); hold on;
+plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'*','Color','r'); hold on;
+plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'*','Color','g'); hold on;
+plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'Color','b'); hold on;
+plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'Color','r'); hold on;
+plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'Color','g');
+title('TRIANGOLO'); legend('P1->P2','P2->P3','P3->P1');grid on;
 
 %definisco il tempo
 t12 = T1 + lambda*(T2-T1);
 t23 = T2 + lambda*(T3-T2);
 t31 = T3 + lambda*(T4-T3);
 
-figure(); title("VARIABILI DI GIUNTO TRIANGOLO");
+figure();
 plot(t12, Q1Q2(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2(:,3),'Color', 'g'); hold on;
-plot(t23,  Q2Q3(:,1),'Color', 'b'); hold on;plot(t23,  Q2Q3(:,2),'Color', 'r'); hold on;plot(t23,  Q2Q3(:,3),'Color', 'g'); hold on;
-plot(t31,  Q3Q1(:,1),'Color', 'b'); hold on;plot(t31,  Q3Q1(:,2),'Color', 'r'); hold on;plot(t31,  Q3Q1(:,3),'Color', 'g'); hold on;
-title("VARIABILI DI GIUNTO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
-
-
-figure(); title("DERIVATE VARIABILI DI GIUNTO TRIANGOLO");
-plot(t12, Q1Q2d(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'Color', 'g'); hold on;
-plot(t23,  Q2Q3d(:,1),'Color', 'b'); hold on;plot(t23,  Q2Q3d(:,2),'Color', 'r'); hold on;plot(t23,  Q2Q3d(:,3),'Color', 'g'); hold on;
-plot(t31,  Q3Q1d(:,1),'Color', 'b'); hold on;plot(t31,  Q3Q1d(:,2),'Color', 'r'); hold on;plot(t31,  Q3Q1d(:,3),'Color', 'g'); hold on;
-title("DERIVATE VARIABILI DI GIUNTO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
-
+plot(t23,  Q2Q3(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3(:,3),'Color', 'g'); hold on;
+plot(t31,  Q3Q1(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1(:,3),'Color', 'g'); hold on;
+plot(t12, Q1Q2(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2(:,3),'*','Color', 'g'); hold on;
+plot(t23,  Q2Q3(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3(:,3),'*','Color', 'g'); hold on;
+plot(t31,  Q3Q1(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1(:,2),'*','Color', 'r'); hold on;plot(t31,  Q3Q1(:,3),'*','Color', 'g'); hold on;
+title("VARIABILI DI GIUNTO percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
 
 figure();
-plot(t12, P1P2(:,1),'Color', 'b'); hold on;plot(t12, P1P2(:,2),'Color', 'r'); hold on;plot(t12, P1P2(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3(:,1),'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'Color', 'r'); hold on;plot(t23,  P2P3(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1(:,1),'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'Color', 'r'); hold on;plot(t31,  P3P1(:,3),'Color', 'g'); hold on;
-title("PERCORSO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
+plot(t12, Q1Q2d(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'Color', 'g'); hold on;
+plot(t23,  Q2Q3d(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3d(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3d(:,3),'Color', 'g'); hold on;
+plot(t31,  Q3Q1d(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1d(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1d(:,3),'Color', 'g'); hold on;
+plot(t12, Q1Q2d(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'*','Color', 'g'); hold on;
+plot(t23,  Q2Q3d(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3d(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3d(:,3),'*','Color', 'g'); hold on;
+plot(t31,  Q3Q1d(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1d(:,2),'*','Color', 'r'); hold on;plot(t31, Q3Q1d(:,3),'*','Color', 'g'); hold on;
+title("VELOCITA' GIUNTI percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
 
 
-figure(); 
-plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
-title("VELOCITA' TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
+% figure();
+% plot(t12, P1P2(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t12, P1P2(:,2),'*','Color', 'r'); hold on;plot(t12, P1P2(:,3),'*','Color', 'g'); hold on;
+% plot(t12, P1P2(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t12, P1P2(:,2),'Color', 'r'); hold on;plot(t12, P1P2(:,3),'Color', 'g'); hold on;
+% plot(t23, P2P3(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'*','Color', 'r'); hold on;plot(t23,  P2P3(:,3),'*','Color', 'g'); hold on;
+% plot(t23, P2P3(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'Color', 'r'); hold on;plot(t23,  P2P3(:,3),'Color', 'g'); hold on;
+% plot(t31, P3P1(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'*','Color', 'r'); hold on;plot(t31,  P3P1(:,3),'*','Color', 'g'); hold on;
+% plot(t31, P3P1(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'Color', 'r'); hold on;plot(t31,  P3P1(:,3),'Color', 'g'); hold on;
+% title("PERCORSO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
+
+
+% figure(); 
+% plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
+% plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
+% plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
+% title("VELOCITA' TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
 
 %% PERCORSO CIRCONFERENZA
-%passoLambda = 0.00125;
-%lambda = 0:passoLambda:1;
+%0.00125;
+passoSigma = 0.05;
+sigma = 0:passoSigma:1;
+
+lambda = poly3(sigma);
 
 %centro circonferenza
-%centro = [1;0.95;0.5];
+centro = [1;0.95;0.5];
 %raggio circonferenza
-%raggio = 0.25;
+raggio = 0.25;
 
-%[PP2, Q1Q2, Q12] = Percorso.Circonferenza(lambda, centro, raggio, P1P2);
-%[PP3, Q2Q3, Q23] = Percorso.Circonferenza(lambda, centro, raggio, P2P3);
-%[PP1, Q3Q1, Q31] = Percorso.Circonferenza(lambda, centro, raggio, P3P1);
+figure();
+plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
+plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'red'); hold on;
+plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'red');
 
-%figure(); title("PERCORSO CIRCONFERENZA");
-%plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
-%plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'green'); hold on;
-%plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'blue'); hold on;
-%plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'>'); hold on;
-%plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'<'); hold on;
-%plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'<'); hold on;
+[P1P2, Q1Q2, Q12] = Percorso.Circonferenza(lambda, centro, raggio, P1,P2);
+%[P2P3, Q2Q3, Q23] = Percorso.Circonferenza(lambda, centro, raggio, P2,P3);
+%[P3P1, Q3Q1, Q31] = Percorso.Circonferenza(lambda, centro, raggio, P3,P1);
+grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
+
+% figure(); title("PERCORSO CIRCONFERENZA");
+% plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
+% plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'green'); hold on;
+% plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'blue'); hold on;
+% plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'>'); hold on;
+% plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'<'); hold on;
+% plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'<'); hold on;
 
 % plot3(PP2(:,1),PP2(:,2),PP2(:,3),'>'); hold on;
 % plot3(PP3(:,1),PP3(:,2),PP3(:,3),'<'); hold on;

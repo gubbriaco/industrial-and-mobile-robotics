@@ -2,13 +2,11 @@ classdef Percorso
 
     methods(Static)
     
-        function [PP, QQ, Q0] = Triangolo(links, lambda, P1, P2, Q1, Q2)
-            figure();
+        function [PP, PPd, QQ, QQd] = Triangolo(robot, links, lambda, lambda_d, T1, T2, P1, P2, Q1, Q2)
             N = length(lambda);
             for i=1:N
                 % percorso lineare
-                P = P1+lambda(i)*(P2-P1);
-
+                P = P1+lambda(i)*(P2-P1); 
                 Q = Q1+lambda(i)*(Q2-Q1);
 
                 %definisco le variabili che mi serviranno per i grafici
@@ -16,42 +14,43 @@ classdef Percorso
                 %raggiunti
                 QQ(i,:) = Q;
                 PP(i,:) = P;
-                plot3(PP(:,1), P1P2(:,2), P1P2(:,3), '>'); hold on;
-     
-                robot.plot([Q1Q2;Q2Q3;Q3Q1]);
                 
+                % plot
+                plot3(PP(:,1), PP(:,2), PP(:,3), '>', 'Color', 'b'); hold on;
+                robot.plot(QQ(i,:));
                 
                 % calcolare J(Q)
-%                 J = Jacobiano(links,[Q1 Q2]);
-% 
-%                 % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
-%                 Pd = (P2-P1)*lambda_d(i) / (T2-T1);
-%                 Qd = inv(J) * Pd;
-%                 QQd(i,:) = Qd;
-
-                %la nuova postura sara' quella trovata da Q con fminsearch
-                Q0=Q;
+                JP = JacobianoGeometrico(links,[Q1 Q2]);
+                
+                % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
+                Pd = (P2-P1)*lambda_d(i) / (T2-T1);
+                PPd(i,:) = Pd;
+                Qd = inv(JP) * Pd;
+                QQd(i,:) = Qd;
             end
         end
 
         
-        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1P2)
+        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1, P2)
             N = length(lambda);
             for i=1:N
                 
-                angoloAlCentro =  2*asin( P1P2(i,:)/(2*raggio) );
-                
-                arco = angoloAlCentro*raggio;
+                corda = sqrt( ((P1(1)-P2(1))^2) + ((P1(2)-P2(2))^2) + ((P1(3)-P2(3))^2) );
+                angoloAlCentro = lambda(i)*asin( corda/(2*raggio) );
+                arco(i,:) = raggio * [cos(angoloAlCentro) sin(angoloAlCentro) 0] * lambda(i);
 
-                P(i,:) = arco;
+                P(i,) = arco;
                 Q(i,:) = angoloAlCentro;
                 
                 %definisco le variabili che mi serviranno per i grafici
                 %corrispondono alle variazioni delle var. dei giunti e dei punti
                 %raggiunti
                 QQ(i,:) = Q(i,:);
-                PP(i,:) = P(i,:);
+                PP(i,:) = P(:,i);
 
+                plot3(PP(:,1), '>', 'Color', 'b'); hold on;
+                robot.plot(QQ(i,:));
+                
                 Q0 = Q;
             end
         end
