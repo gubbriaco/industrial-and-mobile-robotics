@@ -2,7 +2,8 @@ classdef Percorso
 
     methods(Static)
     
-        function [PP, PPd, QQ, QQd] = Triangolo(robot, links, lambda, lambda_d, T1, T2, P1, P2, Q1, Q2)
+        function [PP, QQ, Q0] = Triangolo(links, lambda, P1, P2, Q1, Q2)
+            figure();
             N = length(lambda);
             for i=1:N
                 % percorso lineare
@@ -15,21 +16,21 @@ classdef Percorso
                 %raggiunti
                 QQ(i,:) = Q;
                 PP(i,:) = P;
-                
-                plot3(PP(:,1), PP(:,2), PP(:,3), '>'); hold on;
-                robot.plot(QQ(i,:));
+                plot3(PP(:,1), P1P2(:,2), P1P2(:,3), '>'); hold on;
+     
+                robot.plot([Q1Q2;Q2Q3;Q3Q1]);
                 
                 
                 % calcolare J(Q)
-                JP = JacobianoGeometrico(links,[Q1 Q2]);
-                
-                % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
-                Pd = (P2-P1)*lambda_d(i) / (T2-T1);
-                PPd(i,:) = Pd;
-                Qd = inv(JP) * Pd;
-                QQd(i,:) = Qd;
+%                 J = Jacobiano(links,[Q1 Q2]);
+% 
+%                 % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
+%                 Pd = (P2-P1)*lambda_d(i) / (T2-T1);
+%                 Qd = inv(J) * Pd;
+%                 QQd(i,:) = Qd;
 
-%                 Q0=Q;
+                %la nuova postura sara' quella trovata da Q con fminsearch
+                Q0=Q;
             end
         end
 

@@ -118,28 +118,28 @@ figure(); title("VARIABILI DI GIUNTO TRIANGOLO");
 plot(t12, Q1Q2(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2(:,3),'Color', 'g'); hold on;
 plot(t23,  Q2Q3(:,1),'Color', 'b'); hold on;plot(t23,  Q2Q3(:,2),'Color', 'r'); hold on;plot(t23,  Q2Q3(:,3),'Color', 'g'); hold on;
 plot(t31,  Q3Q1(:,1),'Color', 'b'); hold on;plot(t31,  Q3Q1(:,2),'Color', 'r'); hold on;plot(t31,  Q3Q1(:,3),'Color', 'g'); hold on;
-title("VARIABILI DI GIUNTO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
+xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
 
 
 figure(); title("DERIVATE VARIABILI DI GIUNTO TRIANGOLO");
 plot(t12, Q1Q2d(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'Color', 'g'); hold on;
 plot(t23,  Q2Q3d(:,1),'Color', 'b'); hold on;plot(t23,  Q2Q3d(:,2),'Color', 'r'); hold on;plot(t23,  Q2Q3d(:,3),'Color', 'g'); hold on;
 plot(t31,  Q3Q1d(:,1),'Color', 'b'); hold on;plot(t31,  Q3Q1d(:,2),'Color', 'r'); hold on;plot(t31,  Q3Q1d(:,3),'Color', 'g'); hold on;
-title("DERIVATE VARIABILI DI GIUNTO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
+xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
 
 
-figure();
+figure(); title("PERCORSO TRIANGOLO");
 plot(t12, P1P2(:,1),'Color', 'b'); hold on;plot(t12, P1P2(:,2),'Color', 'r'); hold on;plot(t12, P1P2(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3(:,1),'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'Color', 'r'); hold on;plot(t23,  P2P3(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1(:,1),'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'Color', 'r'); hold on;plot(t31,  P3P1(:,3),'Color', 'g'); hold on;
-title("PERCORSO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
+plot(t23,  P2P3(:,1),'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'Color', 'r'); hold on;plot(t23,  P2P3(:,3),'Color', 'g'); hold on;
+plot(t31,  P3P1(:,1),'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'Color', 'r'); hold on;plot(t31,  P3P1(:,3),'Color', 'g'); hold on;
+xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
 
 
-figure(); 
+figure(); title("VELOCITA' TRIANGOLO");
 plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
-title("VELOCITA' TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
+plot(t23,  P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
+plot(t31,  P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
+xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
 
 %% PERCORSO CIRCONFERENZA
 %passoLambda = 0.00125;
