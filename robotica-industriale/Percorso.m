@@ -35,9 +35,10 @@ classdef Percorso
             N = length(lambda);
             for i=1:N
                 
-                corda = sqrt( ((P1(1)-P2(1))^2) + ((P1(2)-P2(2))^2) + ((P1(3)-P2(3))^2) );
-                angoloAlCentro(i) = lambda(i)*asin( corda/(2*raggio) )*2;
-                arco(i,:) = centro - (raggio * [cos(angoloAlCentro(i)+pi/5);sin(angoloAlCentro(i)+pi/5);0]);
+                corda = sqrt( ((P2(1)-P1(1))^2) + ((P2(2)-P1(2))^2) + ((P2(3)-P1(3))^2) );
+                angoloAlCentro(i) = lambda(i) * 2*asin( corda/(2*raggio) );
+                arco(i,:) = P1 + lambda(i)*(P2-P1).*[sin(angoloAlCentro(i));cos(angoloAlCentro(i));0]; 
+                %arco(i,:) = centro - (raggio * [cos(angoloAlCentro(i)+(pi/5));sin(angoloAlCentro(i)+(pi/5));0]);
 
                 PP = arco;
                 Q(i,:) = angoloAlCentro(i);

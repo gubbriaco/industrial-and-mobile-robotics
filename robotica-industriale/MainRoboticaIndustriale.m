@@ -147,11 +147,14 @@ title("VELOCITA' GIUNTI percorso triangolo"); xlabel("\lambda"); ylabel("velocit
 % title("PERCORSO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
 
 
-% figure(); 
-% plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
-% plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
-% plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
-% title("VELOCITA' TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
+figure(); 
+plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
+plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
+plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
+plot(t12, P1P2d(:,1),'*','Color', 'b'); hold on;plot(t12, P1P2d(:,2),'*','Color', 'r'); hold on;plot(t12, P1P2d(:,3),'*','Color', 'g'); hold on;
+plot(t23, P2P3d(:,1),'*','Color', 'b'); hold on;plot(t23, P2P3d(:,2),'*','Color', 'r'); hold on;plot(t23, P2P3d(:,3),'*','Color', 'g'); hold on;
+plot(t31, P3P1d(:,1),'*','Color', 'b'); hold on;plot(t31, P3P1d(:,2),'*','Color', 'r'); hold on;plot(t31, P3P1d(:,3),'*','Color', 'g'); hold on;
+title("VELOCITA' percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
 
 %% PERCORSO CIRCONFERENZA
 %0.00125;
@@ -170,9 +173,18 @@ plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
 plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'red'); hold on;
 plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'red');
 
-[P1P2, Q1Q2, Q12] = Percorso.Circonferenza(lambda, centro, raggio, P1,P2);
-%[P2P3, Q2Q3, Q23] = Percorso.Circonferenza(lambda, centro, raggio, P2,P3);
-%[P3P1, Q3Q1, Q31] = Percorso.Circonferenza(lambda, centro, raggio, P3,P1);
+% [P1P2, Q1Q2, Q12] = Percorso.Circonferenza(lambda, centro, raggio, P1,P2);
+% [P2P3, Q2Q3, Q23] = Percorso.Circonferenza(lambda, centro, raggio, P2,P3);
+% [P3P1, Q3Q1, Q31] = Percorso.Circonferenza(lambda, centro, raggio, P3,P1);
+
+t = linspace(0,2*pi,length(lambda));
+for i=1:length(lambda)
+    PP(:,1) = lambda(i)*(centro(1) + raggio*sin(t));
+    PP(:,2) = lambda(i)*(centro(2) + raggio*cos(t));
+    PP(:,3) = lambda(i)*centro(3);
+end
+plot3(PP(:,1), PP(:,2), PP(:,3),'>');
+plot3(PP(:,1), PP(:,2), PP(:,3));
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
 % figure(); title("PERCORSO CIRCONFERENZA");

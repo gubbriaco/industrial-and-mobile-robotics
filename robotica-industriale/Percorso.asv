@@ -36,20 +36,20 @@ classdef Percorso
             for i=1:N
                 
                 corda = sqrt( ((P1(1)-P2(1))^2) + ((P1(2)-P2(2))^2) + ((P1(3)-P2(3))^2) );
-                angoloAlCentro = lambda(i)*asin( corda/(2*raggio) );
-                arco(i,:) = raggio * [cos(angoloAlCentro) sin(angoloAlCentro) 0] * lambda(i);
+                angoloAlCentro(i) = lambda(i)*asin( corda/(2*raggio) )*2;
+                arco(i,:) = centro - (raggio * [cos(angoloAlCentro(i));sin(angoloAlCentro(i));0]);
 
-                P(i,) = arco;
-                Q(i,:) = angoloAlCentro;
+                PP = arco;
+                Q(i,:) = angoloAlCentro(i);
                 
                 %definisco le variabili che mi serviranno per i grafici
                 %corrispondono alle variazioni delle var. dei giunti e dei punti
                 %raggiunti
-                QQ(i,:) = Q(i,:);
-                PP(i,:) = P(:,i);
+                 QQ(i,:) = Q(i,:);
+%                 PP(i,:) = P(i,:);
 
-                plot3(PP(:,1), '>', 'Color', 'b'); hold on;
-                robot.plot(QQ(i,:));
+                plot3(arco(:,1), arco(:,2), arco(:,3), '>', 'Color', 'b'); hold on;
+%                robot.plot(QQ(i,:));
                 
                 Q0 = Q;
             end
