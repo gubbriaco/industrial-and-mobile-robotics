@@ -26,7 +26,8 @@ function Q = CinematicaInversa(links, POINT)
         Q = [Q1;Q2;Q3];
         
     else
-        Q=[0;0;0];
+        error("Punto fuori dallo spazio di lavoro");
+       % Q=[0;0;0];
         
     end
 

@@ -2,7 +2,8 @@ classdef Percorso
 
     methods(Static)
     
-        function [PP, PPd, QQ, QQd] = Triangolo(robot, links, lambda, lambda_d, T1, T2, P1, P2, Q1, Q2)
+        function [PP, PPd, QQ, QQd] = Segmento(T1, T2, P1, P2, Q1, Q2)
+            global links lambda lambdaDerivata robot;
             N = length(lambda);
             for i=1:N
                 % percorso lineare
@@ -15,46 +16,57 @@ classdef Percorso
                 QQ(i,:) = Q;
                 PP(i,:) = P;
                 
-                % plot
-                plot3(PP(:,1), PP(:,2), PP(:,3), '>', 'Color', 'b'); hold on;
-                robot.plot(QQ(i,:));
+                Plot.Segmento(i, PP, QQ);
                 
                 % calcolare J(Q)
                 JP = JacobianoGeometrico(links,[Q1 Q2]);
                 
                 % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
-                Pd = (P2-P1)*lambda_d(i) / (T2-T1);
+                Pd = (P2-P1)*lambdaDerivata(i) / (T2-T1);
                 PPd(i,:) = Pd;
-                Qd = inv(JP) * Pd;
+                
+                if( isequal(det(JP), 0) )
+                    error("Singolarita' cinematica");
+                else
+                    Qd = inv(JP) * Pd;
+                end
+                
                 QQd(i,:) = Qd;
+                
             end
         end
 
         
-        function [PP, QQ, Q0] = Circonferenza(lambda, centro, raggio, P1, P2)
+        function [PP, PPd, QQ, QQd] = Arco(theta1, theta2)
+            global links lambda lambdaDerivata raggio centro robot;
             N = length(lambda);
-            for i=1:N
+            for i=1:N 
+                theta = theta1 + lambda(i)*(theta2-theta1);
+                PP(:,i) = centro + raggio*[cos(theta);sin(theta);0];
+                QQ(i,:) = CinematicaInversa(links, PP(:,i));
                 
-                corda = sqrt( ((P1(1)-P2(1))^2) + ((P1(2)-P2(2))^2) + ((P1(3)-P2(3))^2) );
-                angoloAlCentro(i) = lambda(i)*asin( corda/(2*raggio) )*2;
-                arco(i,:) = centro - (raggio * [cos(angoloAlCentro(i));sin(angoloAlCentro(i));0]);
+                Plot.Arco(i, PP, QQ);
+       
+                pos = CinematicaDiretta(links, [QQ(i,1) QQ(i,2) QQ(i,3)]);
+               % endEffector(:,i) = pos(1:3,4);
+                
+                %E(i) = 0.5*(norm(PP(:,i) - endEffector(:,i))^2);
 
-                PP = arco;
-                Q(i,:) = angoloAlCentro(i);
+                PPd(:,i) = raggio*[-sin(theta);cos(theta);0] * lambdaDerivata(i) * (theta2-theta1);
+                JP = JacobianoGeometrico(links,[QQ(i,1) QQ(i,2) QQ(i,3)]);
                 
-                %definisco le variabili che mi serviranno per i grafici
-                %corrispondono alle variazioni delle var. dei giunti e dei punti
-                %raggiunti
-                 QQ(i,:) = Q(i,:);
-%                 PP(i,:) = P(i,:);
+                if( isequal(det(JP), 0) )
+                    error("Singolarita' cinematica");
+                else
+                    QQd(:,i) = inv(JP) * PPd(:,i);
+                end
 
-                plot3(arco(:,1), arco(:,2), arco(:,3), '>', 'Color', 'b'); hold on;
-%                robot.plot(QQ(i,:));
-                
-                Q0 = Q;
             end
         end
     
+    
+    
     end
+    
 
 end

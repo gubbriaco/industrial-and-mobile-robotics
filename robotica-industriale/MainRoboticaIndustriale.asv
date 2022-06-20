@@ -1,5 +1,5 @@
 clear; close all; clc;
-
+global links passoSigma sigma lambda lambdaDerivata raggio centro P1 P2 P3 robot puma560 TEMPO_TOTALE;
 %% CONFIGURAZIONE PUMA560 secondo la convenzione di Denavit-Hartenberg
 
 % definisco le distanze tra il sistema di riferimento Oi-esimo ed il
@@ -84,12 +84,17 @@ T2 = T1+(TEMPO_TOTALE/3);
 T3 = T2+(TEMPO_TOTALE/3);
 T4 = T3+(TEMPO_TOTALE/3);
 
+%definisco il tempo
+t12 = T1 + lambda*(T2-T1);
+t23 = T2 + lambda*(T3-T2);
+t31 = T3 + lambda*(T4-T3);
+
 %% LAMBDA E SIGMA
 passoSigma = 0.05;
 sigma = 0:passoSigma:1;
 
 lambda = poly3(sigma);
-lambda_d = poly3d(sigma);
+lambdaDerivata = poly3d(sigma);
 
 
 %% PERCORSO TRIANGOLO
@@ -98,20 +103,37 @@ plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
 plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'red'); hold on;
 plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'red');
 
-[P1P2, P1P2d, Q1Q2, Q1Q2d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T1,T2, P1, P2, Qp1, Qp2);
-[P2P3, P2P3d, Q2Q3, Q2Q3d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T2,T3, P2, P3, Qp2, Qp3);
-[P3P1, P3P1d, Q3Q1, Q3Q1d] = Percorso.Triangolo(robot,links,lambda,lambda_d,T3,T4, P3, P1, Qp3, Qp1);
+% segmento P1->P2
+[P1P2segmento, P1P2segmentoDerivata, Q1Q2segmento, Q1Q2segmentoDerivata] = Percorso.Segmento(T1,T2, P1, P2, Qp1, Qp2);
+% segmento P2->P3
+[P2P3segmento, P2P3segmentoDerivata, Q2Q3segmento, Q2Q3segmentoDerivata] = Percorso.Segmento(T2,T3, P2, P3, Qp2, Qp3);
+% segmento P3->P1
+[P3P1segmento, P3P1segmentoDerivata, Q3Q1segmento, Q3Q1segmentoDerivata] = Percorso.Segmento(T3,T4, P3, P1, Qp3, Qp1);
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
-%% TRIANGOLO
 figure();
-plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'*','Color','b'); hold on;
-plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'*','Color','r'); hold on;
-plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'*','Color','g'); hold on;
-plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'Color','b'); hold on;
-plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'Color','r'); hold on;
-plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'Color','g');
-title('TRIANGOLO'); legend('P1->P2','P2->P3','P3->P1');grid on;
+for i=1:length(sigma)
+    pos12 = CinematicaDiretta(links, [Q1Q2segmento(:,1) Q1Q2segmento(:,2) Q1Q2segmento(:,3)]);
+    endEffector(:,i) = pos12(1:3,4);
+    E12(i) = 0.5*(norm(P1P2segmento(i,:) - endEffector(:,i)')^2);
+    
+    
+    pos23 = CinematicaDiretta(links, [Q2Q3segmento(:,1) Q2Q3segmento(:,2) Q2Q3segmento(:,3)]);
+    endEffector(:,i) = pos23(1:3,4);
+    E23(i) = 0.5*(norm(P2P3segmento(i,:) - endEffector(:,i)')^2);
+    
+    pos31 = CinematicaDiretta(links, [Q3Q1segmento(:,1) Q3Q1segmento(:,2) Q3Q1segmento(:,3)]);
+    endEffector(:,i) = pos31(1:3,4);
+    E31(i) = 0.5*(norm(P3P1segmento(i,:) - endEffector(:,i)')^2);
+    
+    
+end
+plot(t12,E12); hold on;
+plot(t23,E23); hold on;
+plot(t31,E31);
+grid; xlabel("\lambda"); ylabel("Errore"); title("Errore Segmento");
+%% TRIANGOLO
+Plot.Triangolo(P1P2segmento, P2P3segmento, P3P1segmento);
 
 %definisco il tempo
 t12 = T1 + lambda*(T2-T1);
@@ -119,49 +141,33 @@ t23 = T2 + lambda*(T3-T2);
 t31 = T3 + lambda*(T4-T3);
 
 figure();
-plot(t12, Q1Q2(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2(:,3),'Color', 'g'); hold on;
-plot(t23,  Q2Q3(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3(:,3),'Color', 'g'); hold on;
-plot(t31,  Q3Q1(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1(:,3),'Color', 'g'); hold on;
-plot(t12, Q1Q2(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2(:,3),'*','Color', 'g'); hold on;
-plot(t23,  Q2Q3(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3(:,3),'*','Color', 'g'); hold on;
-plot(t31,  Q3Q1(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1(:,2),'*','Color', 'r'); hold on;plot(t31,  Q3Q1(:,3),'*','Color', 'g'); hold on;
-title("VARIABILI DI GIUNTO percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
+plot(t12, Q1Q2segmento(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2segmento(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2segmento(:,3),'Color', 'g'); hold on;
+plot(t23,  Q2Q3segmento(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3segmento(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3segmento(:,3),'Color', 'g'); hold on;
+plot(t31,  Q3Q1segmento(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1segmento(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1segmento(:,3),'Color', 'g'); hold on;
+plot(t12, Q1Q2segmento(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2segmento(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2segmento(:,3),'*','Color', 'g'); hold on;
+plot(t23,  Q2Q3segmento(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3segmento(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3segmento(:,3),'*','Color', 'g'); hold on;
+plot(t31,  Q3Q1segmento(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1segmento(:,2),'*','Color', 'r'); hold on;plot(t31,  Q3Q1segmento(:,3),'*','Color', 'g'); hold on;
+title("VARIABILI DI GIUNTO percorso triangolo"); xlabel("\lambda"); ylabel("variabili di giunto"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
 
 figure();
-plot(t12, Q1Q2d(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'Color', 'g'); hold on;
-plot(t23,  Q2Q3d(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3d(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3d(:,3),'Color', 'g'); hold on;
-plot(t31,  Q3Q1d(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1d(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1d(:,3),'Color', 'g'); hold on;
-plot(t12, Q1Q2d(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2d(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2d(:,3),'*','Color', 'g'); hold on;
-plot(t23,  Q2Q3d(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3d(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3d(:,3),'*','Color', 'g'); hold on;
-plot(t31,  Q3Q1d(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1d(:,2),'*','Color', 'r'); hold on;plot(t31, Q3Q1d(:,3),'*','Color', 'g'); hold on;
-title("VELOCITA' GIUNTI percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
-
-
-% figure();
-% plot(t12, P1P2(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t12, P1P2(:,2),'*','Color', 'r'); hold on;plot(t12, P1P2(:,3),'*','Color', 'g'); hold on;
-% plot(t12, P1P2(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t12, P1P2(:,2),'Color', 'r'); hold on;plot(t12, P1P2(:,3),'Color', 'g'); hold on;
-% plot(t23, P2P3(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'*','Color', 'r'); hold on;plot(t23,  P2P3(:,3),'*','Color', 'g'); hold on;
-% plot(t23, P2P3(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t23,  P2P3(:,2),'Color', 'r'); hold on;plot(t23,  P2P3(:,3),'Color', 'g'); hold on;
-% plot(t31, P3P1(:,1),'*','LineWidth',1,'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'*','Color', 'r'); hold on;plot(t31,  P3P1(:,3),'*','Color', 'g'); hold on;
-% plot(t31, P3P1(:,1),'LineWidth',1,'Color', 'b'); hold on;plot(t31,  P3P1(:,2),'Color', 'r'); hold on;plot(t31,  P3P1(:,3),'Color', 'g'); hold on;
-% title("PERCORSO TRIANGOLO"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2','P2P3','P3P1'); grid;
-
+plot(t12, Q1Q2segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t23,  Q2Q3segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t31,  Q3Q1segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t12, Q1Q2segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2segmentoDerivata(:,3),'*','Color', 'g'); hold on;
+plot(t23,  Q2Q3segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3segmentoDerivata(:,3),'*','Color', 'g'); hold on;
+plot(t31,  Q3Q1segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t31, Q3Q1segmentoDerivata(:,3),'*','Color', 'g'); hold on;
+title("VELOCITA' GIUNTI percorso triangolo"); xlabel("\lambda"); ylabel("velocita' variabili di giunto"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
 
 figure(); 
-plot(t12, P1P2d(:,1),'Color', 'b'); hold on;plot(t12, P1P2d(:,2),'Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3d(:,1),'Color', 'b'); hold on;plot(t23, P2P3d(:,2),'Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1d(:,1),'Color', 'b'); hold on;plot(t31, P3P1d(:,2),'Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
-plot(t12, P1P2d(:,1),'*','Color', 'b'); hold on;plot(t12, P1P2d(:,2),'*','Color', 'r'); hold on;plot(t12, P1P2d(:,3),'Color', 'g'); hold on;
-plot(t23, P2P3d(:,1),'*','Color', 'b'); hold on;plot(t23, P2P3d(:,2),'*','Color', 'r'); hold on;plot(t23, P2P3d(:,3),'Color', 'g'); hold on;
-plot(t31, P3P1d(:,1),'*','Color', 'b'); hold on;plot(t31, P3P1d(:,2),'*','Color', 'r'); hold on;plot(t31, P3P1d(:,3),'Color', 'g'); hold on;
+plot(t12, P1P2segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t12, P1P2segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t12, P1P2segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t23, P2P3segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t23, P2P3segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t23, P2P3segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t31, P3P1segmentoDerivata(:,1),'Color', 'b'); hold on;plot(t31, P3P1segmentoDerivata(:,2),'Color', 'r'); hold on;plot(t31, P3P1segmentoDerivata(:,3),'Color', 'g'); hold on;
+plot(t12, P1P2segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t12, P1P2segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t12, P1P2segmentoDerivata(:,3),'*','Color', 'g'); hold on;
+plot(t23, P2P3segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t23, P2P3segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t23, P2P3segmentoDerivata(:,3),'*','Color', 'g'); hold on;
+plot(t31, P3P1segmentoDerivata(:,1),'*','Color', 'b'); hold on;plot(t31, P3P1segmentoDerivata(:,2),'*','Color', 'r'); hold on;plot(t31, P3P1segmentoDerivata(:,3),'*','Color', 'g'); hold on;
 title("VELOCITA' percorso triangolo"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
 
 %% PERCORSO CIRCONFERENZA
-%0.00125;
-passoSigma = 0.05;
-sigma = 0:passoSigma:1;
-
-lambda = poly3(sigma);
 
 %centro circonferenza
 centro = [1;0.95;0.5];
@@ -173,29 +179,78 @@ plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
 plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'red'); hold on;
 plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'red');
 
-[P1P2, Q1Q2, Q12] = Percorso.Circonferenza(lambda, centro, raggio, P1,P2);
-%[P2P3, Q2Q3, Q23] = Percorso.Circonferenza(lambda, centro, raggio, P2,P3);
-%[P3P1, Q3Q1, Q31] = Percorso.Circonferenza(lambda, centro, raggio, P3,P1);
+theta1=pi+0.6435; theta2=theta1+1.8546;
+theta3=theta2; theta4=theta3+pi/2+0.6435;
+theta5=pi/2; theta6=theta5+pi/2+0.6435;
+
+% arco P1->P2
+[P1P2arco, P1P2arcoDerivata, Q1Q2arco, Q1Q2arcoDerivata] = Percorso.Arco(theta1,theta2);
+% arco P2->P3
+[P2P3arco, P2P3arcoDerivata, Q2Q3arco, Q2Q3arcoDerivata] = Percorso.Arco(theta3, theta4);
+% arco P3->P1
+[P3P1arco, P3P1arcoDerivata, Q3Q1arco, Q3Q1arcoDerivata] = Percorso.Arco(theta5, theta6);
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
-% figure(); title("PERCORSO CIRCONFERENZA");
-% plot3(P1(1), P1(2), P1(3), 'o', 'Color', 'red'); hold on;
-% plot3(P2(1), P2(2), P2(3), 'o', 'Color', 'green'); hold on;
-% plot3(P3(1), P3(2), P3(3), 'o', 'Color', 'blue'); hold on;
-% plot3(P1P2(:,1),P1P2(:,2),P1P2(:,3),'>'); hold on;
-% plot3(P2P3(:,1),P2P3(:,2),P2P3(:,3),'<'); hold on;
-% plot3(P3P1(:,1),P3P1(:,2),P3P1(:,3),'<'); hold on;
 
-% plot3(PP2(:,1),PP2(:,2),PP2(:,3),'>'); hold on;
-% plot3(PP3(:,1),PP3(:,2),PP3(:,3),'<'); hold on;
-% plot3(PP1(:,1),PP1(:,2),PP1(:,3),'<');
-% legend("P1", "P2", "P3","P1->P2", "P2->P3", "P3->P1","Circonferenza");
-% grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
-% 
-% figure(); title("PERCORSO CIRCONFERENZA");
-% subplot(3,1,1); plot(lambda, Q1Q2);
-% title("P1->P2"); xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
-% subplot(3,1,2); plot(lambda, Q2Q3);
-% title("P2->P3");  xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
-% subplot(3,1,3); plot(lambda, Q3Q1);
-% title("P3->P1");  xlabel("\sigma"); ylabel("radians"); legend('Q1','Q2','Q3');
+%% CIRCONFERENZA
+Plot.Circonferenza(P1P2arco, P2P3arco, P3P1arco);
+
+
+
+
+figure();
+plot(t12, Q1Q2arco(:,1),'Color', 'b'); hold on;plot(t12, Q1Q2arco(:,2),'Color', 'r'); hold on;plot(t12, Q1Q2arco(:,3),'Color', 'g'); hold on;
+plot(t23, Q2Q3arco(:,1),'Color', 'b'); hold on;plot(t23, Q2Q3arco(:,2),'Color', 'r'); hold on;plot(t23, Q2Q3arco(:,3),'Color', 'g'); hold on;
+plot(t31, Q3Q1arco(:,1),'Color', 'b'); hold on;plot(t31, Q3Q1arco(:,2),'Color', 'r'); hold on;plot(t31, Q3Q1arco(:,3),'Color', 'g'); hold on;
+plot(t12, Q1Q2arco(:,1),'*','Color', 'b'); hold on;plot(t12, Q1Q2arco(:,2),'*','Color', 'r'); hold on;plot(t12, Q1Q2arco(:,3),'*','Color', 'g'); hold on;
+plot(t23, Q2Q3arco(:,1),'*','Color', 'b'); hold on;plot(t23, Q2Q3arco(:,2),'*','Color', 'r'); hold on;plot(t23, Q2Q3arco(:,3),'*','Color', 'g'); hold on;
+plot(t31, Q3Q1arco(:,1),'*','Color', 'b'); hold on;plot(t31, Q3Q1arco(:,2),'*','Color', 'r'); hold on;plot(t31, Q3Q1arco(:,3),'*','Color', 'g'); hold on;
+title("VARIABILI DI GIUNTO percorso circonferenza"); xlabel("\lambda"); ylabel("variabili di giunto"); legend('Q1Q2','Q2Q3','Q3Q1'); grid;
+
+figure();
+plot(t12, Q1Q2arcoDerivata(1,:),'Color', 'b'); hold on;plot(t12, Q1Q2arcoDerivata(2,:),'Color', 'r'); hold on;plot(t12, Q1Q2arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t23, Q2Q3arcoDerivata(1,:),'Color', 'b'); hold on;plot(t23, Q2Q3arcoDerivata(2,:),'Color', 'r'); hold on;plot(t23, Q2Q3arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t31, Q3Q1arcoDerivata(1,:),'Color', 'b'); hold on;plot(t31, Q3Q1arcoDerivata(2,:),'Color', 'r'); hold on;plot(t31, Q3Q1arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t12, Q1Q2arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t12, Q1Q2arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t12, Q1Q2arcoDerivata(3,:),'*','Color', 'g'); hold on;
+plot(t23, Q2Q3arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t23, Q2Q3arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t23, Q2Q3arcoDerivata(3,:),'*','Color', 'g'); hold on;
+plot(t31, Q3Q1arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t31, Q3Q1arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t31, Q3Q1arcoDerivata(3,:),'*','Color', 'g'); hold on;
+title("VELOCITA' GIUNTI percorso circonferenza"); xlabel("\lambda"); ylabel("velocita' variabili di giunto"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
+
+figure(); 
+plot(t12, P1P2arcoDerivata(1,:),'Color', 'b'); hold on;plot(t12, P1P2arcoDerivata(2,:),'Color', 'r'); hold on;plot(t12, P1P2arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t23, P2P3arcoDerivata(1,:),'Color', 'b'); hold on;plot(t23, P2P3arcoDerivata(2,:),'Color', 'r'); hold on;plot(t23, P2P3arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t31, P3P1arcoDerivata(1,:),'Color', 'b'); hold on;plot(t31, P3P1arcoDerivata(2,:),'Color', 'r'); hold on;plot(t31, P3P1arcoDerivata(3,:),'Color', 'g'); hold on;
+plot(t12, P1P2arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t12, P1P2arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t12, P1P2arcoDerivata(3,:),'*','Color', 'g'); hold on;
+plot(t23, P2P3arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t23, P2P3arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t23, P2P3arcoDerivata(3,:),'*','Color', 'g'); hold on;
+plot(t31, P3P1arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t31, P3P1arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t31, P3P1arcoDerivata(3,:),'*','Color', 'g'); hold on;
+title("VELOCITA' percorso circonferenza"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
+
+
+figure();
+for i=1:length(sigma)
+    pos12 = CinematicaDiretta(links, [Q1Q2arco(1,:) Q1Q2arco(:,2) Q1Q2arco(:,3)]);
+    endEffector(:,i) = pos12(1:3,4);
+    E12(i) = 0.5*(norm(P1P2arco(:,i) - endEffector(:,i)')^2);
+    
+    
+    pos23 = CinematicaDiretta(links, [Q2Q3arco(:,1) Q2Q3arco(:,2) Q2Q3arco(:,3)]);
+    endEffector(:,i) = pos23(1:3,4);
+    E23(i) = 0.5*(norm(P2P3arco(:,i) - endEffector(:,i)')^2);
+    
+    
+    pos31 = CinematicaDiretta(links, [Q3Q1arco(:,1) Q3Q1arco(:,2) Q3Q1arco(:,3)]);
+    endEffector(:,i) = pos31(1:3,4);
+    E31(i) = 0.5*(norm(P3P1arco(:,i) - endEffector(:,i)')^2);
+   
+    
+end
+plot(t12,E12); hold on;
+plot(t23,E23); hold on;
+plot(t31,E31);
+grid; xlabel("\lambda"); ylabel("Errore"); title("Errore Segmento");
+
+Plot.Triangolo40Secondi(Q1Q2segmento, P1P2segmento, Q2Q3segmento, P2P3segmento, Q3Q1segmento, P3P1segmento);
+
+Plot.Circonferenza40Secondi(Q1Q2arco, P1P2arco, Q2Q3arco, P2P3arco, Q3Q1arco, P3P1arco);
+
+
