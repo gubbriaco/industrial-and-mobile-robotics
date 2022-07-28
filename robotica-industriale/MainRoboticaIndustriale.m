@@ -72,6 +72,13 @@ T01 = CinematicaDiretta(links, Qp1);
 T12 = CinematicaDiretta(links, Qp2);
 T23 = CinematicaDiretta(links, Qp3);
 
+%% LAMBDA E SIGMA
+passoSigma = 0.05;
+sigma = 0:passoSigma:1;
+
+lambda = poly3(sigma);
+lambdaDerivata = poly3d(sigma);
+
 %% TEMPO
 TEMPO_TOTALE = 40;
 % P1->P2 t2-t1 40/3
@@ -87,13 +94,6 @@ T4 = T3+(TEMPO_TOTALE/3);
 t12 = T1 + lambda*(T2-T1);
 t23 = T2 + lambda*(T3-T2);
 t31 = T3 + lambda*(T4-T3);
-
-%% LAMBDA E SIGMA
-passoSigma = 0.05;
-sigma = 0:passoSigma:1;
-
-lambda = poly3(sigma);
-lambdaDerivata = poly3d(sigma);
 
 
 %% TRIANGOLO
