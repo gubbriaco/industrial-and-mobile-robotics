@@ -33,12 +33,8 @@ classdef Environment
                 for j=1:width
                     
                     hold on; rectangle('Position', [x_obstacle y_obstacle w_obstacle h_obstacle], "Curvature", curvature, "FaceColor", "black", "EdgeColor", "black");
-                    if isequal(i, x_obstacle) && isequal(j, y_obstacle)
-                        for x=height:h_obstacle
-                            for y=width:w_obstacle
-                                matrix(x,y)=Inf;
-                            end
-                        end
+                    if i>=x_obstacle && i<=(x_obstacle+w_obstacle) && j>=y_obstacle && j<=(y_obstacle+h_obstacle)
+                       matrix(i,j)=Inf;
                     end
                         
                 end
