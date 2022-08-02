@@ -1,5 +1,4 @@
 clear; close all; clc;
-
 import robot.*;
 import environment.*;
 
@@ -11,9 +10,18 @@ robot = Robot(radius_robot);
 % PLOT ROBOT
 figure(); Robot.plot();
 
-%% ENVI
-global width height
-width = 1280; height = 720;
+%% ENVIRONMENT
+global width height matrix
+width = 275; height = 125;
+matrix = zeros(height, width);
 environment = Environment(width, height);
-% PLOT AMBIENTE
-figure(); Environment.plot(); Environment.add_obstacles();
+
+% PLOT ENVIRONMENT
+figure();
+Environment.plot();
+Environment.add_obstacle(20, 100, );
+Environment.add_obstacle();
+Environment.add_obstacle();
+Environment.add_obstacle();
+Environment.add_obstacle();
+Environment.add_obstacle();
