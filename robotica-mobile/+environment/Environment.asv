@@ -1,13 +1,14 @@
 classdef Environment
-   % - width e' la larghezza dell'ambiente
+   % width e' la larghezza dell'ambiente
    % - heigth e' l'altezza dell'ambiente
-   % - matrix e' la matrice che rappresenta "numericamente" l'ambiente, 
-   % - dove i valori pari a zero corrispondono ad una porzione di ambiente
+   % - matrix e' la matrice che rappresenta "numericamente" l'ambiente, dove
+   %   i valori pari a zero corrispondono ad una porzione di ambiente
    %   "libera" mentre i valori diversi da zero rappresentano gli ostacoli
     properties
         width {mustBeFinite, mustBeNonnegative}
         height {mustBeFinite, mustBeNonnegative}
         matrix
+        obstacles
     end
     
     
@@ -30,8 +31,9 @@ classdef Environment
             ob = environment.obstacles(pos);
         end
         
-        function add_obstacle(environment, obstacle)
+        function add_obstacle(environment, obstacle, pos)
             global width height
+            environment.obstacles(pos) = obstacle;
             for i=1:height
                 for j=1:width
                     if i>=obstacle.x && i<=(obstacle.x+obstacle.w) && j>=obstacle.y && j<=(obstacle.y+obstacle.h)

@@ -1,0 +1,32 @@
+classdef Obstacle
+    %OBSTACLE Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        x {mustBeFinite, mustBeNonnegative}
+        y {mustBeFinite, mustBeNonnegative}
+        w {mustBeFinite, mustBeNonnegative}
+        h {mustBeFinite, mustBeNonnegative}
+        curvature {]
+    end
+    
+    methods
+        function obstacle = Obstacle(x, y, w, h, curvature)
+            obstacle.x = x;
+            obstacle.y = y;
+            obstacle.w = w;
+            obstacle.h = h;
+        end
+        
+        function plot(~)
+            
+        end
+        
+        function enlarge(obstacle, offset)
+            w = obstacle.w + offset;
+            h = obstacle.h + offset;
+            
+        end
+    end
+end
+
