@@ -42,16 +42,18 @@ classdef Environment
         end
         
         function add_point(~, point)
-            hold on; plot(point(1), point(2), "*", "LineWidth", 4);
+            
         end
         
-        function plot(~)
-            global width height
+        function plot(~, plot_title)
+            global width height start goal
             x=0; y=0;
-            title("ENVIRONMENT");
+            title(plot_title);
             rectangle('Position',[x y width height], "EdgeColor","black", "LineWidth",1);
             xlim_target = 300; ylim_target = 150;
             xlim([width-xlim_target xlim_target]); ylim([height-ylim_target ylim_target]);
+            hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
+            hold on; plot(goal(1), goal(2), "*", "LineWidth", 4, "Color","#0eb04f"); 
         end
          
     end

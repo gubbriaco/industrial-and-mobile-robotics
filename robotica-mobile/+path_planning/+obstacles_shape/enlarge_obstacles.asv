@@ -1,0 +1,12 @@
+import environment.Obstacle;
+
+for i=1:length(obstacles)
+    
+    obstacle = obstacles(i);
+    % l'ostacolo "allargato" sara' allargato partendo dalla x e la y di
+    % inizio plot (@see obstacle.x, @see obstacle.y) e aumentando le
+    % dimensioni w e h (@see obstacle.w, @see obstacle.h) di un offset (@see en)
+    enlarged_obstacle = Obstacle(obstacle.x, obstacle.y, obstacle.w+enlargement, obstacle.h+enlargement, obstacle.curvature);
+    enlarged_obstacles(i) = enlarged_obstacle;
+    
+end

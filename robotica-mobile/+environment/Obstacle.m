@@ -19,8 +19,9 @@ classdef Obstacle
             obstacle.curvature = curvature;
         end
         
-        function plot(obstacle)
-             hold on; rectangle('Position',[obstacle.x obstacle.y obstacle.w obstacle.h], "Curvature",obstacle.curvature, "FaceColor","black", "EdgeColor","black");
+        
+        function plot(obstacle, color)
+             hold on; rectangle('Position',[obstacle.x obstacle.y obstacle.w obstacle.h], "Curvature",obstacle.curvature, "FaceColor",color, "EdgeColor",color);
         end
         
         function enlarge(obstacle, offset)
