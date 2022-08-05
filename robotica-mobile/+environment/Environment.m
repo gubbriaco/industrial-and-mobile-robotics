@@ -7,7 +7,7 @@ classdef Environment
     properties
         width {mustBeFinite, mustBeNonnegative}
         height {mustBeFinite, mustBeNonnegative}
-        matrix
+        matrix %(125,275)
     end
     
     
@@ -34,15 +34,11 @@ classdef Environment
             global width height
             for i=1:height
                 for j=1:width
-                    if i>=obstacle.x && i<=(obstacle.x+obstacle.w) && j>=obstacle.y && j<=(obstacle.y+obstacle.h)
+                    if i>=(obstacle.x-obstacle.h) && i<=obstacle.x && j>=(obstacle.y-obstacle.w) && j<=obstacle.y
                         environment.matrix(i,j)=999;
                     end                 
                 end
             end
-        end
-        
-        function add_point(~, point)
-            
         end
         
         function plot(~, plot_title)

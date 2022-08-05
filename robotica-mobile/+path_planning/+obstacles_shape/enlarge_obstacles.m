@@ -16,7 +16,7 @@ for i=1:length(obstacles)
     global width height
     for k=1:height
     	for j=1:width
-            if k>=enlarged_obstacle.x && k<=(enlarged_obstacle.x+enlarged_obstacle.w) && j>=enlarged_obstacle.y && j<=(enlarged_obstacle.y+enlarged_obstacle.h)
+            if k>=(obstacle.x-obstacle.h) && k<=obstacle.x && j>=(obstacle.y-obstacle.w) && j<=obstacle.y
             	environment.matrix(k,j)=999;
             end                 
     	end
