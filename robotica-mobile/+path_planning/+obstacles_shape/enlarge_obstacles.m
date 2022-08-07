@@ -14,12 +14,16 @@ for i=1:length(obstacles)
     % h)
     enlarged_obstacle = Obstacle(obstacle.x-enlargement, obstacle.y-enlargement, obstacle.w+(2*enlargement), obstacle.h+(2*enlargement), 0);
     global width height
-    for k=1:height
-    	for j=1:width
-            if k>=(obstacle.x-obstacle.h) && k<=obstacle.x && j>=(obstacle.y-obstacle.w) && j<=obstacle.y
-            	environment.matrix(k,j)=999;
-            end                 
-    	end
+    for s=1:height
+        for j=1:width
+            if isequal(s, abs(obstacle.y-obstacle.h)) && isequal(j, abs(obstacle.x-obstacle.w))
+                for n=s:obstacle.y
+                    for m=j:(obstacle.x+obstacle.w)
+                        environment.matrix(n,m)=999;
+                    end
+                end
+            end
+        end
     end
     enlarged_obstacles(i) = enlarged_obstacle;
     

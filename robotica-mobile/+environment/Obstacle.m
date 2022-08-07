@@ -24,11 +24,7 @@ classdef Obstacle
              hold on; rectangle('Position',[obstacle.x obstacle.y obstacle.w obstacle.h], "Curvature",obstacle.curvature, "FaceColor",color, "EdgeColor",color);
         end
         
-        function enlarge(obstacle, offset)
-            w = obstacle.w + offset;
-            h = obstacle.h + offset;
-            
-        end
+        
     end
 end
 

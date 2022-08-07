@@ -7,7 +7,7 @@ classdef Environment
     properties
         width {mustBeFinite, mustBeNonnegative}
         height {mustBeFinite, mustBeNonnegative}
-        matrix %(125,275)
+        matrix (125,275)
     end
     
     
@@ -15,7 +15,7 @@ classdef Environment
         function environment = Environment(width, height)
             environment.width = width;
             environment.height = height;
-            matrix = zeros(height, width);
+            environment.matrix = zeros(height, width);
         end
     end
     
@@ -34,9 +34,13 @@ classdef Environment
             global width height
             for i=1:height
                 for j=1:width
-                    if i>=(obstacle.x-obstacle.h) && i<=obstacle.x && j>=(obstacle.y-obstacle.w) && j<=obstacle.y
-                        environment.matrix(i,j)=999;
-                    end                 
+                    if isequal(i, abs(obstacle.y-obstacle.h)) && isequal(j, abs(obstacle.x-obstacle.w))
+                        for n=i:obstacle.y
+                            for m=j:(obstacle.x+obstacle.w)
+                                environment.matrix(n,m)=999;
+                            end
+                        end
+                    end
                 end
             end
         end

@@ -65,7 +65,6 @@ obstacles(6) = obstacle;
 add_obstacle(environment, obstacle);
 plot(obstacle, "red");
 
-
 %% OBSTACLES SHAPE
 base_enlargement = radius_robot;
 security_offset = eps;
@@ -76,3 +75,19 @@ for i=1:length(obstacles)
     plot(enlarged_obstacles(i), "#808080")
     plot(obstacles(i), "red")
 end
+
+% figure();
+% x=0; y=0;
+% title("PROVA");
+% rectangle('Position',[x y width height], "EdgeColor","black", "LineWidth",1);
+% xlim_target = 300; ylim_target = 150;
+% xlim([width-xlim_target xlim_target]); ylim([height-ylim_target ylim_target]);
+% hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
+% hold on; plot(goal(1), goal(2), "*", "LineWidth", 4, "Color","#0eb04f");
+% for i=1:height
+%     for j=1:width
+%         if isequal(environment.matrix(i,j), 999)
+%             hold on; rectangle('Position',[i j 1 1], "Curvature",0, "FaceColor","black", "EdgeColor","black");
+%         end
+%     end
+% end
