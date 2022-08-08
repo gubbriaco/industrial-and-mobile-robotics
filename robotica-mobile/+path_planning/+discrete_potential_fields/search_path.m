@@ -20,10 +20,11 @@ function [cell_path, path_map] = search_path( Xstart, Ystart, distance_map )
     found_destination=0; 
     r = 2;
     while ~found_destination
-        
+        import path_planning.discrete_potential_fields.find_lower;
         [found_low, path]=find_lower(distance_map, path(r-1,2), path(r-1,1), r, path );
         
         if ~found_low
+            import path_planning.discrete_potential_fields.find_equal;
             path = find_equal(distance_map, path(r-1,2), path(r-1,1), r, path );
         elseif distance_map( path(r,2), path(r,1) ) == 0
             found_destination=1;
