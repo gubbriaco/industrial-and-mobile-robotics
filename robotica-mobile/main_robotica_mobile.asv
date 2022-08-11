@@ -23,12 +23,12 @@ goal = [width-1 height-1];
 
 %% GRID ENVIRONMENT
 grid = zeros(height, width);
-nr_points=height;
-width_points=linspace(x_origin, width, height);
-nr_points=width;
-height_points=linspace(y_origin, height, width);
+nr_points=1000;
+width_points=linspace(x_origin, width, nr_points);
+height_points=linspace(y_origin, height, nr_points);
 [X,Y] = meshgrid(height_points, width_points);
 
+%% OBSTACLES
 nr_obstacles = 0;
 
 %% WALLS
@@ -58,23 +58,8 @@ nr_obstacles = nr_obstacles+1;
 obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
 
 % under
-row_edge_origin=height; column_edge_origin=y_origin; edge_h=width; edge_w=edge_width;
-x_edge = [row_edge_origin row_edge_origin]; y_edge = [column_edge_origin edge_h];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
-nr_obstacles = nr_obstacles+1;
-obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
 
 
-%% OBSTACLES
-
-% obstacles nr.1
-
-
-%% PLOT ENVIRONMENT
-%% Plot
-Z = 1.*grid; 
-figure();
-s = mesh(X,Y,Z);
 
 
 
