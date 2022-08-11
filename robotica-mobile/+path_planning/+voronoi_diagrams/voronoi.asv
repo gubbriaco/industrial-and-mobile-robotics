@@ -1,0 +1,4 @@
+% 1) [vx,vy]=voronoi
+% 2) ripulire [vx,vy] da ostacoli noti
+% v = []
+% 3) 
