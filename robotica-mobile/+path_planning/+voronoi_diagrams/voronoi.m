@@ -7,8 +7,13 @@
 %              percorso del robot (dijkstra, ...)
 
 
-clear; clc; close all;
-
 x_start=start(1); y_start=start(2);
 x_goal=goal(1); y_goal=goal(2);
 
+%% VORONOI MAP
+global X Y grid;
+x = X.*grid; y = Y.*grid; x = x(:); y = y(:);
+figure(); voronoi(x,y);
+[vx,vy] = voronoi(x,y);
+
+%% VORONOI MAP CLEANUP

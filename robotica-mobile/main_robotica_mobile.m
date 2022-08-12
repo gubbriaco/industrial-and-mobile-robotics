@@ -1,7 +1,6 @@
 clear; close all; clc;
 import robot.Robot;
 import environment.Environment;
-import environment.Obstacle;
 
 
 %% ROBOT
@@ -12,74 +11,28 @@ robot = Robot(radius_robot);
 figure(); plot(robot);
 
 %% ENVIRONMENT
-global width height start goal grid
+global x_origin y_origin width height start goal;
 x_origin=1; y_origin=1;
 % offset per accedere al primo elemento della griglia essendo che in MATLAB
 % gli elementi in una matrice vengono indicizzati a partire da 1 e non da 0
 offset_grid=1;
-width=275; height=125;
+width=100; height=100;
 start = [x_origin+1 y_origin+1];
 goal = [width-1 height-1];
 
-%% GRID ENVIRONMENT
-grid = zeros(height, width);
-nr_points=height;
-width_points=linspace(x_origin, width, height);
-nr_points=width;
-height_points=linspace(y_origin, height, width);
-[X,Y] = meshgrid(height_points, width_points);
+environment = Environment(width, height, start, goal);
+inizialize(environment);
+add_walls(environment);
+add_obstacles(environment);
+plot(environment);
 
-nr_obstacles = 0;
-
-%% WALLS
-edge_width = 1;
-
-% left Y
-row_edge_origin=x_origin; column_edge_origin=y_origin; edge_h=height;
-x_edge = [row_edge_origin edge_h]; y_edge = [column_edge_origin column_edge_origin];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
-nr_obstacles = nr_obstacles+1;
-obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_width edge_h];
-%obstacles(:,nr_obstacles) = [X(x_edge(1),x_edge(1)) X(x_edge(1),x_edge(2)) Y(y_edge(1)) Y(y_edge(1))];
-
-% right y
-row_edge_origin=x_origin; column_edge_origin=width; edge_h=height;
-x_edge = [row_edge_origin height]; y_edge = [column_edge_origin column_edge_origin];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
-nr_obstacles = nr_obstacles+1;
-obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_width edge_h];
-%obstacles(:,nr_obstacles) = [X(x_edge(1),x_edge(1)) X(x_edge(1),x_edge(2)) Y(y_edge(1)) Y(y_edge(1))];
-
-% over
-row_edge_origin=x_origin; column_edge_origin=y_origin; edge_h=width; edge_w=edge_width;
-x_edge = [row_edge_origin edge_w]; y_edge = [column_edge_origin edge_h];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
-nr_obstacles = nr_obstacles+1;
-obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
-
-% under
-row_edge_origin=height; column_edge_origin=y_origin; edge_h=width; edge_w=edge_width;
-x_edge = [row_edge_origin row_edge_origin]; y_edge = [column_edge_origin edge_h];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
-nr_obstacles = nr_obstacles+1;
-obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
-
-
-%% OBSTACLES
-
-% obstacles nr.1
-
-
-%% PLOT ENVIRONMENT
-%% Plot
-Z = 1.*grid; 
-figure();
-s = mesh(X,Y,Z);
+%% VORONOI DIAGRAMS
+import path_planning.voronoi_diagrams.voronoi;
+voronoi;
 
 
 
 
-% environment = Environment(width, height);
 % % PLOT ENVIRONMENT
 % figure(); plot(environment, "ENVIRONMENT");
 % 

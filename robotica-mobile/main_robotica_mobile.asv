@@ -17,18 +17,22 @@ x_origin=1; y_origin=1;
 % offset per accedere al primo elemento della griglia essendo che in MATLAB
 % gli elementi in una matrice vengono indicizzati a partire da 1 e non da 0
 offset_grid=1;
-width=275; height=125;
+width=100; height=100;
 start = [x_origin+1 y_origin+1];
 goal = [width-1 height-1];
 
-%% GRID ENVIRONMENT
-grid = zeros(height, width);
-nr_points=1000;
-width_points=linspace(x_origin, width, nr_points);
-height_points=linspace(y_origin, height, nr_points);
-[X,Y] = meshgrid(height_points, width_points);
+environment = Environment(width, height, start, goal);
+environment.inizialize();
+environment.add_walls();
+environment.add_obstacles
 
-%% OBSTACLES
+%% GRID ENVIRONMENT
+grid = zeros(width, height);
+nr_points=100;
+width_points=linspace(x_origin-1, width, nr_points);
+height_points=linspace(y_origin-1, height, nr_points);
+[X,Y] = meshgrid(height_points,width_points);
+
 nr_obstacles = 0;
 
 %% WALLS
@@ -37,7 +41,7 @@ edge_width = 1;
 % left Y
 row_edge_origin=x_origin; column_edge_origin=y_origin; edge_h=height;
 x_edge = [row_edge_origin edge_h]; y_edge = [column_edge_origin column_edge_origin];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
+grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=5; 
 nr_obstacles = nr_obstacles+1;
 obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_width edge_h];
 %obstacles(:,nr_obstacles) = [X(x_edge(1),x_edge(1)) X(x_edge(1),x_edge(2)) Y(y_edge(1)) Y(y_edge(1))];
@@ -45,26 +49,86 @@ obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_width edge_
 % right y
 row_edge_origin=x_origin; column_edge_origin=width; edge_h=height;
 x_edge = [row_edge_origin height]; y_edge = [column_edge_origin column_edge_origin];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
+grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=5; 
 nr_obstacles = nr_obstacles+1;
 obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_width edge_h];
 %obstacles(:,nr_obstacles) = [X(x_edge(1),x_edge(1)) X(x_edge(1),x_edge(2)) Y(y_edge(1)) Y(y_edge(1))];
 
-% over
+% under
 row_edge_origin=x_origin; column_edge_origin=y_origin; edge_h=width; edge_w=edge_width;
 x_edge = [row_edge_origin edge_w]; y_edge = [column_edge_origin edge_h];
-grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=1; 
+grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=5; 
 nr_obstacles = nr_obstacles+1;
 obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
 
-% under
+% over
+row_edge_origin=height; column_edge_origin=y_origin; edge_h=width; edge_w=edge_width;
+x_edge = [row_edge_origin row_edge_origin]; y_edge = [column_edge_origin edge_h];
+grid(x_edge(1):x_edge(2), y_edge(1):y_edge(2))=5; 
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [row_edge_origin column_edge_origin edge_w edge_h];
+
+
+%% OBSTACLES
+
+% obstacles nr.1
+x_obstacle=10; y_obstacle=8; w_obstacle=25; h_obstacle=30;
+x_edge = [x_obstacle x_obstacle+h_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+% obstacles nr.2
+x_obstacle=45; y_obstacle=80; w_obstacle=40; h_obstacle=15;
+x_edge = [x_obstacle x_obstacle+w_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+% obstacles nr.3
+x_obstacle=50; y_obstacle=10; w_obstacle=15; h_obstacle=45;
+x_edge = [x_obstacle x_obstacle+w_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+% obstacles nr.4
+x_obstacle=45; y_obstacle=60; w_obstacle=25; h_obstacle=15;
+x_edge = [x_obstacle x_obstacle+w_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+% obstacles nr.5
+x_obstacle=80; y_obstacle=6; w_obstacle=15; h_obstacle=60;
+x_edge = [x_obstacle x_obstacle+w_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+% obstacles nr.6
+x_obstacle=7; y_obstacle=45; w_obstacle=30; h_obstacle=50;
+x_edge = [x_obstacle x_obstacle+w_obstacle]; y_edge = [y_obstacle y_obstacle+h_obstacle];
+grid(y_edge(1):y_edge(2), x_edge(1):x_edge(2))=15;
+nr_obstacles = nr_obstacles+1;
+obstacles(:,nr_obstacles) = [x_obstacle y_obstacle w_obstacle h_obstacle];
+
+
+%% PLOT ENVIRONMENT
+% grid(start(1),start(2))=15;
+% grid(goal(1),goal(2))=15;
+Z = 1.*grid; 
+figure();
+mesh(X,Y,Z); xlabel("X"); ylabel("Y"); zlabel("Z");
+
+
+%% VORONOI DIAGRAMS
+import path_planning.voronoi_diagrams.voronoi;
+voronoi;
 
 
 
 
-
-
-% environment = Environment(width, height);
 % % PLOT ENVIRONMENT
 % figure(); plot(environment, "ENVIRONMENT");
 % 
