@@ -1,6 +1,4 @@
 classdef Environment
-   % - width e' la larghezza dell'ambiente
-   % - heigth e' l'altezza dell'ambiente
    
     properties
         width {mustBeFinite, mustBeNonnegative}
@@ -11,6 +9,7 @@ classdef Environment
     
     
     methods  
+        %% CONSTRUCTOR
         function environment = Environment(width, height, start, goal)
             environment.width = width;
             environment.height = height;
@@ -22,6 +21,7 @@ classdef Environment
     
     methods
         
+        %% GETTERS
         function s = get_start(environment)
             s = environment.start;
         end
@@ -30,7 +30,7 @@ classdef Environment
             g = environment.goal;
         end
         
-        
+        %% INIZIALIZE ENVIRONMENT
         function inizialize(environment)
             global x_origin y_origin nr_points grid X Y;
             grid = zeros(environment.width, environment.height);
@@ -40,6 +40,7 @@ classdef Environment
             [X,Y] = meshgrid(width_points,height_points);
         end
         
+        %% ADD WALLS
         function add_walls(environment)
             global grid nr_obstacles obstacles X Y;
             edge_height = 1;
@@ -64,6 +65,7 @@ classdef Environment
             
         end
         
+        %% ADD OBSTACLES
         function add_obstacles(environment)
             global nr_obstacles obstacles grid X Y;
             obstacle_height = 1;
@@ -111,14 +113,12 @@ classdef Environment
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
         end
        
+        %% PLOT ENVIRONMENT
         function plot(environment)
-            global X Y grid obstacles;
-            % grid(start(1),start(2))=15;
-            % grid(goal(1),goal(2))=15;
+            global X Y grid;
             Z = 1.*grid; 
             figure(); mesh(X,Y,Z); xlabel("X"); ylabel("Y"); zlabel("Z");
             axis("equal"), axis([0 100 0 100])
-            
         end
         
     end

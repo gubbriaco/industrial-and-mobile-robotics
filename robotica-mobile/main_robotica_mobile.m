@@ -12,15 +12,12 @@ figure(); plot(robot);
 
 %% ENVIRONMENT
 global x_origin y_origin width height start goal nr_obstacles obstacles;
+nr_obstacles = 0; obstacles = [];
 x_origin=1; y_origin=1;
-nr_obstacles = 0;
-obstacles = [];
-% offset per accedere al primo elemento della griglia essendo che in MATLAB
-% gli elementi in una matrice vengono indicizzati a partire da 1 e non da 0
-offset_grid=1;
 width=100; height=100;
-start = [x_origin+1 y_origin+1];
-goal = [width-1 height-1];
+offset = 4;
+start = [x_origin+offset y_origin+offset];
+goal = [width-offset height-offset];
 
 environment = Environment(width, height, start, goal);
 inizialize(environment);
