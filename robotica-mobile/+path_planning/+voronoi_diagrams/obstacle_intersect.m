@@ -3,8 +3,8 @@ function [intersection] = obstacle_intersect(xline, yline, xobst, yobst)
     xobsti = xobst(1); xobstf = xobst(2);
     yobsti = yobst(1); yobstf = yobst(2);
 
-    xline = linspace(xline(1),xline(2),500)';
-    yline = linspace(yline(1),yline(2),500)';
+    xline = linspace(xline(1),xline(2),1000)';
+    yline = linspace(yline(1),yline(2),1000)';
 
     if length(xline) == 1
         xline = ones(length(yline),1)*xline;

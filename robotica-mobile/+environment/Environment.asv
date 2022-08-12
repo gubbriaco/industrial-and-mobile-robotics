@@ -44,20 +44,20 @@ classdef Environment
             global grid nr_obstacles obstacles X Y;
             edge_height = 1;
             
-            % sopra
+            % over edge
             nr_obstacles=nr_obstacles+1;
             grid(1:2,1:environment.width) = edge_height;        
             obstacles(nr_obstacles,:) = [X(1,1) X(1,environment.width) Y(1) Y(2)];
             nr_obstacles=nr_obstacles+1;
-            %sotto
+            % under edge
             grid(environment.width-1:environment.width,1:environment.width) = edge_height;     
             obstacles(nr_obstacles,:) = [X(1,1) X(1,environment.width) Y(environment.width-1) Y(environment.width)];
             nr_obstacles=nr_obstacles+1;
-            %sinistra
+            % left edge
             grid(1:environment.width,1:2) = edge_height;        
             obstacles(nr_obstacles,:) = [X(1,1) X(1,2) Y(1) Y(environment.width)];
             nr_obstacles=nr_obstacles+1;
-            %destra
+            % right edge
             grid(1:environment.width,environment.width-1:environment.width) = edge_height;     
             obstacles(nr_obstacles,:) = [X(1,environment.width-1) X(1,environment.width) Y(1) Y(environment.width)];
             nr_obstacles=nr_obstacles+1;
@@ -68,7 +68,7 @@ classdef Environment
             global nr_obstacles obstacles grid X Y;
             obstacle_height = 5;
             % obstacles nr.1
-            x_left=4; x_right=25; 
+            x_left=15; x_right=25; 
             y_under=10; y_over=20;
             grid(y_under:y_over,x_left:x_right) = obstacle_height;
             nr_obstacles = nr_obstacles+1;
@@ -89,7 +89,7 @@ classdef Environment
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
 
             % obstacles nr.4
-            x_left=55; x_right=80; 
+            x_left=60; x_right=90; 
             y_under=15; y_over=60;
             grid(y_under:y_over,x_left:x_right) = obstacle_height;
             nr_obstacles = nr_obstacles+1;
