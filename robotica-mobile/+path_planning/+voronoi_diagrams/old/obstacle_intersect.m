@@ -1,4 +1,4 @@
-function [intersection] = obstacle_intersect(xline, yline, xobst, yobst)
+function [r] = obstacle_intersect(xline, yline, xobst, yobst)
 
     xobsti = xobst(1); xobstf = xobst(2);
     yobsti = yobst(1); yobstf = yobst(2);
@@ -14,6 +14,6 @@ function [intersection] = obstacle_intersect(xline, yline, xobst, yobst)
 
     c = xline > xobsti & xline < xobstf & yline > yobsti & yline < yobstf;
 
-    intersection = ~isempty(find(c,1));
+    r = ~isempty(find(c,1));
 
 end
