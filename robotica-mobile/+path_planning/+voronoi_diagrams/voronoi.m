@@ -103,22 +103,22 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
         vtemp(i,:) = [];
     end
 
-    G = graph(A,"lower");
+    G = graph(A, "lower");
     figure(); plot(vx, vy, "g", "linewidth",2); hold on;
     plot(x_start, y_start, "ok", "linewidth",2); hold on;
     plot(x_goal, y_goal, "ok", "linewidth",2); hold on;
     axis("equal"), axis([0 100 0 100]), hold on; 
     for i = 1 : size(obstacles, 1)
         ob = obstacles(i,:);
-        x_ob=ob(1);
-        y_ob=ob(3);
-        w_ob=ob(2)-ob(1);
-        h_ob=ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob],"facecolor","r");
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
     end
     hold on; plot(G,"xdata",v(:,1),"ydata",v(:,2));
 
-    path = shortestpath(G,length(v)-3,length(v)-1);
-    trajectory = v(path,:);
+    path = shortestpath(G, length(v)-3, length(v)-1);
+    trajectory = v(path, :);
     
 end

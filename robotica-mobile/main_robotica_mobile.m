@@ -1,10 +1,9 @@
 clear; close all; clc;
-import robot.Robot;
-
 
 %% ROBOT
 global radius_robot
 radius_robot = 1;
+import robot.Robot;
 robot = Robot(radius_robot);
 % PLOT ROBOT
 figure(); plot(robot);
@@ -19,8 +18,8 @@ width=100; height=100;
 nc=100; nr=100;
 import environment.Environment;
 environment = Environment(width, height, nc, nr);
-inizialize(environment);
 global X Y grid obstacles
+inizialize(environment);
 
 %% DISCRETE POTENTIAL FIELDS
 obstacle_height=Inf;
@@ -29,15 +28,11 @@ plot(environment);
 import path_planning.discrete_potential_fields.discrete_potential_fields;
 discrete_potential_fields(start, goal, width, height, grid);
 
-
 %% VORONOI DIAGRAMS
 obstacle_height=1;
 add_obstacles(environment, obstacle_height);
 plot(environment);
 import path_planning.voronoi_diagrams.voronoi;
 P = voronoi(start, goal, X, Y, grid, obstacles);
-
-
-
 
 
