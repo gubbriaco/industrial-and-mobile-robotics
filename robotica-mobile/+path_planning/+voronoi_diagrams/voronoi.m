@@ -1,7 +1,5 @@
 function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
-   
-
     x_start = start(1); x_goal = goal(1);
     y_start = start(2); y_goal = goal(2);
 
@@ -22,7 +20,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
         for j = 1 : size(obstacles,1)
             x_obst = [obstacles(j,1) obstacles(j,2)];
             y_obst = [obstacles(j,3) obstacles(j,4)];
-      import path_planning.voronoi_diagrams.obstacle_intersect_verification;
+            import path_planning.voronoi_diagrams.obstacle_intersect_verification;
             if obstacle_intersect_verification(x_line,y_line,x_obst,y_obst)
                 vx(:,i) = []; vy(:,i) = [];
                 break;
