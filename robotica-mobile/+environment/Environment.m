@@ -1,127 +1,122 @@
 classdef Environment
    
-    properties
+   properties
         width {mustBeFinite, mustBeNonnegative}
         height {mustBeFinite, mustBeNonnegative}
-        start
-        goal
-    end
-    
-    
-    methods  
-        %% CONSTRUCTOR
-        function environment = Environment(width, height, start, goal)
-            environment.width = width;
-            environment.height = height;
-            environment.start = start;
-            environment.goal = goal;
-        end
-    end
-    
-    
-    methods
-        
-        %% GETTERS
-        function s = get_start(environment)
-            s = environment.start;
-        end
-        
-        function g = get_goal(environment)
-            g = environment.goal;
-        end
-        
-        %% INIZIALIZE ENVIRONMENT
-        function inizialize(environment)
-            global x_origin y_origin nr_points grid X Y;
-            grid = zeros(environment.width, environment.height);
-            nr_points=100;
-            width_points=linspace(x_origin-1, nr_points, environment.width);
-            height_points=linspace(y_origin-1, nr_points, environment.height);
-            [X,Y] = meshgrid(width_points,height_points);
-        end
-        
-        %% ADD WALLS
-        function add_walls(environment)
-            global grid nr_obstacles obstacles X Y;
-            edge_height = 1;
-            
-            % over edge
-            nr_obstacles=nr_obstacles+1;
-            grid(1:2,1:environment.width) = edge_height;        
-            obstacles(nr_obstacles,:) = [X(1,1) X(1,environment.width) Y(1) Y(2)];
-            nr_obstacles=nr_obstacles+1;
-            % under edge
-            grid(environment.width-1:environment.width,1:environment.width) = edge_height;     
-            obstacles(nr_obstacles,:) = [X(1,1) X(1,environment.width) Y(environment.width-1) Y(environment.width)];
-            nr_obstacles=nr_obstacles+1;
-            % left edge
-            grid(1:environment.width,1:2) = edge_height;        
-            obstacles(nr_obstacles,:) = [X(1,1) X(1,2) Y(1) Y(environment.width)];
-            nr_obstacles=nr_obstacles+1;
-            % right edge
-            grid(1:environment.width,environment.width-1:environment.width) = edge_height;     
-            obstacles(nr_obstacles,:) = [X(1,environment.width-1) X(1,environment.width) Y(1) Y(environment.width)];
-            nr_obstacles=nr_obstacles+1;
-            
-        end
-        
-        %% ADD OBSTACLES
-        function add_obstacles(environment)
-            global nr_obstacles obstacles grid X Y;
-            obstacle_height = 1;
-            
-            % obstacles nr.1
+        nc {mustBeFinite, mustBeNonnegative}
+        nr {mustBeFinite, mustBeNonnegative}
+   end
+   
+   methods
+       function environment=Environment(width, height, nc, nr)
+            environment.width=width;
+            environment.height=height;
+            environment.nc=nc;
+            environment.nr=nr;
+       end
+       
+       function inizialize(environment)
+           global grid X Y
+             % Genero una mappa di ostacoli che sistemo in una griglia binaria di occupazione
+            % dello spazio. Di conseguenza per rappresentare gli ostacoli posso sfruttare una
+            % meshgrid. 
+
+            %% GRID ENVIRONMENT
+            %nr = 100; nc = 100;
+            x_origin=1; y_origin=1;
+            %width=100; height=100;
+            grid = zeros(environment.nr, environment.nc);
+            width_points = linspace(x_origin-1, environment.nr, environment.width);
+            height_points = linspace(y_origin-1, environment.nc, environment.height);
+            [X,Y] = meshgrid(width_points, height_points);
+       end
+       
+       function add_obstacles(environment, ob_value)
+            global X Y grid nr_obstacles obstacles
+
+            %% OBSTACLES
+            nr_obstacles=0;
+
+            %% WALLS
+            width_wall = 1;
+            height_wall = 1;
+
+            % under wall
+            x_origin_wall=1; y_origin_wall=1; length_wall=100;
+            grid(1:2,1:100) = ob_value;
+            nr_obstacles = nr_obstacles+1;
+            obstacles(nr_obstacles,:) = [X(1,1) X(1,100) Y(1) Y(2)];
+
+            % over wall
+            grid(99:100,1:100) = ob_value; 
+            nr_obstacles = nr_obstacles+1;
+            obstacles(nr_obstacles,:) = [X(1,1) X(1,100) Y(99) Y(100)];
+
+            % left wall
+            grid(1:100,1:2) = ob_value; 
+            nr_obstacles = nr_obstacles+1;
+            obstacles(nr_obstacles,:) = [X(1,1) X(1,2) Y(1) Y(100)];
+
+            % right wall
+            grid(1:100,99:100) = ob_value; 
+            nr_obstacles = nr_obstacles+1;
+            obstacles(nr_obstacles,:) = [X(1,99) X(1,100) Y(1) Y(100)];
+
+
+            %grid(y_under:y_over, x_under:x_over)
+            height_obstacle = 1;
+
+            % obstacle nr.1
             x_left=15; x_right=25; 
             y_under=10; y_over=20;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,y_under:y_over) = ob_value;   
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
-            
-            % obstacles nr.2
+
+            % obstacle nr.2
             x_left=40; x_right=45;
             y_under=15; y_over=70;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,y_under:y_over) = ob_value;   
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
-            
-            % obstacles nr.3
+
+            % obstacle nr.3
             x_left=15; x_right=35; 
             y_under=30; y_over=60;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,y_under:y_over) = ob_value;
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
 
-            % obstacles nr.4
+            % obstacle nr.4
             x_left=60; x_right=90; 
             y_under=15; y_over=60;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,15:60) = ob_value;      
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
 
-            % obstacles nr.5
+            % obstacle nr.5
             x_left=15; x_right=60;
             y_under=80; y_over=90;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,y_under:y_over) = ob_value;   
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
 
-            % obstacles nr.6
+            % obstacle nr.6
             x_left=70; x_right=90;
             y_under=70; y_over=90;
-            grid(y_under:y_over,x_left:x_right) = obstacle_height;
+            grid(x_left:x_right,y_under:y_over) = ob_value;
             nr_obstacles = nr_obstacles+1;
             obstacles(nr_obstacles,:) = [X(1,y_under) X(1,y_over) Y(x_left) Y(x_right)];
-        end
+       end
        
-        %% PLOT ENVIRONMENT
-        function plot(environment)
-            global X Y grid;
-            Z = 1.*grid; 
+       function plot(environment)
+           global X Y grid 
+            %% PLOT
+            Z = 1.*grid;
             figure(); mesh(X,Y,Z); xlabel("X"); ylabel("Y"); zlabel("Z");
-            axis("equal"), axis([0 100 0 100])
-        end
-        
-    end
+            axis("equal"), axis([0 environment.width 0 environment.height])
+       end
+   end
     
 end
 

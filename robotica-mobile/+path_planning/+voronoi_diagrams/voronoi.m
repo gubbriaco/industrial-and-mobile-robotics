@@ -1,18 +1,16 @@
-function trajectory = voronoi(start, goal)
+function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
-    %% OBSTACLES GENERATOR
-    import path_planning.voronoi_diagrams.obstacles_generator;
-    [X, Y, grid, obstacles] = obstacles_generator();
+   
 
     x_start = start(1); x_goal = goal(1);
     y_start = start(2); y_goal = goal(2);
 
-    %% Calcolo mappa di voronoi sui punti della meshgrid
+    %% GENERAZIONE DIAGRAMMA DI VORONOI
     x = X.*grid; y = Y.*grid; x = x(:); y = y(:);
     figure(); voronoi(x,y);
     [vx,vy] = voronoi(x,y);
 
-    %% Pulitura mappa di voronoi
+    %% CLEANUP VORONOI DIAGRAM
 
     % Per ogni coppia di vertici in [vx,vy], dovró scorrere tutti gli ostacoli e vedere
     % se ci sono delle intersezioni: basta che il segmento tra i due vertici intersechi
