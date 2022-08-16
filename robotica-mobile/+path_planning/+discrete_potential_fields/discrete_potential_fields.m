@@ -1,5 +1,4 @@
-%clc; clear; 
-function discrete_potential_fields(start, goal, width, height, grid)
+function cell_path = discrete_potential_fields(start, goal, width, height, grid)
 
     %mappa dei potenziali
     import path_planning.discrete_potential_fields.distances;

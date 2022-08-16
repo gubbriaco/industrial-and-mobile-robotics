@@ -116,9 +116,12 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
         h_ob = ob(4)-ob(3);
         rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
     end
-    hold on; plot(G,"xdata",v(:,1),"ydata",v(:,2));
-
+    hold on; 
+    p = plot(G, "xdata",v(:,1), "ydata",v(:,2));
     path = shortestpath(G, length(v)-3, length(v)-1);
+    % highlight the shortest path
+    highlight(p, path, "EdgeColor","m", "LineWidth",7);
+    
     trajectory = v(path, :);
     
 end
