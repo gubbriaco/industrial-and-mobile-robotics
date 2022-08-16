@@ -12,10 +12,11 @@ function cell_path = discrete_potential_fields(start, goal, width, height, grid)
     hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
     hold on; plot(goal(1)+1, goal(2)+1, "*", "LineWidth", 4, "Color","#0eb04f");
 
-    figure(); title("CELL PATH");
-    %size_cell_path=size(cell_path);
-    plot(cell_path(:,1), cell_path(:,2)); xlim([1 width]); ylim([1 height]);
-    hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
-    hold on; plot(goal(1)+1, goal(2)+1, "*", "LineWidth", 4, "Color","#0eb04f");
+%     figure();
+%     %size_cell_path=size(cell_path);
+%     plot(cell_path(:,1), cell_path(:,2)); xlim([1 width]); ylim([1 height]);
+%     hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
+%     hold on; plot(goal(1)+1, goal(2)+1, "*", "LineWidth", 4, "Color","#0eb04f");
+%     title("CELL PATH");
 
 end
