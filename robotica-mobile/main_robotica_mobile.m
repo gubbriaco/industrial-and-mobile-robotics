@@ -36,10 +36,20 @@ hold on; plot(P(:,1), P(:,2)); title("DISCRETE POTENTIAL FIELDS PATH");
 obstacle_height=1;
 add_obstacles(environment, obstacle_height);
 plot(environment);
-import path_planning.voronoi_diagrams.voronoi;
+import path_planning.voronoi_diagram.voronoi;
 P = voronoi(start, goal, X, Y, grid, obstacles);
 figure(); 
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS PATH");
 
+%% VISIBILITY GRAPH
+obstacle_height=1;
+add_obstacles(environment, obstacle_height);
+plot(environment);
+import path_planning.visibility_graph.visibility_graph;
+P = visibility_graph(start, goal, obstacles);
+figure(); 
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH PATH");

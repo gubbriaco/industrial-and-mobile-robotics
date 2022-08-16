@@ -114,7 +114,7 @@ classdef Environment
             %% PLOT
             Z = 1.*grid;
             figure(); mesh(X,Y,Z); xlabel("X"); ylabel("Y"); zlabel("Z");
-            axis("equal"), axis([0 environment.width 0 environment.height])
+            title("ENVIRONMENT"),axis("equal"), axis([0 environment.width 0 environment.height])
        end
    end
     

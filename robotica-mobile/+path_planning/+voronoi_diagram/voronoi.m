@@ -5,7 +5,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
     %% GENERAZIONE DIAGRAMMA DI VORONOI
     x = X.*grid; y = Y.*grid; x = x(:); y = y(:);
-    figure(); voronoi(x,y);
+    figure(); voronoi(x,y); title("VORONOI DIAGRAMS");
     [vx,vy] = voronoi(x,y);
 
     %% CLEANUP VORONOI DIAGRAM
@@ -20,7 +20,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
         for j = 1 : size(obstacles,1)
             x_obst = [obstacles(j,1) obstacles(j,2)];
             y_obst = [obstacles(j,3) obstacles(j,4)];
-            import path_planning.voronoi_diagrams.obstacle_intersect_verification;
+            import path_planning.voronoi_diagram.obstacle_intersect_verification;
             if obstacle_intersect_verification(x_line,y_line,x_obst,y_obst)
                 vx(:,i) = []; vy(:,i) = [];
                 break;
@@ -75,7 +75,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
         h_ob=ob(4)-ob(3);
         rectangle("position",[x_ob y_ob w_ob h_ob],"facecolor","r");
     end
-
+    title("VORONOI DIAGRAMS AFTER CLEANUP");
 
     
     %% Creazione grafo tramite matrice di adiacenza
@@ -89,7 +89,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     vtemp = v;
     for i = length(vtemp) : -1 : 1
         temp = (vtemp-vtemp(i,:));
-        import path_planning.voronoi_diagrams.findZeroRows;
+        import path_planning.voronoi_diagram.findZeroRows;
         occ = findZeroRows(temp);
         for j = 1 : length(occ)
             index = occ(j);
@@ -121,6 +121,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     path = shortestpath(G, length(v)-3, length(v)-1);
     % highlight the shortest path
     highlight(p, path, "EdgeColor","m", "LineWidth",7);
+    title("VORONOI DIAGRAMS WITH ASSOCIATED GRAPH AND SHORTEST PATH");
     
     trajectory = v(path, :);
     
