@@ -47,6 +47,7 @@ hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS PATH");
 obstacle_height=1;
 add_obstacles(environment, obstacle_height);
 plot(environment);
+global width height
 import path_planning.visibility_graph.visibility_graph;
 P = visibility_graph(start, goal, obstacles);
 figure(); 
