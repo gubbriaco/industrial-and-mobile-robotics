@@ -14,6 +14,7 @@ x_goal=95; y_goal=95;
 start = [x_start y_start]; goal = [x_goal y_goal];
 
 %% ENVIRONMENT
+global width height
 width=100; height=100;
 nc=100; nr=100;
 import environment.Environment;
@@ -47,7 +48,6 @@ hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS PATH");
 obstacle_height=1;
 add_obstacles(environment, obstacle_height);
 plot(environment);
-global width height
 import path_planning.visibility_graph.visibility_graph;
 P = visibility_graph(start, goal, obstacles);
 figure(); 
