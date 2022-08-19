@@ -14,6 +14,7 @@ x_goal=95; y_goal=95;
 start = [x_start y_start]; goal = [x_goal y_goal];
 
 %% ENVIRONMENT
+global width height
 width=100; height=100;
 nc=100; nr=100;
 import environment.Environment;
