@@ -46,32 +46,48 @@ hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS SHORTEST PATH"); 
 legend({"start", "goal", "shortest path"}, "Location","northwest");
 
-%% VISIBILITY GRAPH
-obstacle_height=1;
-add_obstacles(environment, obstacle_height);
-plot(environment);
-import path_planning.visibility_graph.visibility_graph;
-P = visibility_graph(start, goal, obstacles);
-figure(); 
-hold on; plot(start(1),start(2), "*", "Color","b");
-hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
-legend({"start", "goal", "shortest path"}, "Location","northwest");
-
-
-
-% %% CONTROL
-% 
-% grade = 7;
-% 
-% %% TRAJECTORY GENERATION
-% import control.trajectory_tracking.trajectory_generation;
-% [xstar, ystar, xdotstar, ydotstar, thetastar] = trajectory_generation(P, grade);
-% figure();
+% %% VISIBILITY GRAPH
+% obstacle_height=1;
+% add_obstacles(environment, obstacle_height);
+% plot(environment);
+% import path_planning.visibility_graph.visibility_graph;
+% P = visibility_graph(start, goal, obstacles);
+% figure(); 
 % hold on; plot(start(1),start(2), "*", "Color","b");
 % hold on; plot(goal(1),goal(2), "*", "Color","g");
-% hold on; plot(xstar, ystar); title("TRAJECTORY");
+% hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
+% legend({"start", "goal", "shortest path"}, "Location","northwest");
 
+
+
+%% CONTROL
+
+x = P(:,1);
+y = P(:,2);
+theta = atan2(x, y);
+
+% grado di interpolazione
+grade = 7;
+
+%% TRAJECTORY GENERATION
+import control.trajectory_tracking.trajectory_generation;
+[xstar, ystar, xdotstar, ydotstar, thetastar] = trajectory_generation(P, grade);
+figure();
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(xstar, ystar); title("TRAJECTORY");
+
+
+%% CONTROL BASED ON APPROXIMATE LINEARIZATION
+[v,w] = approximated_linearization( xstar, xdotstar, x, ...
+                                    ystar, ydotstar, y, ...
+                                    theta, thetastar, ...
+                                    vstar, omegastar)
+
+%% NON LINEAR CONTROL
+
+
+%% INPUT-OUTPUT LINEARIZATION
 
 
 
