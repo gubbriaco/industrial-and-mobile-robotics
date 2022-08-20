@@ -44,13 +44,28 @@ hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS PATH");
 
-%% VISIBILITY GRAPH
-obstacle_height=1;
-add_obstacles(environment, obstacle_height);
-plot(environment);
-import path_planning.visibility_graph.visibility_graph;
-P = visibility_graph(start, goal, obstacles);
-figure(); 
-hold on; plot(start(1),start(2), "*", "Color","b");
-hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH PATH");
+% %% VISIBILITY GRAPH
+% obstacle_height=1;
+% add_obstacles(environment, obstacle_height);
+% plot(environment);
+% import path_planning.visibility_graph.visibility_graph;
+% P = visibility_graph(start, goal, obstacles);
+% figure(); 
+% hold on; plot(start(1),start(2), "*", "Color","b");
+% hold on; plot(goal(1),goal(2), "*", "Color","g");
+% hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH PATH");
+
+
+
+%% CONTROL
+
+grade = 7;
+%% TRAJECTORY GENERATION
+import control.trajectory_generation;
+[xstar, ystar, xdotstar, ydotstar] = trajectory_generation(P, grade);
+figure();
+plot(xstar, ystar);
+
+
+
+
