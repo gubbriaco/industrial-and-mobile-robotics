@@ -60,11 +60,14 @@ hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS PATH");
 %% CONTROL
 
 grade = 7;
+
 %% TRAJECTORY GENERATION
 import control.trajectory_generation;
 [xstar, ystar, xdotstar, ydotstar] = trajectory_generation(P, grade);
 figure();
-plot(xstar, ystar);
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(xstar, ystar); title("TRAJECTORY");
 
 
 
