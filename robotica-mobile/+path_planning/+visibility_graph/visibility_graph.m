@@ -13,7 +13,7 @@ function [trajectory] = visibilitygraph(start, goal, obstacles)
     vertices_map = {vertices_walls};
     
     
-    j=1;
+    j=2;
     nr_walls=4;
     for i = (nr_walls+1) : size(obstacles)
         vertices_map{j} = [ [obstacles(i,1),obstacles(i,4)]; ...
