@@ -16,18 +16,7 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     % funzione nativa linspace di MATLAB considerando come range di valori
     % quello ottenuto considerando i valori della colonna in questione), il
     % secondo rappresenta le 'ordinate', quindi i valori che dovrebbero
-    % essere rappresentati solitamente in un 'grafico 2D' (che in questo 
-    % caso corrispondono ai valori delle due colonne considerate), il terzo
-    % valore, infine, rappresenta il grado di interpolazione scelto per il
-    % polinomio. La funzione 'polyfit' restituisce in output tre valori:
-    % il primo e' un array che rappresenta i coefficienti del polinomio in
-    % questione ottenuto, il secondo rappresenta il valore medio (@see mean
-    % ), il terzo rappresenta la deviazione standard (@see std). Pertanto,
-    % costruisco la funzione a partire dai risultati ottenuti tramite la
-    % funzione 'polyval'  rispetto al tempo 't' passando come valori i
-    % coefficienti, le ascisse considerate, il valore medio e la deviazione
-    % standard ottenuti. Infine, la derivata di tale funzione puo' essere
-    % calcolata tramite la funzione nativa 'diff' di MATLAB.
+    % essere rappresentati solitamente in un 'grafico 2D' (che in )
 
 
 
