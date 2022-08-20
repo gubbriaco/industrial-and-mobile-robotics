@@ -71,7 +71,8 @@ grade = 7;
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
-[xstar, ystar, xdotstar, ydotstar, thetastar] = trajectory_generation(P, grade);
+[xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
+ thetastar, thetadotstar, thetadotdotstar, vstar, omegastar] = trajectory_generation(P, grade);
 figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
@@ -79,6 +80,7 @@ hold on; plot(xstar, ystar); title("TRAJECTORY");
 
 
 %% CONTROL BASED ON APPROXIMATE LINEARIZATION
+import control.trajectory_tracking.approximated_linearization.approximated_linearization;
 [v,w] = approximated_linearization( xstar, xdotstar, x, ...
                                     ystar, ydotstar, y, ...
                                     theta, thetastar, ...
