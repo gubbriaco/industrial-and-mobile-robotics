@@ -63,7 +63,7 @@ grade = 7;
 
 %% TRAJECTORY GENERATION
 import control.trajectory_generation;
-[xstar, ystar, xdotstar, ydotstar] = trajectory_generation(P, grade);
+[xstar, ystar, xdotstar, ydotstar, thetastar] = trajectory_generation(P, grade);
 figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
