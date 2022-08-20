@@ -11,7 +11,7 @@ function cell_path = discrete_potential_fields(start, goal, width, height, grid)
     surface(path_map);
     hold on; plot(start(1), start(2), "*", "LineWidth",4, "Color","#124ee6");
     hold on; plot(goal(1)+1, goal(2)+1, "*", "LineWidth", 4, "Color","#0eb04f");
-    title("PATH MAP");
+    title("DISCRETE POTENTIAL FIELDS WITH ASSOCIATED SHORTEST PATH");
 
 %     figure();
 %     %size_cell_path=size(cell_path);

@@ -1,0 +1,32 @@
+function [xstar, ystar, xdotstar, ydotstar] = trajectory_generation(P, grade)
+
+    syms t;
+    
+    % S e' la stima dell'errore
+    % mu:
+    % mu(1) = mean e' la media 
+    % mu(2) = std e' la deviazione standard
+
+    X = P(:,1);
+    yX = X;
+    size_yX = size(yX);
+    time = linspace(0, size_yX(1)-1, size_yX(1));
+    way_pointsX = [yX time'];
+    [x,xdotstar,xdotdotstar,tSamplesX,ppX] = trapveltraj(way_pointsX,size_yX(1));
+%     time = linspace(0, size_yX(1)-1, size_yX(1));
+%     [Xcoff, SX, muX] = polyfit(time, yX, grade);
+%     xstar = @(t)polyval(Xcoff, t, SX, muX);
+%     xdotstar = diff(xstar, t);
+    
+    Y = P(:,2);
+    yY = Y;
+    size_yY = size(yY);
+    time = linspace(0, size_yY(1)-1, size_yY(1));
+    way_pointsY = [yY time'];
+    [ystar,ydotstar,ydotdotstar,tSamplesY,ppY] = trapveltraj(way_pointsY,size_yY(1));
+%     time = linspace(0, size_yY(1)-1, size_yY(1));
+%     [Ycoff, SY, muY] = polyfit(time, yY, grade);
+%     ystar = @(t)polyval(Ycoff, t, SY, muY);
+%     ydotstar = diff(ystar, t);
+
+end
