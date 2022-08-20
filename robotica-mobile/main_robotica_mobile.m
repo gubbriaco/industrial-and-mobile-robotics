@@ -65,7 +65,7 @@ legend({"start", "goal", "shortest path"}, "Location","northwest");
 % grade = 7;
 % 
 % %% TRAJECTORY GENERATION
-% import control.trajectory_generation;
+% import control.trajectory_tracking.trajectory_generation;
 % [xstar, ystar, xdotstar, ydotstar, thetastar] = trajectory_generation(P, grade);
 % figure();
 % hold on; plot(start(1),start(2), "*", "Color","b");
