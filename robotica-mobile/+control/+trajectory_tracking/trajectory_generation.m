@@ -1,4 +1,5 @@
-function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
+function [xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
+          thetastar, thetadotstar, thetadotdotstar, vstar, omegastar] = ...
                                             trajectory_generation(P, grade)
     
     % Considero le due colonne della traiettoria P essendo rispettivamente
@@ -46,6 +47,9 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     xstarf = @(t)polyval(Xcoff, xX, SX, muX);
     xstar = xstarf(t);
     xdotstar = diff(xstar);
+    xdotdotstar = diff(xdotstar);
+    size_xdotdotstar = size(xdotdotstar);
+    xdotdotstar = [xdotdotstar xdotdotstar(size_xdotdotstar(2))];
     
     Y = P(:,2);
     yY = Y;
@@ -55,9 +59,15 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     ystarf = @(t)polyval(Ycoff, xY, SY, muY);
     ystar = ystarf(t);
     ydotstar = diff(ystar);
-    
+    ydotdotstar = diff(ydotstar);
+    size_ydotdotstar = size(ydotdotstar);
+    ydotdotstar = [ydotdotstar ydotdotstar(size_ydotdotstar(2))];
     
     thetastar = atan2(xstar, ystar);
+    thetadotstar = atan2(xdotstar, ydotstar);
+    thetadotdotstar = atan2(xdotdotstar, ydotdotstar);
     
+    vstar = sqrt(xdotstar.^2 + ydotstar.^2);
+    omegastar = (ydotdotstar' * xdotstar - xdotdotstar' * ydotstar)/(xdotstar.^2 .* ydotstar.^2);
     
 end

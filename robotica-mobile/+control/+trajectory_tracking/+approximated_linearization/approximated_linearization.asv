@@ -22,11 +22,8 @@ function [v,w] = approximated_linearization( xstar, xdotstar, x, ...
     u2 = -K2.*ey - K3.*etheta;
     
     size_vstar = size(vstar);
-    vstar = [vstar vstar(size_vstar(1))];
+    vstar = [vstar vstar()]
     v = vstar.*cos(etheta) - u1;
-    
-    size_omegastar = size(omegastar);
-    omegastar = [omegastar;omegastar(size_omegastar(1))];
     w = omegastar - u2;
 
 end

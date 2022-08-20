@@ -1,4 +1,5 @@
-function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
+function [xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
+          thetastar, thetadotstar, vstar, omegastar] = ...
                                             trajectory_generation(P, grade)
     
     % Considero le due colonne della traiettoria P essendo rispettivamente
@@ -16,7 +17,18 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     % funzione nativa linspace di MATLAB considerando come range di valori
     % quello ottenuto considerando i valori della colonna in questione), il
     % secondo rappresenta le 'ordinate', quindi i valori che dovrebbero
-    % essere rappresentati solitamente in un 'grafico 2D' (che in )
+    % essere rappresentati solitamente in un 'grafico 2D' (che in questo 
+    % caso corrispondono ai valori delle due colonne considerate), il terzo
+    % valore, infine, rappresenta il grado di interpolazione scelto per il
+    % polinomio. La funzione 'polyfit' restituisce in output tre valori:
+    % il primo e' un array che rappresenta i coefficienti del polinomio in
+    % questione ottenuto, il secondo rappresenta il valore medio (@see mean
+    % ), il terzo rappresenta la deviazione standard (@see std). Pertanto,
+    % costruisco la funzione a partire dai risultati ottenuti tramite la
+    % funzione 'polyval'  rispetto al tempo 't' passando come valori i
+    % coefficienti, le ascisse considerate, il valore medio e la deviazione
+    % standard ottenuti. Infine, la derivata di tale funzione puo' essere
+    % calcolata tramite la funzione nativa 'diff' di MATLAB.
 
 
 
@@ -35,6 +47,9 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     xstarf = @(t)polyval(Xcoff, xX, SX, muX);
     xstar = xstarf(t);
     xdotstar = diff(xstar);
+    xdotdotstar = diff(xdotstar);
+    size_xdotdotstar = size(xdotdotstar);
+    xdotdotstar = [xdotdotstar xdotdotstar(size_xdotdotstar(2))];
     
     Y = P(:,2);
     yY = Y;
@@ -44,9 +59,14 @@ function [xstar, ystar, xdotstar, ydotstar, thetastar, thetadotstar] = ...
     ystarf = @(t)polyval(Ycoff, xY, SY, muY);
     ystar = ystarf(t);
     ydotstar = diff(ystar);
-    
+    ydotdotstar = diff(ydotstar);
+    size_ydotdotstar = size(ydotdotstar);
+    ydotdotstar = [ydotdotstar ydotdotstar(size_ydotdotstar(2))];
     
     thetastar = atan2(xstar, ystar);
+    th
     
+    vstar = sqrt(xdotstar.^2 + ydotstar.^2);
+    omegastar = (ydotdotstar' * xdotstar - xdotdotstar' * ydotstar)/(xdotstar.^2 .* ydotstar.^2);
     
 end
