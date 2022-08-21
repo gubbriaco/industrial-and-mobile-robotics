@@ -11,6 +11,7 @@ figure(); plot(robot);
 %% START & GOAL
 x_start=5; y_start=5;
 x_goal=95; y_goal=95;
+global start goal
 start = [x_start y_start]; goal = [x_goal y_goal];
 
 %% ENVIRONMENT
@@ -57,8 +58,8 @@ legend({"start", "goal", "shortest path"}, "Location","northwest");
 % hold on; plot(goal(1),goal(2), "*", "Color","g");
 % hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
 % legend({"start", "goal", "shortest path"}, "Location","northwest");
-
-
+% Px = [5 29.]';
+% Py = []';
 
 %% CONTROL
 
@@ -67,29 +68,27 @@ y = P(:,2);
 theta = atan2(x, y);
 
 % grado di interpolazione
-grade = 7;
+grade = 14;
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
-[xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
- thetastar, thetadotstar, thetadotdotstar, vstar, omegastar] = trajectory_generation(P, grade);
-figure();
-hold on; plot(start(1),start(2), "*", "Color","b");
-hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(xstar, ystar); title("TRAJECTORY");
+syms fX(t) fdX(t) fY(t) fdY(t);
+format shortEng;
+[xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
+          thetastar, thetadotstar, vstar, omegastar] = trajectory_generation(P, grade);
+
 
 
 %% CONTROL BASED ON APPROXIMATE LINEARIZATION
 import control.trajectory_tracking.approximated_linearization.approximated_linearization;
-[v,w] = approximated_linearization( xstar, xdotstar, x, ...
-                                    ystar, ydotstar, y, ...
-                                    theta, thetastar, ...
-                                    vstar, omegastar);
+[v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
 
 %% NON LINEAR CONTROL
-
+import control.trajectory_tracking.non_linearization.non_linearization;
+[v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
 
 %% INPUT-OUTPUT LINEARIZATION
-
+import control.trajectory_tracking.input_output_control.input_output_linearization;
+[v,w] = input_output_linearization(xstar, x, xdotstar, ystar, y, ydotstar, theta);
 
 
