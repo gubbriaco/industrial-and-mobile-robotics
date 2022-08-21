@@ -1,0 +1,14 @@
+function Pcleanedup = cleanup(P)
+
+    Px = P(:,1);
+    Py = P(:,2);
+    
+    Px_unique = unique(Px);
+    Py_unique = unique(Py);
+    
+    Px_withoutNan = Px_unique(~isnan(Px_unique));
+    Py_withoutNan = Py_unique(~isnan(Py_unique));
+    
+    P
+
+end

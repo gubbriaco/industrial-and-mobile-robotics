@@ -47,19 +47,21 @@ hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS SHORTEST PATH"); 
 legend({"start", "goal", "shortest path"}, "Location","northwest");
 
-% %% VISIBILITY GRAPH
-% obstacle_height=1;
-% add_obstacles(environment, obstacle_height);
-% plot(environment);
-% import path_planning.visibility_graph.visibility_graph;
-% P = visibility_graph(start, goal, obstacles);
-% figure(); 
-% hold on; plot(start(1),start(2), "*", "Color","b");
-% hold on; plot(goal(1),goal(2), "*", "Color","g");
-% hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
-% legend({"start", "goal", "shortest path"}, "Location","northwest");
-% Px = [5 29.]';
-% Py = []';
+%% VISIBILITY GRAPH
+obstacle_height=1;
+add_obstacles(environment, obstacle_height);
+plot(environment);
+import path_planning.visibility_graph.visibility_graph;
+P = visibility_graph(start, goal, obstacles);
+figure(); 
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
+legend({"start", "goal", "shortest path"}, "Location","northwest");
+import path_planning.visibility_graph.cleanup;
+P = cleanup(P);
+% Px = [P(1,1);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
+% Py = [P(1,2);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
 
 %% CONTROL
 
@@ -95,7 +97,7 @@ t_sim = 100;
 % condizioni iniziali
 x0 = x(1,:); y0 = y(1,:); theta0 = theta(1,:);
 
-[t, evolution] = ode45(xdot, [0 t_sim], [x0;y0;theta0]);
+% [t, evolution] = ode45(xdot, [0 t_sim], [x0;y0;theta0]);
 
 
 
