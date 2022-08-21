@@ -72,7 +72,11 @@ function [xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
     figure();
     hold on; plot(start(1),start(2), "*", "Color","b");
     hold on; plot(goal(1),goal(2), "*", "Color","g");
-    hold on; plot(pX, pY); title("TRAJECTORY");
+    hold on; plot(pX, pY); 
+    hold on; plot(X, Y);
+    legend({"start", "goal", "trajectory generated", "original trajectory"},...
+           "Location","northwest");
+    title("TRAJECTORY");
 
     
 end

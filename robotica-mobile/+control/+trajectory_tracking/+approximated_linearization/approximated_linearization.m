@@ -19,4 +19,5 @@ function [v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar
     v = vstar * cos(etheta) - u1;
     w = omegastar - u2;
 
+    
 end
