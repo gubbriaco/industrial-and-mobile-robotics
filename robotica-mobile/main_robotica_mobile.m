@@ -28,7 +28,7 @@ obstacle_height=Inf;
 add_obstacles(environment, obstacle_height);
 plot(environment);
 import path_planning.discrete_potential_fields.discrete_potential_fields;
-P = discrete_potential_fields(start, goal, width, height, grid);
+P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
 figure(); 
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
