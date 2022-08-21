@@ -14,5 +14,6 @@ function [v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, 
     
     v = vstar*cos(etheta) - u1;
     w = omegastar - u2;
+    
 
 end

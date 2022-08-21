@@ -73,10 +73,8 @@ grade = 14;
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
 syms fX(t) fdX(t) fY(t) fdY(t);
-format shortEng;
 [xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
           thetastar, thetadotstar, vstar, omegastar] = trajectory_generation(P, grade);
-
 
 
 %% CONTROL BASED ON APPROXIMATE LINEARIZATION

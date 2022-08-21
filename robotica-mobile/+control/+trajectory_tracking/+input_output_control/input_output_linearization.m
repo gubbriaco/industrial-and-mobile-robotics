@@ -13,11 +13,21 @@ function [v,w] = input_output_linearization(xstar, x, xdotstar, ystar, y, ydotst
     ux = xBdotstar + Kx*(xstar-xB);
     uy = yBdotstar + Ky*(ystar-yB);
 
-    T = [cos(theta) -b*sin(theta);sin(theta) b*cos(theta)];
-    invT = inv(T);
+    
+    T = [cos(theta) -b*sin(theta);
+         sin(theta) b*cos(theta)];
+    
+    detT = (T(1,1)*T(2,2)) - (T(1,2)*T(2,1));
+    cofT11 = T(2,2);
+    cofT12 = -T(2,1);
+    cofT21 = -T(1,2);
+    cofT22 = T(1,1);
+    cofT = [cofT11 cofT21;cofT12 cofT22];
+    invT = (1/detT) * cofT;
     
     vw = invT * [ux;uy];
     v = vw(1);
     w = vw(2);
+    
     
 end
