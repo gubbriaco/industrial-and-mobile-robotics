@@ -1,7 +1,0 @@
-function [v,w] = non_linear_control(theta, thetastar, vstar, omegastar)
-
-    K1 = @(vs,ws) (ones(size))
-
-    u1 = -K1
-
-end

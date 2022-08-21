@@ -1,5 +1,4 @@
-function [xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
-          thetastar, thetadotstar, vstar, omegastar] = ...
+function [xstar, xdotstar, ystar, ydotstar] = ...
                                             trajectory_generation(P, grade)
     
     % Considero le due colonne della traiettoria P essendo rispettivamente
@@ -30,43 +29,45 @@ function [xstar, ystar, xdotstar, ydotstar, xdotdotstar, ydotdotstar, ...
     % standard ottenuti. Infine, la derivata di tale funzione puo' essere
     % calcolata tramite la funzione nativa 'diff' di MATLAB.
 
+    
+    %     S e' la stima dell'errore
+    %     mu:
+    %     mu(1) = mean e' la media 
+    %     mu(2) = std e' la deviazione standard
 
 
-    syms t;
-
-%     S e' la stima dell'errore
-%     mu:
-%     mu(1) = mean e' la media 
-%     mu(2) = std e' la deviazione standard
-
+    syms xstar(t) xdotstar(t) ystar(t) ydotstar(t) thetastar(t) thetadotstar(t);
+    import control.poly.poly;
+    
     X = P(:,1);
     yX = X;
     size_yX = size(yX);
     xX = linspace(0, size_yX(1)-1, size_yX(1));
     [Xcoff, SX, muX] = polyfit(xX, yX, grade);
-    xstarf = @(t)polyval(Xcoff, xX, SX, muX);
-    xstar = xstarf(t);
-    xdotstar = diff(xstar);
-    xdotdotstar = diff(xdotstar);
-    size_xdotdotstar = size(xdotdotstar);
-    xdotdotstar = [xdotdotstar xdotdotstar(size_xdotdotstar(2))];
+    xstar(t) = poly(Xcoff, grade);
+    pX = polyval(Xcoff, xX, SX, muX);
+    xdotstar(t) = diff(xstar);
     
     Y = P(:,2);
     yY = Y;
     size_yY = size(yY);
     xY = linspace(0, size_yY(1)-1, size_yY(1));
     [Ycoff, SY, muY] = polyfit(xY, yY, grade);
-    ystarf = @(t)polyval(Ycoff, xY, SY, muY);
-    ystar = ystarf(t);
-    ydotstar = diff(ystar);
-    ydotdotstar = diff(ydotstar);
-    size_ydotdotstar = size(ydotdotstar);
-    ydotdotstar = [ydotdotstar ydotdotstar(size_ydotdotstar(2))];
+    ystar(t) = poly(Ycoff, grade);
+    pY = polyval(Ycoff, xY, SY, muY);
+    ydotstar(t) = diff(ystar);
     
-    thetastar = atan2(xstar, ystar);
-    th
+    thetastar(t) = atan2(ydotstar(t), xdotstar(t));
+    thetadotstar(t) = diff(thetastar(t));
     
-    vstar = sqrt(xdotstar.^2 + ydotstar.^2);
-    omegastar = (ydotdotstar' * xdotstar - xdotdotstar' * ydotstar)/(xdotstar.^2 .* ydotstar.^2);
+    vstar(t) = sqrt((xdotstar(t))^2 + (ydotstar(t))^2);
+    omegastar(t) = ()/();
+    
+    global start goal
+    figure();
+    hold on; plot(start(1),start(2), "*", "Color","b");
+    hold on; plot(goal(1),goal(2), "*", "Color","g");
+    hold on; plot(pX, pY); title("TRAJECTORY");
+
     
 end
