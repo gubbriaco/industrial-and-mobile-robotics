@@ -72,21 +72,31 @@ grade = 14;
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
-syms fX(t) fdX(t) fY(t) fdY(t);
-[xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
-          thetastar, thetadotstar, vstar, omegastar] = trajectory_generation(P, grade);
+[xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, thetastar, thetadotstar, ...
+                                     vstar, omegastar] = trajectory_generation(P, grade);
 
 
 %% CONTROL BASED ON APPROXIMATE LINEARIZATION
 import control.trajectory_tracking.approximated_linearization.approximated_linearization;
-[v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
+xdot = approximated_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
 
-%% NON LINEAR CONTROL
-import control.trajectory_tracking.non_linearization.non_linearization;
-[v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
+% %% NON LINEAR CONTROL
+% import control.trajectory_tracking.non_linearization.non_linearization;
+% xdot = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
+% 
+% %% INPUT-OUTPUT LINEARIZATION
+% import control.trajectory_tracking.input_output_control.input_output_linearization;
+% xdot = input_output_linearization(xstar, x, xdotstar, ystar, y, ydotstar, theta);
 
-%% INPUT-OUTPUT LINEARIZATION
-import control.trajectory_tracking.input_output_control.input_output_linearization;
-[v,w] = input_output_linearization(xstar, x, xdotstar, ystar, y, ydotstar, theta);
+
+%%
+% tempo di simulazione
+t_sim = 100;
+% condizioni iniziali
+x0 = x(1,:); y0 = y(1,:); theta0 = theta(1,:);
+
+[t, evolution] = ode45(xdot, [0 t_sim], [x0;y0;theta0]);
+
+
 
 

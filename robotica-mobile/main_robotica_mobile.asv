@@ -72,11 +72,8 @@ grade = 14;
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
-syms fX(t) fdX(t) fY(t) fdY(t);
-format shortEng;
-[xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
-          thetastar, thetadotstar, vstar, omegastar] = trajectory_generation(P, grade);
-
+[xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, thetastar, thetadotstar, ...
+                                     vstar, omegastar] = trajectory_generation(P, grade);
 
 
 %% CONTROL BASED ON APPROXIMATE LINEARIZATION
@@ -84,10 +81,17 @@ import control.trajectory_tracking.approximated_linearization.approximated_linea
 [v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
 
 %% NON LINEAR CONTROL
-import control.trajectory_tracking.non_linearization
-[v,w] = 
+import control.trajectory_tracking.non_linearization.non_linearization;
+[v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar);
 
 %% INPUT-OUTPUT LINEARIZATION
+import control.trajectory_tracking.input_output_control.input_output_linearization;
+[v,w] = input_output_linearization(xstar, x, xdotstar, ystar, y, ydotstar, theta);
+
+
+%%
+[t, evolution] = ode45();
+
 
 
 

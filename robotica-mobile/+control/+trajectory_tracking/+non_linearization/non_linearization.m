@@ -1,4 +1,4 @@
-function [v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar)
+function xdot = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar)
 
     K1 = @(vstar,omegastar)(ones(size(vstar)));
     K2 = 1;
@@ -15,5 +15,6 @@ function [v,w] = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, 
     v = vstar*cos(etheta) - u1;
     w = omegastar - u2;
     
+    xdot = [v.*cos(theta) ; v.*sin(theta) ; w];
 
 end
