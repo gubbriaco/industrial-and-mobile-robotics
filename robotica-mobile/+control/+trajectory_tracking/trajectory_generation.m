@@ -76,7 +76,7 @@ function [xstar, xdotstar, xdotdotstar, ystar, ydotstar, ydotdotstar, ...
     hold on; plot(X, Y);
     legend({"start", "goal", "trajectory generated", "original trajectory"},...
            "Location","northwest");
-    title("TRAJECTORY");
+    title("APPROXIMATED TRAJECTORY");
 
     
 end
