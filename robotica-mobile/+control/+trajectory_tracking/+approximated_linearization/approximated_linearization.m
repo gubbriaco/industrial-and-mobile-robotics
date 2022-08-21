@@ -1,4 +1,4 @@
-function [v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar, ...
+function xdot = approximated_linearization(xstar, x, ystar, y, theta, thetastar, ...
                                             vstar, omegastar)
     
                                         
@@ -19,5 +19,6 @@ function [v,w] = approximated_linearization(xstar, x, ystar, y, theta, thetastar
     v = vstar * cos(etheta) - u1;
     w = omegastar - u2;
 
+    xdot = [v.*cos(theta) ; v.*sin(theta) ; w];
     
 end
