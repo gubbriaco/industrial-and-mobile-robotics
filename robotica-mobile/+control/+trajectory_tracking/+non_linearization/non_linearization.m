@@ -7,7 +7,8 @@ function xdot = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, o
     
     ex = xstar-x;
     ey = ystar-y;
-    etheta = thetastar - theta;
+    import control.angle.delta_angle;
+    etheta = delta_angle(thetastar, theta);
 
     u1 = -K1(vstar,omegastar)*ex;
     u2 = -K2*vstar*(sin(etheta)/etheta)*(-K3(vstar,omegastar)*etheta);

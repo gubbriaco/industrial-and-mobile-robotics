@@ -1,4 +1,4 @@
-function xdot = approximated_linearization(xstar, x, ystar, y, theta, thetastar, ...
+function [xu, yu, thetau] = approximated_linearization(xstar, x, ystar, y, theta, thetastar, ...
                                             vstar, omegastar)
     
                                         
@@ -6,12 +6,14 @@ function xdot = approximated_linearization(xstar, x, ystar, y, theta, thetastar,
     delta = 0.99;
     
     K1 = 2*delta*a;
-    K2 = (a^2 - omegastar^2)/vstar;
+    K2 = (a^2 - omegastar.^2)./vstar;
     K3 = 2*delta*a;
+    
     
     ex = xstar - x;
     ey = ystar - y;
-    etheta = thetastar - theta;
+    import control.angle.delta_angle;
+    etheta = delta_angle(thetastar, theta);
     
     u1 = -K1*ex;
     u2 = -K2*ey - K3*etheta;
@@ -19,6 +21,8 @@ function xdot = approximated_linearization(xstar, x, ystar, y, theta, thetastar,
     v = vstar * cos(etheta) - u1;
     w = omegastar - u2;
 
-    xdot = [v.*cos(theta) ; v.*sin(theta) ; w];
+    xu = v.*cos(theta);
+    yu = v.*sin(theta);
+    thetau = w;
     
 end
