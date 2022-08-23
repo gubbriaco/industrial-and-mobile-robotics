@@ -21,7 +21,7 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     if isequal(vstar,0)
         vstar = 0.01;
     end
-        K2 = (a^2 - omegastar^2)/vstar;
+    K2 = (a^2 - omegastar^2)/vstar;
     
     K3 = 2*delta*a;
     

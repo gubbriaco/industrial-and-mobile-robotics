@@ -74,41 +74,66 @@ Ts = 0.1;
 x0 = xstar(1)-0.1;
 y0 = ystar(1)+0.1;
 theta0 = thetastar(1)+deg2rad(0.1);
-Xg = [x0 y0 theta0];
-evolution = zeros(samples, 3);
-% %% CONTROL BASED ON APPROXIMATE LINEARIZATION
-% import control.trajectory_tracking.approximated_linearization.approximated_linearization;
-% figure();
-% for i = 1 : samples
-%     evolution(i,:) = Xg;
-%     new_state = approximated_linearization(Ts, Xg, xstar(i), ystar(i), xdstar(i), ydstar(i),...
-%                                            xddstar(i), yddstar(i), thetastar(i));
-%     Xg = new_state;
-%     hold on;
-%     plot(Xg(1), Xg(2), '*');
-% end
-% %% NON LINEAR CONTROL
-% import control.trajectory_tracking.non_linearization.non_linearization;
-% figure();
-% for i = 1 : samples
-%     evolution(i,:) = Xg;
-%     new_state = non_linearization(Ts, Xg, xstar(i), ystar(i), xdstar(i), ydstar(i),...
-%                                            xddstar(i), yddstar(i), thetastar(i));
-%     Xg = new_state;
-%     hold on;
-%     plot(Xg(1), Xg(2), '*');
-% end
+
+%% CONTROL BASED ON APPROXIMATE LINEARIZATION
+import control.trajectory_tracking.approximated_linearization.approximated_linearization;
+Xal = [x0 y0 theta0];
+evolutionAL = zeros(samples, 3);
+for i = 1 : samples
+    evolutionAL(i,:) = Xal;
+    new_state = approximated_linearization(Ts, Xal, xstar(i), ystar(i), xdstar(i), ydstar(i),...
+                                           xddstar(i), yddstar(i), thetastar(i));
+    Xal = new_state;
+end
+figure();
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
+title("CONTROL BASED ON APPROXIMATE LINEARIZATION");
+legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
+
+%% NON LINEAR CONTROL
+import control.trajectory_tracking.non_linearization.non_linearization;
+Xnl = [x0 y0 theta0];
+evolutionNL = zeros(samples, 3);
+for i = 1 : samples
+    evolutionNL(i,:) = Xnl;
+    new_state = non_linearization(Ts, Xnl, xstar(i), ystar(i), xdstar(i), ydstar(i),...
+                                           xddstar(i), yddstar(i), thetastar(i));
+    Xnl = new_state;
+end
+figure();
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
+title("NON LINEAR CONTROL");
+legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
 
 %% INPUT-OUTPUT LINEARIZATION
 import control.trajectory_tracking.input_output_control.input_output_linearization;
-figure();
+Xfl = [x0 y0 theta0];
+evolutionFL = zeros(samples, 3);
 for i = 1 : samples
-    evolution(i,:) = Xg;
-    new_state = input_output_linearization(Ts, Xg, xstar(i), xdstar(i), ystar(i), ydstar(i));
-    Xg = new_state;
-    hold on;
-    plot(Xg(1), Xg(2), '*');
+    evolutionFL(i,:) = Xfl;
+    new_state = input_output_linearization(Ts, Xfl, xstar(i), xdstar(i), ystar(i), ydstar(i));
+    Xfl = new_state;
 end
+figure();
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
+title("NON LINEAR CONTROL");
+legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
+
+%% CONTROLS COMPARISON
+figure();
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
+hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
+hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
+title("CONTROLS COMPARISON");
+legend({"start", "goal", "trajectory output with approximated linearization", "trajectory output with non linear control", "trajectory output with input-output control"}, "Location","northwest");
 
 
 
