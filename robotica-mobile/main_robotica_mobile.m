@@ -47,24 +47,34 @@ hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS SHORTEST PATH"); 
 legend({"start", "goal", "shortest path"}, "Location","northwest");
 
-% %% VISIBILITY GRAPH
-% obstacle_height=1;
-% add_obstacles(environment, obstacle_height);
-% plot(environment);
-% import path_planning.visibility_graph.visibility_graph;
-% P = visibility_graph(start, goal, obstacles);
-% figure(); 
-% hold on; plot(start(1),start(2), "*", "Color","b");
-% hold on; plot(goal(1),goal(2), "*", "Color","g");
-% hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH"); 
-% legend({"start", "goal", "shortest path"}, "Location","northwest");
-% import path_planning.visibility_graph.cleanup;
-% P = cleanup(P);
-% % Px = [P(1,1);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
-% % Py = [P(1,2);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
+%% VISIBILITY GRAPH
+obstacle_height=1;
+add_obstacles(environment, obstacle_height);
+plot(environment);
+import path_planning.visibility_graph.visibility_graph;
+P = visibility_graph(start, goal, obstacles);
+figure(); 
+hold on; plot(start(1),start(2), "*", "Color","b");
+hold on; plot(goal(1),goal(2), "*", "Color","g");
+hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH");
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
+legend({"start", "goal", "shortest path"}, "Location","northwest");
+import path_planning.visibility_graph.cleanup;
+P = cleanup(P);
+% Px = [P(1,1);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
+% Py = [P(1,2);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
+
+
 
 %% CONTROL
-
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
@@ -89,6 +99,15 @@ figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
 title("CONTROL BASED ON APPROXIMATE LINEARIZATION");
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
 
@@ -106,6 +125,15 @@ figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
 title("NON LINEAR CONTROL");
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
 
@@ -122,7 +150,16 @@ figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
-title("NON LINEAR CONTROL");
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
+title("INPUT-OUTPUT LINEARIZATION");
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
 
 %% CONTROLS COMPARISON
@@ -132,6 +169,15 @@ hold on; plot(goal(1),goal(2), "*", "Color","g");
 hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
 hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
 hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
 title("CONTROLS COMPARISON");
 legend({"start", "goal", "trajectory output with approximated linearization", "trajectory output with non linear control", "trajectory output with input-output control"}, "Location","northwest");
 

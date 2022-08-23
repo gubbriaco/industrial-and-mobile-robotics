@@ -26,6 +26,16 @@ function [samples, xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar, th
     hold on; plot(start(1),start(2), "*", "Color","b");
     hold on; plot(goal(1),goal(2), "*", "Color","g");
     hold on; plot(xstar, ystar);
+    hold on;
+    global obstacles
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
     legend({"start", "goal", "trajectory generated"}, "Location","northwest");
     title("APPROXIMATED TRAJECTORY");
     
@@ -35,6 +45,15 @@ function [samples, xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar, th
     hold on; plot(goal(1),goal(2), "*", "Color","g");
     hold on; plot(Px, Py);
     hold on; plot(xstar, ystar);
+    hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
     legend({"start", "goal", "original trajectory", "trajectory generated", "original trajectory"},...
            "Location","northwest");
     title("APPROXIMATED TRAJECTORY AND ORIGINAL TRAJECTORY");                                                 
