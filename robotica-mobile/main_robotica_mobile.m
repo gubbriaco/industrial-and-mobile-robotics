@@ -23,6 +23,9 @@ environment = Environment(width, height, nc, nr);
 global X Y grid obstacles
 inizialize(environment);
 
+
+%% PATH PLANNING
+
 %% DISCRETE POTENTIAL FIELDS
 obstacle_height=Inf;
 add_obstacles(environment, obstacle_height);
@@ -32,8 +35,20 @@ P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
 figure(); 
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2)); title("DISCRETE POTENTIAL FIELDS SHORTEST PATH"); 
+hold on; plot(P(:,1), P(:,2)); 
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
+title("DISCRETE POTENTIAL FIELDS SHORTEST PATH");
 legend({"start", "goal", "shortest path"}, "Location","northwest");
+Ts = 0.1;
+samples = (length(P)/Ts)*2;
 
 %% VORONOI DIAGRAMS
 obstacle_height=1;
@@ -44,8 +59,20 @@ P = voronoi(start, goal, X, Y, grid, obstacles);
 figure(); 
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2)); title("VORONOI DIAGRAMS SHORTEST PATH"); 
+hold on; plot(P(:,1), P(:,2)); 
+hold on;
+    for j = 1 : size(obstacles)
+        ob = obstacles(j,:);
+        x_ob = ob(1);
+        y_ob = ob(3);
+        w_ob = ob(2)-ob(1);
+        h_ob = ob(4)-ob(3);
+        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+    end
+title("VORONOI DIAGRAMS SHORTEST PATH");
 legend({"start", "goal", "shortest path"}, "Location","northwest");
+Ts = 0.1;
+samples = length(P)/Ts;
 
 %% VISIBILITY GRAPH
 obstacle_height=1;
@@ -56,7 +83,7 @@ P = visibility_graph(start, goal, obstacles);
 figure(); 
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2)); title("VISIBILITY GRAPH SHORTEST PATH");
+hold on; plot(P(:,1), P(:,2));
 hold on;
     for j = 1 : size(obstacles)
         ob = obstacles(j,:);
@@ -66,11 +93,15 @@ hold on;
         h_ob = ob(4)-ob(3);
         rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
     end
+title("VISIBILITY GRAPH SHORTEST PATH");
 legend({"start", "goal", "shortest path"}, "Location","northwest");
 import path_planning.visibility_graph.cleanup;
 P = cleanup(P);
-% Px = [P(1,1);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
-% Py = [P(1,2);P(2,1);P(4,1);P(8,1);P(10,1);P(13,1);P(16,1)];
+import path_planning.visibility_graph.discretize_distances;
+P = discretize_distances(P, samples);
+
+Ts = 0.1;
+samples = (length(P)/Ts)*7;
 
 
 
@@ -78,9 +109,8 @@ P = cleanup(P);
 
 %% TRAJECTORY GENERATION
 import control.trajectory_tracking.trajectory_generation;
-Ts = 0.1;
-[samples, xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
-                                                            = trajectory_generation(P, Ts);
+[xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
+                                       = trajectory_generation(P, samples);
 x0 = xstar(1)-0.1;
 y0 = ystar(1)+0.1;
 theta0 = thetastar(1)+deg2rad(0.1);
