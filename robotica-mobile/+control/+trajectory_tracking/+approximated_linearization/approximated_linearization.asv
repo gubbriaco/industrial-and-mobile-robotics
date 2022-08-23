@@ -8,10 +8,10 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     
     vstar = sqrt(xdstar^2 + ydstar^2);
     if isequal(vstar,0)
-        vstar = 0.01;
+        omegastar = 0.01;
+    else
+        omegastar = (yddstar*xdstar-ydstar*xddstar)/(vstar^2);
     end
-    omegastar = (yddstar*xdstar-ydstar*xddstar)/(vstar^2);
-    
     
     
     a = 1;
@@ -19,15 +19,15 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     
     K1 = 2*delta*a;
     if isequal(vstar,0)
-        vstar = 0.01;
-    end
+        vstar
+    else
         K2 = (a^2 - omegastar^2)/vstar;
-    
+    end
     K3 = 2*delta*a;
     
     
-    ex = cos(theta)*(xstar-x) + sin(theta)*(ystar-y);
-    ey = -sin(theta)*(xstar-x) + cos(theta)*(ystar-y);
+    ex = xstar - x;
+    ey = ystar - y;
     import control.angle.delta_angle;
     etheta = delta_angle(thetastar, theta);
     
@@ -37,6 +37,6 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     v = vstar * cos(etheta) - u1;
     w = omegastar - u2;
 
-    newXg = [x+Ts*v*cos(theta) ; y+Ts*v*sin(theta) ; theta+Ts*w];
+    newXg = [x*Ts*v*cos(theta) ; y+Ts*v*sin(theta) ; theta+Ts*w];
     
 end
