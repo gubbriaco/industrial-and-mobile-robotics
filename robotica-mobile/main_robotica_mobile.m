@@ -24,7 +24,17 @@ global X Y grid obstacles
 inizialize(environment);
 
 
+
+
 %% PATH PLANNING
+
+
+%% ARTIFICIAL POTENTIAL FIELDS
+% obstacle_height = 1;
+% add_obstacles(environment, obstacle_height);
+% plot(environment);
+% import path_planning.artificial_potential_fields.artificial_potential_fields;
+% P = artificial_potential_fields(start, goal, width, height);
 
 %% DISCRETE POTENTIAL FIELDS
 obstacle_height=Inf;
