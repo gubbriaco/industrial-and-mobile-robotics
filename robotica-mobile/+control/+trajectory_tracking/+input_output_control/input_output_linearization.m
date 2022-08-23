@@ -1,4 +1,4 @@
-function xdot = input_output_linearization(Ts, Xg, xstar, xdotstar, ystar, ydotstar)
+function newXg = input_output_linearization(Ts, Xg, xstar, xdstar, ystar, ydstar)
 
     x = Xg(1);
     y = Xg(2);
@@ -11,8 +11,8 @@ function xdot = input_output_linearization(Ts, Xg, xstar, xdotstar, ystar, ydots
     xB = x + b*cos(theta);
     yB = y + b*sin(theta);
     
-    xBdotstar = xdotstar;
-    yBdotstar = ydotstar;
+    xBdotstar = xdstar;
+    yBdotstar = ydstar;
     
     ux = xBdotstar + Kx*(xstar-xB);
     uy = yBdotstar + Ky*(ystar-yB);

@@ -76,17 +76,17 @@ y0 = ystar(1)+0.1;
 theta0 = thetastar(1)+deg2rad(0.1);
 Xg = [x0 y0 theta0];
 evolution = zeros(samples, 3);
-%% CONTROL BASED ON APPROXIMATE LINEARIZATION
-import control.trajectory_tracking.approximated_linearization.approximated_linearization;
-figure();
-for i = 1 : samples
-    evolution(i,:) = Xg;
-    new_state = approximated_linearization(Ts, Xg, xstar(i), ystar(i), xdstar(i), ydstar(i),...
-                                           xddstar(i), yddstar(i), thetastar(i));
-    Xg = new_state;
-    hold on;
-    plot(Xg(1), Xg(2), '*');
-end
+% %% CONTROL BASED ON APPROXIMATE LINEARIZATION
+% import control.trajectory_tracking.approximated_linearization.approximated_linearization;
+% figure();
+% for i = 1 : samples
+%     evolution(i,:) = Xg;
+%     new_state = approximated_linearization(Ts, Xg, xstar(i), ystar(i), xdstar(i), ydstar(i),...
+%                                            xddstar(i), yddstar(i), thetastar(i));
+%     Xg = new_state;
+%     hold on;
+%     plot(Xg(1), Xg(2), '*');
+% end
 % %% NON LINEAR CONTROL
 % import control.trajectory_tracking.non_linearization.non_linearization;
 % figure();
@@ -99,16 +99,16 @@ end
 %     plot(Xg(1), Xg(2), '*');
 % end
 
-% %% INPUT-OUTPUT LINEARIZATION
-% import control.trajectory_tracking.input_output_control.input_output_linearization;
-% figure();
-% for i = 1 : samples
-%     evolution(i,:) = Xg;
-%     new_state = input_output_linearization(Ts, Xg, xstar, xdotstar, ystar, ydotstar);
-%     Xg = new_state;
-%     hold on;
-%     plot(Xg(1), Xg(2), '*');
-% end
+%% INPUT-OUTPUT LINEARIZATION
+import control.trajectory_tracking.input_output_control.input_output_linearization;
+figure();
+for i = 1 : samples
+    evolution(i,:) = Xg;
+    new_state = input_output_linearization(Ts, Xg, xstar(i), xdstar(i), ystar(i), ydstar(i));
+    Xg = new_state;
+    hold on;
+    plot(Xg(1), Xg(2), '*');
+end
 
 
 

@@ -16,8 +16,8 @@ function newXg = non_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar,...
     K3 = @(vstar,omegastar)(ones(size(vstar)));
     
     
-    ex = xstar-x;
-    ey = ystar-y;
+    ex = cos(theta)*(xstar-x) + sin(theta)*(ystar-y);
+    ey = -sin(theta)*(xstar-x) + cos(theta)*(ystar-y);
     import control.angle.delta_angle;
     etheta = delta_angle(thetastar, theta);
 
