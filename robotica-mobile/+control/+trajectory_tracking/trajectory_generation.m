@@ -1,14 +1,13 @@
-function [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar, thetadstar, ...
-          vstar, omegastar] = trajectory_generation(P)
+function [samples, xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar, thetadstar]...
+    = trajectory_generation(P, Ts)
 
 
     Px = P(:,1)';
     Py = P(:,2)';
     wpts = [Px ; Py];
-    size_Px = size(Px);
-    [q, qd, qdd, tvec, pp] = trapveltraj(wpts, 2*size_Px(2));
-    import control.clean_points;
-    [q, qd, qdd] = clean_points(q, qd, qdd);
+    samples = length(P)/Ts;
+    
+    [q, qd, qdd, tvec, pp] = trapveltraj(wpts, samples);
 
     xstar = q(1,:);
     ystar = q(2,:);
@@ -20,11 +19,7 @@ function [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar, thetadstar,
     yddstar = qdd(2,:);
 
     thetastar = atan2(ydstar, xdstar);
-
-    vstar = sqrt(xdstar.^2 + ydstar.^2);
-    omegastar = (yddstar' * xdstar - xddstar' * ydstar)/(xdstar.^2 .* ydstar.^2);
     
-    thetadstar = omegastar;
 
     figure();
     global start goal

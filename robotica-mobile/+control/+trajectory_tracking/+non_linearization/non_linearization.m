@@ -1,4 +1,15 @@
-function xdot = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, omegastar)
+function newXg = non_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar,...
+                                           xddstar, yddstar, thetastar)
+    
+    x = Xg(1);
+    y = Xg(2);
+    theta = Xg(3);
+
+    vstar = sqrt(xdstar^2 + ydstar^2);
+    if isequal(vstar,0)
+        vstar = 0.01;
+    end
+    omegastar = (yddstar*xdstar-ydstar*xddstar)/(vstar^2);
 
     K1 = @(vstar,omegastar)(ones(size(vstar)));
     K2 = 1;
@@ -16,6 +27,6 @@ function xdot = non_linearization(xstar, x, ystar, y, theta, thetastar, vstar, o
     v = vstar*cos(etheta) - u1;
     w = omegastar - u2;
     
-    xdot = [v.*cos(theta) ; v.*sin(theta) ; w];
+    newXg = [x+Ts*v*cos(theta) ; y+Ts*v*sin(theta) ; theta+Ts*w];
 
 end
