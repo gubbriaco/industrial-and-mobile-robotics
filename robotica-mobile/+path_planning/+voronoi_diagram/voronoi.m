@@ -5,7 +5,8 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
     %% GENERAZIONE DIAGRAMMA DI VORONOI
     x = X.*grid; y = Y.*grid; x = x(:); y = y(:);
-    figure(); voronoi(x,y); title("VORONOI DIAGRAMS");
+    f=figure(); f.Position=[25 342 1500 420]; subplot(1,3,1);
+    voronoi(x,y); title("VORONOI DIAGRAMS");
     [vx,vy] = voronoi(x,y);
 
     %% CLEANUP VORONOI DIAGRAM
@@ -63,7 +64,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
     %% Plot della mappa finale
 
-    figure(); plot(vx, vy, "g", "linewidth",2); hold on;
+    subplot(1,3,2); plot(vx, vy, "g", "linewidth",2); hold on;
     plot(x_start, y_start, "ok", "linewidth",2); hold on;
     plot(x_goal, y_goal, "ok", "linewidth",2); hold on;
     axis("equal"), axis([0 100 0 100]), hold on; 
@@ -104,7 +105,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     end
 
     G = graph(A, "lower");
-    figure(); plot(vx, vy, "g", "linewidth",2); hold on;
+    subplot(1,3,3); plot(vx, vy, "g", "linewidth",2); hold on;
     plot(x_start, y_start, "ok", "linewidth",2); hold on;
     plot(x_goal, y_goal, "ok", "linewidth",2); hold on;
     axis("equal"), axis([0 100 0 100]), hold on; 

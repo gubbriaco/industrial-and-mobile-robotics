@@ -2,11 +2,11 @@ clear; close all; clc;
 
 %% ROBOT
 global radius_robot
-radius_robot = 1;
+radius_robot = 0.5;
 import robot.Robot;
 robot = Robot(radius_robot);
 % PLOT ROBOT
-figure(); plot(robot);
+figure(); plot(robot); grid off;
 
 %% START & GOAL
 x_start=5; y_start=5;

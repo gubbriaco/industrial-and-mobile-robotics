@@ -1,5 +1,13 @@
 function control_exec(environment, P, Ts, samples)
 
+    %% DYNAMIC PLOTS
+    % valore input per scegliere se avere plot dinamici per ogni algoritmo
+    % di controllo:
+    % - 0 : solo plot statici
+    % - 1 : sia plot statici che dinamici
+    DYNAMIC_ON = 0;
+    
+
     %% TRAJECTORY GENERATION
     import control.trajectory_tracking.trajectory_generation;
     [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
@@ -24,21 +32,23 @@ function control_exec(environment, P, Ts, samples)
     end
     
     % PLOT STATICO
-    figure(); plot2D(environment);
+    f=figure(); f.Position=[25 342 1500 420]; subplot(1,3,1);
+    plot2D(environment);
     hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
     title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
     legend("start", "goal", "trajectory output with control","Location","northwest");
     
     %PLOT DINAMICO
-%     figure(); plot2D(environment);
-%     pause_time = 0.000001;
-%     for i=1:length(evolutionAL)
-%         hold on; plot(evolutionAL(i,1), evolutionAL(i,2), '.', 'LineWidth',2, 'Color','black');
-%         pause( pause_time );
-%     end
-%     title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
-%     legend("start", "goal", "trajectory output with control","Location","northwest");
-
+    if isequal(DYNAMIC_ON, 1)
+        figure(); plot2D(environment);
+        pause_time = 0.000001;
+        for i=1:length(evolutionAL)
+            hold on; plot(evolutionAL(i,1), evolutionAL(i,2), '.', 'LineWidth',2, 'Color','black');
+            pause( pause_time );
+        end
+        title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
+        legend("start", "goal", "trajectory output with control","Location","northwest");
+    end
 
     
     %% NON LINEAR CONTROL
@@ -56,21 +66,23 @@ function control_exec(environment, P, Ts, samples)
     end
     
     % PLOT STATICO
-    figure(); plot2D(environment);
+    subplot(1,3,2);
+    plot2D(environment);
     hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
     title("NON LINEAR CONTROL"); 
     legend("start", "goal", "trajectory output with control","Location","northwest");
     
     % PLOT DINAMICO
-%     figure(); plot2D(environment);
-%     pause_time = 0.000001;
-%     for i=1:length(evolutionNL)
-%         hold on; plot(evolutionNL(i,1), evolutionNL(i,2), '.', 'LineWidth',2, 'Color','black');
-%         pause( pause_time );
-%     end
-%     title("NON LINEAR CONTROL"); 
-%     legend("start", "goal", "trajectory output with control","Location","northwest");
-
+    if isequal(DYNAMIC_ON, 1)
+        figure(); plot2D(environment);
+        pause_time = 0.000001;
+        for i=1:length(evolutionNL)
+            hold on; plot(evolutionNL(i,1), evolutionNL(i,2), '.', 'LineWidth',2, 'Color','black');
+            pause( pause_time );
+        end
+        title("NON LINEAR CONTROL"); 
+        legend("start", "goal", "trajectory output with control","Location","northwest");
+    end
 
 
     %% INPUT-OUTPUT LINEARIZATION
@@ -86,21 +98,23 @@ function control_exec(environment, P, Ts, samples)
     end
     
      % PLOT STATICO
-    figure(); plot2D(environment);
+    subplot(1,3,3);
+    plot2D(environment);
     hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
     title("INPUT-OUTPUT LINEARIZATION"); 
     legend("start", "goal", "trajectory output with control","Location","northwest");
     
     % PLOT DINAMICO
-%     figure(); plot2D(environment);
-%     pause_time = 0.000001;
-%     for i=1:length(evolutionFL)
-%         hold on; plot(evolutionFL(i,1), evolutionFL(i,2), '.', 'LineWidth',2, 'Color','black');
-%         pause( pause_time );
-%     end
-%     title("INPUT-OUTPUT LINEARIZATION"); 
-%     legend("start", "goal", "trajectory output with control","Location","northwest");
-
+    if isequal(DYNAMIC_ON, 1)
+        figure(); plot2D(environment);
+        pause_time = 0.000001;
+        for i=1:length(evolutionFL)
+            hold on; plot(evolutionFL(i,1), evolutionFL(i,2), '.', 'LineWidth',2, 'Color','black');
+            pause( pause_time );
+        end
+        title("INPUT-OUTPUT LINEARIZATION"); 
+        legend("start", "goal", "trajectory output with control","Location","northwest");
+    end
 
     %% CONTROLS COMPARISON
     figure(); plot2D(environment);
