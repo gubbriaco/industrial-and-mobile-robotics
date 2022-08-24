@@ -84,34 +84,34 @@ legend({"start", "goal", "shortest path"}, "Location","northwest");
 Ts = 0.1;
 samples = length(P)/Ts;
 
-%% VISIBILITY GRAPH
-obstacle_height=1;
-add_obstacles(environment, obstacle_height);
-plot(environment);
-import path_planning.visibility_graph.visibility_graph;
-P = visibility_graph(start, goal, obstacles);
-figure(); 
-hold on; plot(start(1),start(2), "*", "Color","b");
-hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(P(:,1), P(:,2));
-hold on;
-    for j = 1 : size(obstacles)
-        ob = obstacles(j,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
-title("VISIBILITY GRAPH SHORTEST PATH");
-legend({"start", "goal", "shortest path"}, "Location","northwest");
-import path_planning.visibility_graph.cleanup;
-P = cleanup(P);
-import path_planning.visibility_graph.discretize_distances;
-P = discretize_distances(P, samples);
-
-Ts = 0.1;
-samples = (length(P)/Ts)*7;
+% %% VISIBILITY GRAPH
+% obstacle_height=1;
+% add_obstacles(environment, obstacle_height);
+% plot(environment);
+% import path_planning.visibility_graph.visibility_graph;
+% P = visibility_graph(start, goal, obstacles);
+% figure(); 
+% hold on; plot(start(1),start(2), "*", "Color","b");
+% hold on; plot(goal(1),goal(2), "*", "Color","g");
+% hold on; plot(P(:,1), P(:,2));
+% hold on;
+%     for j = 1 : size(obstacles)
+%         ob = obstacles(j,:);
+%         x_ob = ob(1);
+%         y_ob = ob(3);
+%         w_ob = ob(2)-ob(1);
+%         h_ob = ob(4)-ob(3);
+%         rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+%     end
+% title("VISIBILITY GRAPH SHORTEST PATH");
+% legend({"start", "goal", "shortest path"}, "Location","northwest");
+% import path_planning.visibility_graph.cleanup;
+% P = cleanup(P);
+% import path_planning.visibility_graph.discretize_distances;
+% P = discretize_distances(P, samples);
+% 
+% Ts = 0.1;
+% samples = (length(P)/Ts)*7;
 
 
 
@@ -138,18 +138,23 @@ end
 figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
-hold on;
-    for j = 1 : size(obstacles)
-        ob = obstacles(j,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
 title("CONTROL BASED ON APPROXIMATE LINEARIZATION");
+hold on;
+for j = 1 : size(obstacles)
+    ob = obstacles(j,:);
+    x_ob = ob(1);
+    y_ob = ob(3);
+    w_ob = ob(2)-ob(1);
+    h_ob = ob(4)-ob(3);
+    rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+end
+pause_time = 0.00001;
+for i=1:length(evolutionAL)
+    hold on; plot(evolutionAL(i,1), evolutionAL(i,2), '.', 'LineWidth',2, 'Color','black');
+    pause( pause_time );
+end
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
+
 
 %% NON LINEAR CONTROL
 import control.trajectory_tracking.non_linearization.non_linearization;
@@ -164,18 +169,24 @@ end
 figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
-hold on;
-    for j = 1 : size(obstacles)
-        ob = obstacles(j,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
 title("NON LINEAR CONTROL");
+hold on;
+for j = 1 : size(obstacles)
+    ob = obstacles(j,:);
+    x_ob = ob(1);
+    y_ob = ob(3);
+    w_ob = ob(2)-ob(1);
+    h_ob = ob(4)-ob(3);
+    rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+end
+pause_time = 0.00001;
+for i=1:length(evolutionNL)
+    hold on; plot(evolutionNL(i,1), evolutionNL(i,2), '.', 'LineWidth',2, 'Color','black');
+    pause( pause_time );
+end
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
+
+
 
 %% INPUT-OUTPUT LINEARIZATION
 import control.trajectory_tracking.input_output_control.input_output_linearization;
@@ -189,17 +200,21 @@ end
 figure();
 hold on; plot(start(1),start(2), "*", "Color","b");
 hold on; plot(goal(1),goal(2), "*", "Color","g");
-hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
-hold on;
-    for j = 1 : size(obstacles)
-        ob = obstacles(j,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
 title("INPUT-OUTPUT LINEARIZATION");
+hold on;
+for j = 1 : size(obstacles)
+    ob = obstacles(j,:);
+    x_ob = ob(1);
+    y_ob = ob(3);
+    w_ob = ob(2)-ob(1);
+    h_ob = ob(4)-ob(3);
+    rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+end
+pause_time = 0.00001;
+for i=1:length(evolutionFL)
+    hold on; plot(evolutionFL(i,1), evolutionFL(i,2), '.', 'LineWidth',2, 'Color','black');
+    pause( pause_time );
+end
 legend({"start", "goal", "trajectory output with control"}, "Location","northwest");
 
 %% CONTROLS COMPARISON
