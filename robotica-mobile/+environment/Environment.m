@@ -116,7 +116,23 @@ classdef Environment
             figure(); mesh(X,Y,Z); xlabel("X"); ylabel("Y"); zlabel("Z");
             title("ENVIRONMENT"),axis("equal"), axis([0 environment.width 0 environment.height])
        end
+       
+       function plot2D(environment)
+           global start goal obstacles
+           hold on; plot(start(1),start(2), "*", "Color","b", "DisplayName","start");
+           hold on; plot(goal(1),goal(2), "*", "Color","g", "DisplayName","goal");
+           hold on;
+           for j = 1 : size(obstacles)
+               ob = obstacles(j,:);
+               x_ob = ob(1);
+               y_ob = ob(3);
+               w_ob = ob(2)-ob(1);
+               h_ob = ob(4)-ob(3);
+               rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
+           end
+       end
    end
+   
     
 end
 
