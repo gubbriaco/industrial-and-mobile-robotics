@@ -1,7 +1,17 @@
 function path_planning_exec(environment)
+    % sono presenti diversi path planning ognuno progettato tale per cui in
+    % output viene restituita la traiettoria risultante da esso cosi' da
+    % essere utilizzata per gli algoritmi di controllo progettati
     
+    % i path planning progettati sono:
+    % - ARTIFICIAL POTENTIAL FIELDS
+    % - DISCRETE POTENTIAL FIELDS
+    % - VORONOI DIAGRAMS
+    % - VISIBILITY GRAPHS
+
     global start goal obstacles width height grid X Y
     import control.control_exec;
+    
 
     %% ARTIFICIAL POTENTIAL FIELDS
     % obstacle_height = 1;
@@ -10,6 +20,7 @@ function path_planning_exec(environment)
     % import path_planning.artificial_potential_fields.artificial_potential_fields;
     % P = artificial_potential_fields(start, goal, width, height);
 
+    
     %% DISCRETE POTENTIAL FIELDS
     obstacle_height=Inf; add_obstacles(environment, obstacle_height);
     plot(environment);
@@ -22,6 +33,7 @@ function path_planning_exec(environment)
     Ts = 0.1; samples = (length(P)/Ts)*2;
     control_exec(environment, P, Ts, samples);
 
+    
     %% VORONOI DIAGRAMS
     obstacle_height=1; add_obstacles(environment, obstacle_height);
     plot(environment);
@@ -34,6 +46,7 @@ function path_planning_exec(environment)
     Ts = 0.1; samples = length(P)/Ts;
     control_exec(environment, P, Ts, samples);
 
+    
     %% VISIBILITY GRAPH
     obstacle_height=1;
     add_obstacles(environment, obstacle_height);

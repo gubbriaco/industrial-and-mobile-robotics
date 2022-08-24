@@ -15,6 +15,7 @@ global start goal
 start = [x_start y_start]; goal = [x_goal y_goal];
 
 %% ENVIRONMENT
+% inizializzo l'ambiente e gli ostacoli al suo interno
 global width height
 width=100; height=100;
 nc=100; nr=100;
@@ -24,6 +25,8 @@ inizialize(environment);
 
 
 %% EXEC
+% tale script esegue i diversi path planning progettati ed, inoltre, per
+% ogni path planning viene eseguito ogni algoritmo di controllo progettato
 import path_planning.path_planning_exec;
 path_planning_exec(environment);
 
