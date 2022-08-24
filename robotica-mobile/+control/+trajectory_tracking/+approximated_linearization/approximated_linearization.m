@@ -7,7 +7,7 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     theta = Xg(3);
     
     vstar = sqrt(xdstar^2 + ydstar^2);
-    if isequal(vstar,0)
+    if vstar < 0.001
         vstar = 0.01;
     end
     omegastar = (yddstar*xdstar-ydstar*xddstar)/(vstar^2);
@@ -18,7 +18,7 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     delta = 0.99;
     
     K1 = 2*delta*a;
-    if isequal(vstar,0)
+    if vstar < 0.001
         vstar = 0.01;
     end
     K2 = (a^2 - omegastar^2)/vstar;
