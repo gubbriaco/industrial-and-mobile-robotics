@@ -12,7 +12,8 @@ function path_planning_exec(environment)
     global start goal obstacles width height grid X Y
     import control.control_exec;
     
-
+    
+%% ************************************************************************
     %% ARTIFICIAL POTENTIAL FIELDS
     % obstacle_height = 1;
     % add_obstacles(environment, obstacle_height);
@@ -21,6 +22,7 @@ function path_planning_exec(environment)
     % P = artificial_potential_fields(start, goal, width, height);
 
     
+%% ************************************************************************  
     %% DISCRETE POTENTIAL FIELDS
     obstacle_height=Inf; add_obstacles(environment, obstacle_height);
     plot(environment);
@@ -34,6 +36,7 @@ function path_planning_exec(environment)
     control_exec(environment, P, Ts, samples);
 
     
+%% ************************************************************************   
     %% VORONOI DIAGRAMS
     obstacle_height=1; add_obstacles(environment, obstacle_height);
     plot(environment);
@@ -47,6 +50,7 @@ function path_planning_exec(environment)
     control_exec(environment, P, Ts, samples);
 
     
+%% ************************************************************************    
     %% VISIBILITY GRAPH
     obstacle_height=1;
     add_obstacles(environment, obstacle_height);
