@@ -1,6 +1,6 @@
-function P = artificial_potential_fields()
+function P = artificial_potential_fields(environment)
 
-    global goal start obstacles grid X Y width height;
+    global goal start grid X Y width height;
 
     d = bwdist(grid); %bdwist function restituisce la distanza da ogni "true" element nell'array degli ostacoli
 
@@ -33,40 +33,25 @@ function P = artificial_potential_fields()
     f = attractive + repulsive;
     maxi = max(attractive(~isinf(attractive))); repulsive(isinf(repulsive)) = maxi;
 
-    figure(1);
-    m=mesh(repulsive);
-    m.FaceLighting = 'phong';
-    axis equal;
-    title ('Potenziale Repulsivo');
+    figure(); m=mesh(repulsive); m.FaceLighting = 'phong'; axis equal;
+    title ("REPULSIVE POTENTIAL");
 
-    figure(2);
-    m = mesh (attractive);
-    m.FaceLighting = 'phong';
-    axis equal;
-    title ('Potenziale Attrattivo');
+    figure(); m = mesh (attractive); m.FaceLighting = 'phong'; %axis equal;
+    title ("ATRACTIVE POTENTIAL");
 
-    figure(3);
-    m = mesh (f);
-    m.FaceLighting = 'phong';
-    axis equal;
-    title ('Potenziale Totale');
+    figure(); m = mesh (f); m.FaceLighting = 'phong'; %axis equal;
+    title ("TOTAL POTENTIAL");
 
-    figure(4);
-    axis([0 100 0 100]);
-    title ('Ambiente di lavoro');
-           for i = 1 : 8
-              ob = obstacles(i,:);
-              rectangle("position",[ob(1) ob(3) ob(2)-ob(1) ob(4)-ob(3)],"facecolor","b");
-           end 
-    hold on; plot(start(1),start(2), "o","LineWidth",20,"Color","y");
-    hold on; plot(goal(1),goal(2), "o","LineWidth",20, "Color","g");
+%     figure(); axis([0 100 0 100]); title ("ENVIRONMENT"); plot2D(environment);
 
+    
     import path_planning.artificial_potential_fields.gradient_based_planner; 
     P = gradient_based_planner(f, start, goal, 1000);
 
-    %% Plot the energy surface
-
-    % figure(5);
+    
+    
+    %% PLOT THE ENERGY SURFACE
+    % figure();
     % m = mesh (f);
     % axis equal;
     % 
@@ -103,7 +88,7 @@ function P = artificial_potential_fields()
     % %     end
     % end
 
-    % % quiver plot
+    %% QUIVER PLOT
     [gx, gy] = gradient (-f);
     for i = 1 : size(grid,1)
         for j = 1 : size(grid,2)
@@ -112,22 +97,19 @@ function P = artificial_potential_fields()
             end
         end
     end
+    
     skip = 2;
-
-    figure;
-
     xidx = 1:skip:width;
     yidx = 1:skip:height;
 
+    figure();
     quiver (X(yidx,xidx), Y(yidx,xidx), gx(yidx,xidx), gy(yidx,xidx), 0.7);
-
     axis ([1 width 1 height]);
-
     hold on;
-
     ps = plot(start(1), start(2), 'r.', 'MarkerSize', 30);
     pg = plot(goal(1), goal(2), 'g.', 'MarkerSize', 30);
     p3 = plot (P(:,1), P(:,2), 'r', 'LineWidth', 2);
-    xlabel('X')
-    ylabel('Y')
+    xlabel("X"), ylabel("Y");
+    
+    
 end

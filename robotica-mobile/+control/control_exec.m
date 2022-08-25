@@ -9,7 +9,7 @@ function control_exec(environment, P, Ts, samples)
     % di controllo:
     % - 0 : solo plot statici
     % - 1 : sia plot statici che dinamici
-    DYNAMIC_ON = 0;
+    DYNAMIC_ON = 1;
     
     
 %% ************************************************************************

@@ -22,6 +22,7 @@ nc=100; nr=100;
 import environment.Environment;
 environment = Environment(width, height, nc, nr);
 inizialize(environment);
+figure(); plot2D(environment);
 
 
 %% EXEC
