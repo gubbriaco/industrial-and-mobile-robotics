@@ -15,11 +15,17 @@ function path_planning_exec(environment)
     
 %% ************************************************************************
     %% ARTIFICIAL POTENTIAL FIELDS
-    % obstacle_height = 1;
-    % add_obstacles(environment, obstacle_height);
-    % plot(environment);
-    % import path_planning.artificial_potential_fields.artificial_potential_fields;
-    % P = artificial_potential_fields(start, goal, width, height);
+    obstacle_height=1;
+    add_obstacles(environment, obstacle_height);
+%     plot(environment);
+    import path_planning.artificial_potential_fields.artificial_potential_fields;
+    P = artificial_potential_fields(environment);
+    figure(); plot2D(environment);
+    hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
+    title("ARTIFICIAL POTENTIAL FIELDS SHORTEST PATH");
+    legend("Location","northwest");
+    Ts = 0.1; samples = (length(P)/Ts)*2;
+    control_exec(environment, P, Ts, samples);
 
     
 %% ************************************************************************  
