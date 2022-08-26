@@ -186,34 +186,33 @@ import control.posture_regulation.complete_regulation.complete_regulation;
     end
     
     postureAL = [evolutionAL ; postureAL];
+    import control.posture_regulation.plot_robot;
+%     figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
+    
+    
+    x = evolutionAL(:,1);
+    y = evolutionAL(:,2);
+    theta = evolutionAL(:,3);
+    
+    postureAL(1,:)=X0;
+    Xdot = complete_postureAL(X0);
+    
+    for k = 2 : t_simulazione
+        X0 = Xdot;
+        Xdot = complete_postureAL(X0);
+        
+        postureAL(k,1) = Xdot(1);
+        postureAL(k,2) = Xdot(2);
+        % utilizzo la funzione enroll_theta affinche' l'angolo rimanga
+        % nell'intervallo [-pi, pi]
+        import control.posture_regulation.enroll_theta;
+        postureAL(k,3) = enroll_theta(Xdot(3));
+    end
+    
+    postureAL = [evolutionAL ; postureAL];
     postureAL
     import control.posture_regulation.plot_robot;
     figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
-    
-    
-%     x = evolutionAL(:,1);
-%     y = evolutionAL(:,2);
-%     theta = evolutionAL(:,3);
-%     
-%     postureAL(1,:)=X0;
-%     Xdot = complete_postureAL(X0);
-%     
-%     for k = 2 : t_simulazione
-%         X0 = Xdot;
-%         X_dot = complete_postureAL(X0);
-%         
-%         postureAL(k,1) = Xdot(1);
-%         postureAL(k,2) = Xdot(2);
-%         % utilizzo la funzione enroll_theta affinche' l'angolo rimanga
-%         % nell'intervallo [-pi, pi]
-%         import control.posture_regulation.enroll_theta;
-%         postureAL(k,3) = enroll_theta(Xdot(3));
-%     end
-%     
-%     postureAL = [evolutionAL ; postureAL];
-%     
-%     import control.posture_regulation.plot_robot;
-%     figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
     
     
     x = postureAL(:,1);
