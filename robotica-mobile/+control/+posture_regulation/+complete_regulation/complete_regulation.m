@@ -1,9 +1,12 @@
-function xdot = complete_regulation(X, xstar, ystar, thetastar, Ts)
+function xdot = complete_regulation(X0, Xf, Ts)
 
+    x=X0(1);
+    y=X0(2);
+    theta=X0(3);
     
-    x=X(1);
-    y=X(2);
-    theta=X(3);
+    xstar = Xf(1);
+    ystar = Xf(2);
+    thetastar = Xf(3);
     
     K1 = 1;
     K2 = 1;
