@@ -26,7 +26,7 @@ function control_exec(environment, P, Ts, samples)
     %% CONTROL BASED ON APPROXIMATE LINEARIZATION
     import control.trajectory_tracking.approximated_linearization.approximated_linearization;
     Xal = [x0 y0 theta0];
-    evolutionAL = zeros(samples, 3);
+    evolutionAL = [];
     for i = 1 : samples
         evolutionAL(i,:) = Xal;
         new_state = approximated_linearization(Ts, Xal, ...
@@ -34,27 +34,33 @@ function control_exec(environment, P, Ts, samples)
                                                xdstar(i), ydstar(i),...
                                                xddstar(i), yddstar(i), ...
                                                thetastar(i));
-        Xal = new_state;
+       if and((new_state(1)-goal(1))>0.03, (new_state(2)-goal(2))>0.03) 
+            break;
+       else 
+            Xal = new_state;
+       end
     end
     
-    % PLOT STATICO
-    f=figure(); f.Position=[25 342 1500 420]; subplot(1,3,1);
-    plot2D(environment);
-    hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
-    title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
-    legend("start", "goal", "trajectory output with control","Location","northwest");
+    evolutionAL
     
-    %PLOT DINAMICO
-    if isequal(DYNAMIC_ON, 1)
-        figure(); plot2D(environment);
-        pause_time = 0.000001;
-        for i=1:length(evolutionAL)
-            hold on; plot(evolutionAL(i,1), evolutionAL(i,2), '.', 'LineWidth',2, 'Color','black');
-            pause( pause_time );
-        end
-        title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
-        legend("start", "goal", "trajectory output with control","Location","northwest");
-    end
+%     % PLOT STATICO
+%     f=figure(); f.Position=[25 342 1500 420]; subplot(1,3,1);
+%     plot2D(environment);
+%     hold on; plot(evolutionAL(:,1), evolutionAL(:,2));
+%     title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
+%     legend("start", "goal", "trajectory output with control","Location","northwest");
+%     
+%     %PLOT DINAMICO
+%     if isequal(DYNAMIC_ON, 1)
+%         figure(); plot2D(environment);
+%         pause_time = 0.000001;
+%         for i=1:length(evolutionAL)
+%             hold on; plot(evolutionAL(i,1), evolutionAL(i,2), '.', 'LineWidth',2, 'Color','black');
+%             pause( pause_time );
+%         end
+%         title("CONTROL BASED ON APPROXIMATE LINEARIZATION"); 
+%         legend("start", "goal", "trajectory output with control","Location","northwest");
+%     end
 
     
 %% ************************************************************************
@@ -69,27 +75,27 @@ function control_exec(environment, P, Ts, samples)
                                       xdstar(i), ydstar(i),...
                                       xddstar(i), yddstar(i), ...
                                       thetastar(i));
-        Xnl = new_state;
+       Xnl = new_state;
     end
     
-    % PLOT STATICO
-    subplot(1,3,2);
-    plot2D(environment);
-    hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
-    title("NON LINEAR CONTROL"); 
-    legend("start", "goal", "trajectory output with control","Location","northwest");
-    
-    % PLOT DINAMICO
-    if isequal(DYNAMIC_ON, 1)
-        figure(); plot2D(environment);
-        pause_time = 0.000001;
-        for i=1:length(evolutionNL)
-            hold on; plot(evolutionNL(i,1), evolutionNL(i,2), '.', 'LineWidth',2, 'Color','black');
-            pause( pause_time );
-        end
-        title("NON LINEAR CONTROL"); 
-        legend("start", "goal", "trajectory output with control","Location","northwest");
-    end
+%     % PLOT STATICO
+%     subplot(1,3,2);
+%     plot2D(environment);
+%     hold on; plot(evolutionNL(:,1), evolutionNL(:,2));
+%     title("NON LINEAR CONTROL"); 
+%     legend("start", "goal", "trajectory output with control","Location","northwest");
+%     
+%     % PLOT DINAMICO
+%     if isequal(DYNAMIC_ON, 1)
+%         figure(); plot2D(environment);
+%         pause_time = 0.000001;
+%         for i=1:length(evolutionNL)
+%             hold on; plot(evolutionNL(i,1), evolutionNL(i,2), '.', 'LineWidth',2, 'Color','black');
+%             pause( pause_time );
+%         end
+%         title("NON LINEAR CONTROL"); 
+%         legend("start", "goal", "trajectory output with control","Location","northwest");
+%     end
 
 
 %% ************************************************************************
@@ -102,39 +108,40 @@ function control_exec(environment, P, Ts, samples)
         new_state = input_output_linearization(Ts, Xfl, ...
                                                xstar(i), xdstar(i), ...
                                                ystar(i), ydstar(i));
-        Xfl = new_state;
+        
+        endXfl = new_state;
     end
     
-     % PLOT STATICO
-    subplot(1,3,3);
-    plot2D(environment);
-    hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
-    title("INPUT-OUTPUT LINEARIZATION"); 
-    legend("start", "goal", "trajectory output with control","Location","northwest");
-    
-    % PLOT DINAMICO
-    if isequal(DYNAMIC_ON, 1)
-        figure(); plot2D(environment);
-        pause_time = 0.000001;
-        for i=1:length(evolutionFL)
-            hold on; plot(evolutionFL(i,1), evolutionFL(i,2), '.', 'LineWidth',2, 'Color','black');
-            pause( pause_time );
-        end
-        title("INPUT-OUTPUT LINEARIZATION"); 
-        legend("start", "goal", "trajectory output with control","Location","northwest");
-    end
+%      % PLOT STATICO
+%     subplot(1,3,3);
+%     plot2D(environment);
+%     hold on; plot(evolutionFL(:,1), evolutionFL(:,2));
+%     title("INPUT-OUTPUT LINEARIZATION"); 
+%     legend("start", "goal", "trajectory output with control","Location","northwest");
+%     
+%     % PLOT DINAMICO
+%     if isequal(DYNAMIC_ON, 1)
+%         figure(); plot2D(environment);
+%         pause_time = 0.000001;
+%         for i=1:length(evolutionFL)
+%             hold on; plot(evolutionFL(i,1), evolutionFL(i,2), '.', 'LineWidth',2, 'Color','black');
+%             pause( pause_time );
+%         end
+%         title("INPUT-OUTPUT LINEARIZATION"); 
+%         legend("start", "goal", "trajectory output with control","Location","northwest");
+%     end
 
 
 %% ************************************************************************
     %% CONTROLS COMPARISON
-    figure(); plot2D(environment);
-    hold on; plot(evolutionAL(:,1), evolutionAL(:,2), "DisplayName",...
-                  "trajectory output with approximated linearization");
-    hold on; plot(evolutionNL(:,1), evolutionNL(:,2), "DisplayName",...
-                          "trajectory output with non linear control");
-    hold on; plot(evolutionFL(:,1), evolutionFL(:,2), "DisplayName",...
-                        "trajectory output with input-output control");
-    title("CONTROLS COMPARISON"); legend("Location","northwest");
+%     figure(); plot2D(environment);
+%     hold on; plot(evolutionAL(:,1), evolutionAL(:,2), "DisplayName",...
+%                   "trajectory output with approximated linearization");
+%     hold on; plot(evolutionNL(:,1), evolutionNL(:,2), "DisplayName",...
+%                           "trajectory output with non linear control");
+%     hold on; plot(evolutionFL(:,1), evolutionFL(:,2), "DisplayName",...
+%                         "trajectory output with input-output control");
+%     title("CONTROLS COMPARISON"); legend("Location","northwest");
 
     
 %% ************************************************************************
@@ -142,8 +149,9 @@ function control_exec(environment, P, Ts, samples)
 import control.posture_regulation.cartesian_regulation.cartesian_regulation;
 import control.posture_regulation.complete_regulation.complete_regulation;
     
-    t_simulazione = 200;
+    t_simulazione = 100;
     angle = (270/180)*pi;
+    
     
     x0=evolutionAL(end,1); y0=evolutionAL(end,2); theta0=evolutionAL(end,3);
     X0 = [x0 ; y0 ; theta0];
@@ -154,25 +162,57 @@ import control.posture_regulation.complete_regulation.complete_regulation;
     
     
     cartesian_postureAL = @(X)(cartesian_regulation(X, Xf, Ts));
-    complete_postureAL = @(X)(complete_posture(X, Xf, Ts));
+    complete_postureAL = @(X)(complete_regulation(X, Xf, Ts));
     
-    evolution(1,:)=X0;
+    postureAL(1,:)=X0;
     Xdot = cartesian_postureAL(X0);
     for k = 2 : t_simulazione
         X0 = Xdot;
         X_dot = cartesian_postureAL(X0);
         
-        evolutionAL(k,1) = Xdot(1);
-        evolutionAL(k,2) = Xdot(2);
+        
+        postureAL(k,1) = Xdot(1);
+        postureAL(k,2) = Xdot(2);
+        % utilizzo la funzione enroll_theta affinche' l'angolo rimanga
+        % nell'intervallo [-pi, pi]
         import control.posture_regulation.enroll_theta;
-        evolutionAL(k,3) = enroll_theta(Xdot(3));
+        postureAL(k,3) = enroll_theta(Xdot(3));
     end
     
-    x = evolutionAL(:,1);
-    y = evolutionAL(:,2);
-    theta = evolutionAL(:,3);
+    postureAL = [evolutionAL ; postureAL];
+    import control.posture_regulation.plot_robot;
+    figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
     
-    evolutionAL
+    
+%     x = evolutionAL(:,1);
+%     y = evolutionAL(:,2);
+%     theta = evolutionAL(:,3);
+%     
+%     postureAL(1,:)=X0;
+%     Xdot = complete_postureAL(X0);
+%     
+%     for k = 2 : t_simulazione
+%         X0 = Xdot;
+%         X_dot = complete_postureAL(X0);
+%         
+%         postureAL(k,1) = Xdot(1);
+%         postureAL(k,2) = Xdot(2);
+%         % utilizzo la funzione enroll_theta affinche' l'angolo rimanga
+%         % nell'intervallo [-pi, pi]
+%         import control.posture_regulation.enroll_theta;
+%         postureAL(k,3) = enroll_theta(Xdot(3));
+%     end
+%     
+%     postureAL = [evolutionAL ; postureAL];
+%     
+%     import control.posture_regulation.plot_robot;
+%     figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
+    
+    
+    x = postureAL(:,1);
+    y = postureAL(:,2);
+    theta = postureAL(:,3);
+    
     
 %     figure(); hold on; grid on;
 %     plot(x0, y0, "og", "LineWidth",2); plot(xf, yf, "or", "LineWidth",2);

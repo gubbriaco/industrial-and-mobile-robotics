@@ -1,4 +1,4 @@
-function xdot = cartesian_regulation(X0, Xf, Ts)
+function dot = cartesian_regulation(X0, Xf, Ts)
     
     
     x=X0(1);
@@ -23,8 +23,8 @@ function xdot = cartesian_regulation(X0, Xf, Ts)
     end
     
     
-   xdot = [x+Ts*v*cos(theta) ; 
-            y+Ts*v*sin(theta) ; 
-            theta+Ts*w];
+   dot = [x+Ts*v*cos(theta) ; 
+          y+Ts*v*sin(theta) ; 
+          theta+Ts*w];
     
 end
