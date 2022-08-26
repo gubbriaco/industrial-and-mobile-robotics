@@ -34,14 +34,12 @@ function control_exec(environment, P, Ts, samples)
                                                xdstar(i), ydstar(i),...
                                                xddstar(i), yddstar(i), ...
                                                thetastar(i));
-       if and((new_state(1)-goal(1))>0.03, (new_state(2)-goal(2))>0.03) 
+       if or((new_state(1)-goal(1))>0.03, (new_state(2)-goal(2))>0.03) 
             break;
        else 
             Xal = new_state;
        end
     end
-    
-    evolutionAL
     
 %     % PLOT STATICO
 %     f=figure(); f.Position=[25 342 1500 420]; subplot(1,3,1);
@@ -149,7 +147,7 @@ function control_exec(environment, P, Ts, samples)
 import control.posture_regulation.cartesian_regulation.cartesian_regulation;
 import control.posture_regulation.complete_regulation.complete_regulation;
     
-    t_simulazione = 100;
+    t_simulazione = 200;
     angle = (270/180)*pi;
     
     
@@ -180,8 +178,9 @@ import control.posture_regulation.complete_regulation.complete_regulation;
     end
     
     postureAL = [evolutionAL ; postureAL];
+    postureAL
     import control.posture_regulation.plot_robot;
-    figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
+    %figure(); axis([0 100 0 100]); hold on; plot_robot(postureAL);
     
     
 %     x = evolutionAL(:,1);
