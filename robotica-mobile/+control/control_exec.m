@@ -21,24 +21,14 @@ function control_exec(environment, P, Ts, samples)
     X0 = [x0 y0 theta0];
     
     %% TRAJECTORY TRACKING
-    import control.trajectory_tracking.approximated_linearization.linear_control_exec;
-    import control.trajectory_tracking.non_linearization.non_linear_control_exec;
-    import control.trajectory_tracking.input_output_control.input_output_control_exec;
-    evolutionAL = linear_control_exec(Ts, samples, X0, xstar, ystar, xdstar, ydstar, ...
-                                      xddstar, yddstar, thetastar);
-    evolutionNL = non_linear_control_exec(Ts, samples, X0, xstar, ystar, xdstar, ydstar, ...
-                                          xddstar, yddstar, thetastar);
-    evolutionFL = input_output_control_exec(Ts, samples, X0, xstar, ystar, xdstar, ydstar, ...
-                                            xddstar, yddstar, thetastar);
-   
-    import control.trajectory_tracking.static_plot;
-    import control.trajectory_tracking.dynamic_plot;
-    import control.trajectory_tracking.comparison_plot;
-    static_plot(environment, evolutionAL, evolutionNL, evolutionFL);
-    dynamic_plot(environment, evolutionAL, evolutionNL, evolutionFL);
-    comparison_plot(environment, evolutionAL, evolutionNL, evolutionFL);
+    import control.trajectory_tracking.trajectory_tracking_exec;
+    [evolutionAL, evolutionNL, evolutionFL] = trajectory_tracking_exec(Ts, samples, X0,...
+                                                                       xstar, ystar,...
+                                                                       xdstar, ydstar, ...
+                                                                       xddstar, yddstar,...
+                                                                       thetastar);
 
-    
+    return;
 %% ************************************************************************
 %% POSTURE REGULATION
 import control.posture_regulation.cartesian_regulation.cartesian_regulation;
@@ -138,38 +128,6 @@ global start goal
         hold on;
     end
     
-    
-    
-    f=figure(); f.Position=[300 150 800 600]; subplot(3,2,1);
-    
-    % LINEAR CONTROL
-    cartesian_postureAL = cartesian_regulation(evolutionAL(end,:), [goal(1), goal(2), angle], Ts);
-    plot(cartesian_postureAL(1),cartesian_postureAL(2), ">", "Color","black");
-    title("LINEAR CONTROL CARTESIAN POSTURE");
-    complete_postureAL = complete_regulation(evolutionAL(end,:), [goal(1), goal(2), angle], Ts);
-    subplot(3,2,2);
-    plot(complete_postureAL(1),complete_postureAL(2), ">", "Color","black");
-    title("LINEAR CONTROL COMPLETE POSTURE");
-    
-    % NON LINEARIZATION
-    subplot(3,2,3);
-    cartesian_postureNL = cartesian_regulation(evolutionNL(end,:), [goal(1), goal(2), angle], Ts);
-    plot(cartesian_postureNL(1),cartesian_postureNL(2), ">", "Color","black");
-    title("NON LINEAR CONTROL CARTESIAN POSTURE");
-    complete_postureNL = complete_regulation(evolutionNL(end,:), [goal(1), goal(2), angle], Ts);
-    subplot(3,2,4);
-    plot(complete_postureNL(1),complete_postureNL(2), ">", "Color","black");
-    title("NON LINEAR CONTROL COMPLETE POSTURE");
-    
-    % INPUT-OUTPUT CONTROL
-    cartesian_postureFL = cartesian_regulation(evolutionFL(end,:), [goal(1), goal(2)], Ts);
-    subplot(3,2,5); 
-    plot(cartesian_postureFL(1),cartesian_postureFL(2), ">", "Color","black");
-    title("INPUT OUTPUT CARTESIAN POSTURE");
-    complete_postureFL = complete_regulation(evolutionFL(end,:), [goal(1), goal(2), angle], Ts);
-    subplot(3,2,6);
-    plot(complete_postureFL(1),complete_postureFL(2), ">", "Color","black");
-    title("INPUT OUTPUT CONTROL COMPLETE POSTURE");
     
     
     
