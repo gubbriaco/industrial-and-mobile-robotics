@@ -2,14 +2,13 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
 
     global start goal
     
-    posture(1,:)=X0;
+    posture(1,:) = X0;
     Xdot = cartesian_posture(X0);
     
     for k = 2 : t_simulazione
-        X0 = Xdot;
-        X0
-        return
-        Xdot = cartesian_posture(X0);
+        if isequal(Xdot,Inf), isequal(Xdot)
+        X = Xdot;
+        Xdot = cartesian_posture(X);
         
         posture(k,1) = Xdot(1);
         posture(k,2) = Xdot(2);
@@ -18,6 +17,16 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
         import control.posture_regulation.enroll_theta;
         posture(k,3) = enroll_theta(Xdot(3));
     end
+    
+    posturewinf=[];
+    for i=1:length(posture)
+        if ~(or(or(isequal(posture(i,1), Inf), isequal(posture(i,1),-Inf)),...
+              or(isequal(posture(i,2), Inf), isequal(posture(i,2),-Inf))))
+          posturewinf = [posturewinf ; posture(i,:)];
+        end 
+    end
+    
+    posture = posturewinf;
     
     posture = [evolution ; posture];
    
