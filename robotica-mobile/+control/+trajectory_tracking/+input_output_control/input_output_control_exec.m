@@ -5,7 +5,7 @@ function evolution = input_output_control_exec(Ts, samples, X0, xstar, ystar, xd
     
     import control.trajectory_tracking.input_output_control.input_output_linearization;
     Xfl = X0;
-    evolutionFL = zeros(samples, 3);
+    evolutionFL = [];
     for i = 1 : samples
         evolutionFL(i,:) = Xfl;
         new_state = input_output_linearization(Ts, Xfl, ...

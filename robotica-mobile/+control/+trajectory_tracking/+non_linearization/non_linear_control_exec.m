@@ -5,7 +5,7 @@ function evolution = non_linear_control_exec(Ts, samples, X0, xstar, ystar, xdst
     
     import control.trajectory_tracking.non_linearization.non_linearization;
     Xnl = X0;
-    evolutionNL = zeros(samples, 3);
+    evolutionNL = [];
     for i = 1 : samples
         evolutionNL(i,:) = Xnl;
         new_state = non_linearization(Ts, Xnl, ...
