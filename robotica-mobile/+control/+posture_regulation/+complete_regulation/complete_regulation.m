@@ -12,7 +12,7 @@ function dot = complete_regulation(X0, Xf, Ts)
     etheta = delta_angle(thetastar,theta);
     
     rho = norm([ex;ey]);
-    gamma = delta_angle(atan2(ex,ey),theta);
+    gamma = delta_angle(atan2(ey,ex),theta);
     delta = delta_angle(gamma,etheta);
     
     v = K1*rho*cos(gamma);

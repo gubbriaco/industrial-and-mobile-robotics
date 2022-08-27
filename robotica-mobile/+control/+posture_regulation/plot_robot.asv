@@ -1,2 +1,0 @@
-function [triangle, circle] = plot_robot(center, angle, spessore)
-end
