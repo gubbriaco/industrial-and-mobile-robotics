@@ -2,12 +2,12 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
 
     global start goal
     
-    posture(1,:)=X0;
+    posture(1,:) = X0;
     Xdot = cartesian_posture(X0);
     
     for k = 2 : t_simulazione
         X0 = Xdot;
-        
+       X0
         Xdot = cartesian_posture(X0);
         
         posture(k,1) = Xdot(1);

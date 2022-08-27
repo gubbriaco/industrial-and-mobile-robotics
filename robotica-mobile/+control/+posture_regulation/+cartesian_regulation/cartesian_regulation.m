@@ -2,9 +2,9 @@ function dot = cartesian_regulation(X0, Xf, Ts)
     
     x=X0(1); y=X0(2); theta=X0(3);
     
-    xstar = Xf(1); ystar = Xf(2);
+    xstar=Xf(1); ystar=Xf(2);
     
-    K1 = 1; K2 = 1;
+    K1=1; K2=1;
     
     ex=xstar-x;
 
@@ -19,8 +19,6 @@ function dot = cartesian_regulation(X0, Xf, Ts)
     end
     
     
-   dot = [x+Ts*v*cos(theta) ; 
-          y+Ts*v*sin(theta) ; 
-          theta+Ts*w];
+   dot = [x+Ts*v*cos(theta) ; y+Ts*v*sin(theta) ; theta+Ts*w];
     
 end

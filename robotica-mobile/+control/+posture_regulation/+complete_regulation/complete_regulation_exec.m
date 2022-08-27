@@ -2,8 +2,9 @@ function complete_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, comp
     
     global start goal
 
-    posture(1,:)=X0;
+    posture(1,:) = X0;
     Xdot = complete_posture(X0);
+    
     for k = 2 : t_simulazione
         X0 = Xdot;
         Xdot = complete_posture(X0);

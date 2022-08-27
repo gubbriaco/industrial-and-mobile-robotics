@@ -2,9 +2,9 @@ function dot = complete_regulation(X0, Xf, Ts)
 
     x=X0(1); y=X0(2); theta=X0(3);
     
-    xstar = Xf(1); ystar = Xf(2); thetastar = Xf(3);
+    xstar=Xf(1); ystar=Xf(2); thetastar=Xf(3);
     
-    K1 = 1; K2 = 1; K3 = 1;
+    K1=1; K2=1; K3=1;
     
     ex = xstar-x;
     ey = ystar-y;
