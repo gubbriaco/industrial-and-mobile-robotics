@@ -37,8 +37,8 @@ function control_exec(environment, P, Ts, samples)
     import control.posture_regulation.posture_regulation_exec;
     t_simulazione = 7000;
     angle = (270/180)*pi;
-%     posture_regulation_exec(DYNAMIC_ON, evolutionAL, Ts, angle, t_simulazione);
-%     posture_regulation_exec(DYNAMIC_ON, evolutionNL, Ts, angle, t_simulazione);
+    posture_regulation_exec(DYNAMIC_ON, evolutionAL, Ts, angle, t_simulazione);
+    posture_regulation_exec(DYNAMIC_ON, evolutionNL, Ts, angle, t_simulazione);
     posture_regulation_exec(DYNAMIC_ON, evolutionFL, Ts, angle, t_simulazione);
 
 
