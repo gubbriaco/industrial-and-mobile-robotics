@@ -30,23 +30,22 @@ function P = artificial_potential_fields(environment)
     attractive = xi * ( (X - goal(1)).^2 + (Y - goal(2)).^2 );
 
     % Combine terms
-    f = attractive + repulsive;
+    fAR = attractive + repulsive;
     maxi = max(attractive(~isinf(attractive))); repulsive(isinf(repulsive)) = maxi;
 
-    figure(); m=mesh(repulsive); m.FaceLighting = 'phong'; axis equal;
+    f=figure(); f.Position=[25 342 1500 420]; 
+    subplot(1,3,1); m=mesh(repulsive); m.FaceLighting = 'phong'; axis equal;
     title ("REPULSIVE POTENTIAL");
-
-    figure(); m = mesh (attractive); m.FaceLighting = 'phong'; %axis equal;
+    subplot(1,3,2); m = mesh (attractive); m.FaceLighting = 'phong'; %axis equal;
     title ("ATRACTIVE POTENTIAL");
-
-    figure(); m = mesh (f); m.FaceLighting = 'phong'; %axis equal;
+    subplot(1,3,3); m = mesh (fAR); m.FaceLighting = 'phong'; %axis equal;
     title ("TOTAL POTENTIAL");
 
 %     figure(); axis([0 100 0 100]); title ("ENVIRONMENT"); plot2D(environment);
 
     
     import path_planning.artificial_potential_fields.gradient_based_planner; 
-    P = gradient_based_planner(f, start, goal, 1000);
+    P = gradient_based_planner(fAR, start, goal, 1000);
 
     
     
@@ -89,7 +88,7 @@ function P = artificial_potential_fields(environment)
     % end
 
     %% QUIVER PLOT
-    [gx, gy] = gradient (-f);
+    [gx, gy] = gradient (-fAR);
     for i = 1 : size(grid,1)
         for j = 1 : size(grid,2)
             if grid(i,j) == 1
