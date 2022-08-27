@@ -1,14 +1,13 @@
-function triangle = plot_triangle(center, theta, scale, varargin)
+function triangle = plot_triangle(center, angle)
 
-    theta = pi/2 - atan2(sin(theta), cos(theta));
-%     center = center(:);
+    scale = 1.5;
+    angle = pi/2 - atan2(sin(angle),cos(angle));
+    center = center(:); %column vector
     
-    coordinates = [cos(theta) sin(theta); -sin(theta) cos(theta)] * [0 1 -1; 1 -1 -1]*scale+center;
-    
-    
-        triangle = plot(polyshape(coordinates(1,:), coordinates(2,:)), "LineWidth",2, "FaceColor","r");
+    %Coordinate del triangolo
+    coordinates = [cos(angle) sin(angle) ; -sin(angle) cos(angle)] * [0 1 -1 ; 1 -1 -1]*scale + center;
    
-    
-    
+    triangle = plot(polyshape(coordinates(1,:),coordinates(2,:)), ...
+                                           "LineWidth",2, "FaceColor","r");
 
 end
