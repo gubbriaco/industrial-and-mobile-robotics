@@ -28,7 +28,7 @@ function path_planning_exec(environment)
     control_exec(environment, P, Ts, samples);
 
     
-%% ************************************************************************  
+% ************************************************************************  
     %% DISCRETE POTENTIAL FIELDS
     obstacle_height=Inf; add_obstacles(environment, obstacle_height);
     %figure(); plot(environment);
