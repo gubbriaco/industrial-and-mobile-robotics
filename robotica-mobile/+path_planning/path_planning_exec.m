@@ -29,52 +29,52 @@ function path_planning_exec(environment)
 
     
 %% ************************************************************************  
-%     %% DISCRETE POTENTIAL FIELDS
-%     obstacle_height=Inf; add_obstacles(environment, obstacle_height);
-%     %figure(); plot(environment);
-%     import path_planning.discrete_potential_fields.discrete_potential_fields;
-%     P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
-%     figure(); plot2D(environment);
-%     hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
-%     title("DISCRETE POTENTIAL FIELDS SHORTEST PATH");
-%     legend("Location","northwest");
-%     Ts = 0.1; samples = (length(P)/Ts)*2;
-%     control_exec(environment, P, Ts, samples);
-% 
-%     
-% %% ************************************************************************   
-%     %% VORONOI DIAGRAMS
-%     obstacle_height=1; add_obstacles(environment, obstacle_height);
-%     %figure(); plot(environment);
-%     import path_planning.voronoi_diagram.voronoi;
-%     P = voronoi(environment);
-%     figure(); plot2D(environment);
-%     hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
-%     title("VORONOI DIAGRAMS SHORTEST PATH");
-%     legend("Location","northwest");
-%     Ts = 0.1; samples = length(P)/Ts;
-%     control_exec(environment, P, Ts, samples);
-% 
-%     
-% %% ************************************************************************    
-%     %% VISIBILITY GRAPH
-%     obstacle_height=1; add_obstacles(environment, obstacle_height);
-%     %figure(); plot(environment);
-%     import path_planning.visibility_graph.visibility_graph;
-%     P = visibility_graph(start, goal, obstacles);
-%     figure(); plot2D(environment);
-%     hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path");
-%     title("VISIBILITY GRAPH SHORTEST PATH");
-%     legend("Location","northwest");
-%     import path_planning.visibility_graph.cleanup;
-%     P = cleanup(P);
-%     import path_planning.visibility_graph.discretize_distances;
-%     Ts = 0.1;
-%     samples = (length(P)/Ts);
-%     P = discretize_distances(P, samples);
-%     Ts = 0.1;
-%     samples = (length(P)/Ts)*7;
-%     control_exec(environment, P, Ts, samples);
+    %% DISCRETE POTENTIAL FIELDS
+    obstacle_height=Inf; add_obstacles(environment, obstacle_height);
+    %figure(); plot(environment);
+    import path_planning.discrete_potential_fields.discrete_potential_fields;
+    P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
+    figure(); plot2D(environment);
+    hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
+    title("DISCRETE POTENTIAL FIELDS SHORTEST PATH");
+    legend("Location","northwest");
+    Ts = 0.1; samples = (length(P)/Ts)*2;
+    control_exec(environment, P, Ts, samples);
+
+    
+%% ************************************************************************   
+    %% VORONOI DIAGRAMS
+    obstacle_height=1; add_obstacles(environment, obstacle_height);
+    %figure(); plot(environment);
+    import path_planning.voronoi_diagram.voronoi;
+    P = voronoi(environment);
+    figure(); plot2D(environment);
+    hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
+    title("VORONOI DIAGRAMS SHORTEST PATH");
+    legend("Location","northwest");
+    Ts = 0.1; samples = length(P)/Ts;
+    control_exec(environment, P, Ts, samples);
+
+    
+%% ************************************************************************    
+    %% VISIBILITY GRAPH
+    obstacle_height=1; add_obstacles(environment, obstacle_height);
+    %figure(); plot(environment);
+    import path_planning.visibility_graph.visibility_graph;
+    P = visibility_graph(start, goal, obstacles);
+    figure(); plot2D(environment);
+    hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path");
+    title("VISIBILITY GRAPH SHORTEST PATH");
+    legend("Location","northwest");
+    import path_planning.visibility_graph.cleanup;
+    P = cleanup(P);
+    import path_planning.visibility_graph.discretize_distances;
+    Ts = 0.1;
+    samples = (length(P)/Ts);
+    P = discretize_distances(P, samples);
+    Ts = 0.1;
+    samples = (length(P)/Ts)*7;
+    control_exec(environment, P, Ts, samples);
 
 
 
