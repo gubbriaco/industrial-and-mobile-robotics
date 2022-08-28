@@ -17,7 +17,7 @@ function path_planning_exec(environment)
     %% ARTIFICIAL POTENTIAL FIELDS
     obstacle_height=1;
     add_obstacles(environment, obstacle_height);
-%     plot(environment);
+    %plot(environment);
     import path_planning.artificial_potential_fields.artificial_potential_fields;
     P = artificial_potential_fields(environment);
     figure(); plot2D(environment);
@@ -47,7 +47,7 @@ function path_planning_exec(environment)
     obstacle_height=1; add_obstacles(environment, obstacle_height);
     %figure(); plot(environment);
     import path_planning.voronoi_diagram.voronoi;
-    P = voronoi(start, goal, X, Y, grid, obstacles);
+    P = voronoi(environment);
     figure(); plot2D(environment);
     hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
     title("VORONOI DIAGRAMS SHORTEST PATH");

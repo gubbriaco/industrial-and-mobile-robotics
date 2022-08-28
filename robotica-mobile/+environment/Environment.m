@@ -171,7 +171,6 @@ classdef Environment
        
        function plot2D(environment)
            global start goal obstacles obstaclesni
-           size(obstaclesni)
            hold on; plot(start(1),start(2), "*", "Color","b", "DisplayName","start");
            hold on; plot(goal(1),goal(2), "*", "Color","g", "DisplayName","goal");
            hold on;
