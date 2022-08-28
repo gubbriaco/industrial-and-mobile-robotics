@@ -1,4 +1,4 @@
-clear; close all; clc;
+%clear; close all; clc;
 global links passoSigma sigma lambda lambdaDerivata raggio centro P1 P2 P3 robot puma560 t12 t23 t31;
 %% CONFIGURAZIONE PUMA560 secondo la convenzione di Denavit-Hartenberg
 

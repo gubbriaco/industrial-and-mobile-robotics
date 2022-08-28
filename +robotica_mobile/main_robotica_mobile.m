@@ -1,4 +1,4 @@
-clear; close all; clc;
+%clear; close all; clc;
 
 %% ROBOT
 global radius_robot
