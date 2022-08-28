@@ -8,7 +8,8 @@ classdef Percorso
             for i=1:N
                 % percorso lineare
                 P = P1+lambda(i)*(P2-P1); 
-                Q = Q1+lambda(i)*(Q2-Q1);
+                Q = CinematicaInversa(links,P);
+                %Q = Q1+lambda(i)*(Q2-Q1);
 
                 %definisco le variabili che mi serviranno per i grafici
                 %corrispondono alle variazioni delle var. dei giunti e dei punti

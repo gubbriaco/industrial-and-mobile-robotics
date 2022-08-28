@@ -2,7 +2,7 @@ clear; close all; clc;
 
 %% ROBOT
 global radius_robot
-radius_robot = 0.5;
+radius_robot = 1;
 import robot.Robot;
 robot = Robot(radius_robot);
 % PLOT ROBOT
@@ -22,7 +22,10 @@ nc=100; nr=100;
 import environment.Environment;
 environment = Environment(width, height, nc, nr);
 inizialize(environment);
-figure(); plot2D(environment);
+add_obstacles(environment, 7)
+f=figure(); f.Position=[250 342 1000 420]; 
+subplot(1,2,1); plot2D(environment);
+subplot(1,2,2); plot(environment);
 
 
 %% EXEC
