@@ -23,7 +23,7 @@ function Q = CinematicaInversa(links, POINT)
                   
         Q2 = atan2( B(1), B(2) );
         
-        Q = [Q1;Q2;Q3];
+        Q = [Q1 ; Q2 ; Q3];
         
     else
         error("Punto fuori dallo spazio di lavoro");

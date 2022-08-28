@@ -1,4 +1,5 @@
-function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
+function trajectory = voronoi(environment)
+    global start goal X Y grid obstacles
 
     x_start = start(1); x_goal = goal(1);
     y_start = start(2); y_goal = goal(2);
@@ -47,15 +48,22 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
 
     % Cerco quindi tra i vertici di v quello che é meno distante da start e goal e unisco
     % quest'ultimi al vettore v
+    % diminuisco il vettore v rispettivamente delle coordinate di start e
+    % goal cosi' da ottenere i vertici diminuiti da essi -> in questa
+    % maniera potro' calcolare le distanze rispettivamente da start e goal
     vnormstart = v-[x_start y_start];
     vnormgoal = v-[x_goal y_goal];
     for i = 1 : size(v,1)
+        % calcolo la norma rispetto al vettore vnormstar
         vnormstart(i,:) = norm(vnormstart(i,:));
+        % calcolo la norma rispetto al vettore vnormgoal
         vnormgoal(i,:) = norm(vnormgoal(i,:));
     end
-    [~,istart] = min(vnormstart);
-    [~,igoal] = min(vnormgoal);
-    vstart = v(istart(1),:); vgoal = v(igoal(1),:);
+    % prendo la distanza minima rispettivamente dai vettori vnormstar e 
+    % vnormgoal
+    [min_dist_start,istart] = min(vnormstart);
+    [min_dist_goal,igoal] = min(vnormgoal);
+    vstart=v(istart(1),:); vgoal=v(igoal(1),:);
 
     vx = [vx  [x_start ; vstart(1)]  [x_goal ; vgoal(1)]];
     vy= [vy   [y_start ; vstart(2)]  [y_goal ; vgoal(2)]];
@@ -65,18 +73,7 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     %% Plot della mappa finale
 
     subplot(1,3,2); plot(vx, vy, "g", "linewidth",2); hold on;
-    plot(x_start, y_start, "ok", "linewidth",2); hold on;
-    plot(x_goal, y_goal, "ok", "linewidth",2); hold on;
-    axis("equal"), axis([0 100 0 100]), hold on; 
-    for i = 1 : size(obstacles, 1)
-        ob = obstacles(i,:);
-        x_ob=ob(1);
-        y_ob=ob(3);
-        w_ob=ob(2)-ob(1);
-        h_ob=ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob],"facecolor","r");
-    end
-    title("VORONOI DIAGRAMS AFTER CLEANUP");
+    plot2D(environment); title("VORONOI DIAGRAMS AFTER CLEANUP");
 
     
     %% Creazione grafo tramite matrice di adiacenza
@@ -86,9 +83,12 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     % coincidenti in v. In seguito, si segue il principio che i vertici viaggiano a coppie 
     % in cui il primo vertice é di indice dispari e il secondo di indice pari.
 
+    % definisco la matrice di adiacenza
     A = zeros(length(v));
     vtemp = v;
+    
     for i = length(vtemp) : -1 : 1
+        % diminuisco vtemp della riga i-esima di vtemp
         temp = (vtemp-vtemp(i,:));
         import path_planning.voronoi_diagram.findZeroRows;
         occ = findZeroRows(temp);
@@ -105,25 +105,19 @@ function trajectory = voronoi(start, goal, X, Y, grid, obstacles)
     end
 
     G = graph(A, "lower");
-    subplot(1,3,3); plot(vx, vy, "g", "linewidth",2); hold on;
-    plot(x_start, y_start, "ok", "linewidth",2); hold on;
-    plot(x_goal, y_goal, "ok", "linewidth",2); hold on;
-    axis("equal"), axis([0 100 0 100]), hold on; 
-    for i = 1 : size(obstacles, 1)
-        ob = obstacles(i,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
-    hold on; 
-    p = plot(G, "xdata",v(:,1), "ydata",v(:,2));
+    subplot(1,3,3); 
+    plot(vx, vy, "g", "linewidth",2); 
+    hold on; plot2D(environment);
+    hold on; p = plot(G, "xdata",v(:,1), "ydata",v(:,2));
     path = shortestpath(G, length(v)-3, length(v)-1);
     % highlight the shortest path
     highlight(p, path, "EdgeColor","m", "LineWidth",7);
     title("VORONOI DIAGRAMS WITH ASSOCIATED GRAPH AND SHORTEST PATH");
     
+    % salvo i vertici del grafo (quindi le loro coordinate x e y)
+    % corrispondenti allo shortest path ottenuto -> questa sara' la
+    % traiettoria minima composta da questo insieme di punti (vertici del 
+    % grafo)
     trajectory = v(path, :);
     
 end

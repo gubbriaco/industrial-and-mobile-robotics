@@ -6,10 +6,11 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
     Xdot = cartesian_posture(X0);
     
     for k = 2 : t_simulazione
-        if ~(or(or(isequal(Xdot(1), Inf), isequal(Xdot(1),-Inf)),...
-              or(isequal(Xdot(2), Inf), isequal(Xdot(2),-Inf))))
-          break;
-        end
+%         if ~(or(or(isequal(Xdot(1), Inf), isequal(Xdot(1),-Inf)),...
+%               or(isequal(Xdot(2), Inf), isequal(Xdot(2),-Inf))))
+%           break;
+%         end
+
         X = Xdot;
         Xdot = cartesian_posture(X);
         

@@ -17,7 +17,7 @@ function path_planning_exec(environment)
     %% ARTIFICIAL POTENTIAL FIELDS
     obstacle_height=1;
     add_obstacles(environment, obstacle_height);
-%     plot(environment);
+    %plot(environment);
     import path_planning.artificial_potential_fields.artificial_potential_fields;
     P = artificial_potential_fields(environment);
     figure(); plot2D(environment);
@@ -28,10 +28,10 @@ function path_planning_exec(environment)
     control_exec(environment, P, Ts, samples);
 
     
-%% ************************************************************************  
+% ************************************************************************  
     %% DISCRETE POTENTIAL FIELDS
     obstacle_height=Inf; add_obstacles(environment, obstacle_height);
-    plot(environment);
+    %figure(); plot(environment);
     import path_planning.discrete_potential_fields.discrete_potential_fields;
     P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
     figure(); plot2D(environment);
@@ -45,9 +45,9 @@ function path_planning_exec(environment)
 %% ************************************************************************   
     %% VORONOI DIAGRAMS
     obstacle_height=1; add_obstacles(environment, obstacle_height);
-    plot(environment);
+    %figure(); plot(environment);
     import path_planning.voronoi_diagram.voronoi;
-    P = voronoi(start, goal, X, Y, grid, obstacles);
+    P = voronoi(environment);
     figure(); plot2D(environment);
     hold on; plot(P(:,1), P(:,2), "DisplayName","shortest path"); 
     title("VORONOI DIAGRAMS SHORTEST PATH");
@@ -58,9 +58,8 @@ function path_planning_exec(environment)
     
 %% ************************************************************************    
     %% VISIBILITY GRAPH
-    obstacle_height=1;
-    add_obstacles(environment, obstacle_height);
-    plot(environment);
+    obstacle_height=1; add_obstacles(environment, obstacle_height);
+    %figure(); plot(environment);
     import path_planning.visibility_graph.visibility_graph;
     P = visibility_graph(start, goal, obstacles);
     figure(); plot2D(environment);

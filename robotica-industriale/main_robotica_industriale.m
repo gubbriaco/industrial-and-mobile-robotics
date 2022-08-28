@@ -127,15 +127,19 @@ raggio = 0.25;
 
 Plot.Punti();
 
-theta1 = pi+0.6435; theta2 = theta1+1.8546;
-theta3 = theta2; theta4 = theta3+pi/2+0.6435;
-theta5 = pi/2; theta6 = theta5+pi/2+0.6435;
+% theta1 = pi+0.6435; theta2 = theta1+1.8546;
+% theta3 = theta2; theta4 = theta3+pi/2+0.6435;
+% theta5 = pi/2; theta6 = theta5+pi/2+0.6435;
 
+h=0.15; angle=asin(h/raggio);
 % arco P1->P2
+theta1=angle+pi; diff = (3*(pi/2))-theta1; theta2 = (2*diff)+theta1;
 [P1P2arco, P1P2arcoDerivata, Q1Q2arco, Q1Q2arcoDerivata] = Percorso.Arco(theta1,theta2);
 % arco P2->P3
+theta3=theta2; theta4=theta3+(pi/2)+angle;
 [P2P3arco, P2P3arcoDerivata, Q2Q3arco, Q2Q3arcoDerivata] = Percorso.Arco(theta3, theta4);
 % arco P3->P1
+theta5=theta4; theta6=theta5+(pi/2)+angle;
 [P3P1arco, P3P1arcoDerivata, Q3Q1arco, Q3Q1arcoDerivata] = Percorso.Arco(theta5, theta6);
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
