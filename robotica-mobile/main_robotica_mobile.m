@@ -10,7 +10,7 @@ figure(); plot(robot); grid off;
 
 %% START & GOAL
 x_start=5; y_start=5;
-x_goal=95; y_goal=95;
+x_goal=90; y_goal=90;
 global start goal
 start = [x_start y_start]; goal = [x_goal y_goal];
 
