@@ -121,7 +121,7 @@ Plot.VelocitaCoperturaTriangolo(P1P2segmentoDerivata, P2P3segmentoDerivata, P3P1
 %% CIRCONFERENZA
 
 %centro circonferenza
-centro = [1;0.95;0.5];
+centro = [1 ; 0.95 ; 0.5];
 %raggio circonferenza
 raggio = 0.25;
 
@@ -133,13 +133,12 @@ Plot.Punti();
 
 h=0.15; angle=asin(h/raggio);
 % arco P1->P2
-theta1=angle+pi; diff = (3*(pi/2))-theta1; theta2 = (2*diff)+theta1;
+theta1=+pi; diff = 2*(theta1-(pi/2)); theta2 = diff+theta1;
 [P1P2arco, P1P2arcoDerivata, Q1Q2arco, Q1Q2arcoDerivata] = Percorso.Arco(theta1,theta2);
 % arco P2->P3
-theta3=theta2; theta4=theta3+(pi/2)+angle;
+theta3=theta2; theta4=theta3+(pi/2)+theta1;
 [P2P3arco, P2P3arcoDerivata, Q2Q3arco, Q2Q3arcoDerivata] = Percorso.Arco(theta3, theta4);
 % arco P3->P1
-theta5=theta4; theta6=theta5+(pi/2)+angle;
 [P3P1arco, P3P1arcoDerivata, Q3Q1arco, Q3Q1arcoDerivata] = Percorso.Arco(theta5, theta6);
 grid on; xlabel('X'); ylabel('Y'); zlabel('Z');
 
