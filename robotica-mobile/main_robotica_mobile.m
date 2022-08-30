@@ -36,7 +36,7 @@ inizialize(environment);
 % per rappresentare graficamente l'ambiente in questione (successivamente 
 % ogni path planning prevede l'aggiunta degli ostacoli ai fini di 
 % implementazione)
-add_obstacles(environment, 7)
+add_obstacles(environment, 7);
 % effettuo un plot 3D e 2D dell'environment in questione
 f=figure(); f.Position=[250 342 1000 420]; 
 subplot(1,2,1); plot2D(environment);
