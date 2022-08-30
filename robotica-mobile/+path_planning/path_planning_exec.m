@@ -1,15 +1,18 @@
 function path_planning_exec(environment)
-    % sono presenti diversi path planning ognuno progettato tale per cui in
-    % output viene restituita la traiettoria risultante da esso cosi' da
-    % essere utilizzata per gli algoritmi di controllo progettati
+    % In tale function e' presente l'implementazione di diversi path 
+    % planning tale che per ognuno viene restituita in output la 
+    % traiettoria generata per raggiungere il goal (partendo da un 
+    % determinato punto di start). La traiettoria generata in output viene 
+    % messa in input alla function control_exec. 
+    % @see control.control_exec
     
-    % i path planning progettati sono:
+    % I path planning progettati sono:
     % - ARTIFICIAL POTENTIAL FIELDS
     % - DISCRETE POTENTIAL FIELDS
     % - VORONOI DIAGRAMS
     % - VISIBILITY GRAPHS
 
-    global start goal obstacles width height grid X Y
+    global start goal obstacles width height grid
     import control.control_exec;
     
     
