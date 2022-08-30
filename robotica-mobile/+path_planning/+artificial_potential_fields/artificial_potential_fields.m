@@ -87,13 +87,13 @@ function P = artificial_potential_fields(environment)
     % horizontally according to U(1), and extends vertically according to 
     % V(1). By default, the quiver function scales the arrow lengths so 
     % that they do not overlap.
-    quiver (X(yidx,xidx), Y(yidx,xidx), gx(yidx,xidx), gy(yidx,xidx), 0.7);
-    axis ([1 width 1 height]);
+    scale = 0.7;
+    quiver (X(yidx,xidx),Y(yidx,xidx), gx(yidx,xidx),gy(yidx,xidx), scale);
+    axis ([1 width 1 height]); xlabel("X"), ylabel("Y");
     hold on;
-    plot(start(1), start(2), 'r.', 'MarkerSize', 30);
-    plot(goal(1), goal(2), 'g.', 'MarkerSize', 30);
-    plot (P(:,1), P(:,2), 'r', 'LineWidth', 2);
-    xlabel("X"), ylabel("Y");
+    plot(start(1),start(2), "r.", "MarkerSize",30);
+    plot(goal(1),goal(2), "g.", "MarkerSize",30);
+    plot (P(:,1),P(:,2), "r", "LineWidth",2);
     
     
 end
