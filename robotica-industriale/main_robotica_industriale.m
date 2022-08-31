@@ -31,6 +31,7 @@ R0b = [1 0 0 0.5;0 1 0 0.5;0 0 1 1;0 0 0 1];
 % creo la configurazione del robot in questione tramite il costruttore
 % della classe PUMA560Configuration che riceve i parametri utili alla sua
 % configurazione
+import puma560.PUMA560Configuration;
 puma560 = PUMA560Configuration(links, alphas, ds, thetas, R0b);
 
 % definisco ,tramite il Robotic Toolbox, gli oggetti 'Link', cioe' quelli
