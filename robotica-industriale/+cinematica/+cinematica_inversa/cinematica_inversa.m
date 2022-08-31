@@ -1,5 +1,5 @@
-function Q = CinematicaInversa(links, POINT)
-
+function Q = cinematica_inversa(links, POINT)
+    
     l2=links(2); l3=links(3);
 
     px=POINT(1); py=POINT(2); pz=POINT(3);

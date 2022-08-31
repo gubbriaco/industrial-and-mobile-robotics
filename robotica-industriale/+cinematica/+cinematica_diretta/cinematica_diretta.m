@@ -1,7 +1,12 @@
-function T03 = CinematicaDiretta(links, Q)
+function T03 = cinematica_diretta(links, Q)
 
-    l2 = links(2); l3 = links(3);
-    Q1 = Q(1); Q2 = Q(2); Q3 = Q(3);
+    l2 = links(2); 
+    l3 = links(3);
+    
+    Q1 = Q(1); 
+    Q2 = Q(2); 
+    Q3 = Q(3);
+    
     
     c1 = cos(Q1);
     c2 = cos(Q2);
