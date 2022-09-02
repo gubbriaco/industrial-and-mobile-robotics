@@ -33,9 +33,8 @@ classdef PUMA560Configuration
         LINK3
     end
     
-    
+    %% COSTRUTTORE
     methods
-        
         function robot = PUMA560Configuration(links, alphas, ds, thetas, R0b)
             robot.link1 = links(1);
             robot.link2 = links(2);
@@ -58,8 +57,7 @@ classdef PUMA560Configuration
                     robot.R0b(i,j) = R0b(i,j);
                 end
             end
-        end
-        
+        end 
     end
     
 end

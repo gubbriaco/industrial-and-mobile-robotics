@@ -1,4 +1,4 @@
-function JP = geometric_jacobian(links, angles)
+function JP = JacobianoGeometrico(links, angles)
 
     l1 = links(1); l2 = links(2); l3 = links(3); 
     q1 = angles(1); q2 = angles(2); q3 = angles(3);
