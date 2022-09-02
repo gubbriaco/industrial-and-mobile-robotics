@@ -68,11 +68,11 @@ Error.circumference();
 
 %% PLOT PERCORSO CIRCONFERENZA
 Plot.circumference();
-return
-Plot.VariabiliDiGiuntoCirconferenza(Q1Q2_arch, Q2Q3_arch, Q3Q1_arch);
-Plot.VariabiliDiGiuntoDerivataCirconferenza(Q1Q2_derived_arch, Q2Q3_derived_arch, Q3Q1_derived_arch);
-Plot.VelocitaCoperturaCirconferenza(P1P2_derived_arch, P2P3_derived_arch, P3P1_derived_arch);
 
+Plot.circumference_joint_variables();
+Plot.circumference_joint_variables_speed();
+Plot.circumference_coverage_speed();
+return
 
 %% PLOT CON TEMPO
 Plot.Triangolo40Secondi(Q1Q2_segment, P1P2_segment, Q2Q3_segment, P2P3_segment, Q3Q1_segment, P3P1_segment);

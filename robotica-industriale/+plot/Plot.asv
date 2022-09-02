@@ -65,7 +65,7 @@ classdef Plot
             plot(t31, Q3Q1_derived_segment(:,2), "*","Color","r"); hold on;
             plot(t31, Q3Q1_derived_segment(:,3), "*","Color","g"); hold on;
             title("TRIANGLE JOINT VARIABLES SPEED"); 
-            xlabel("\lambda"); ylabel("joint variables speed"); 
+            xlabel("\lambda"); ylabel("triangle joint variables speed"); 
             legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
         end
         
@@ -125,58 +125,28 @@ classdef Plot
             legend("Q1Q2","Q2Q3","Q3Q1"); grid on;
         end
         
-        function circumference_joint_variables_speed()
-            global t12 t23 t31
-            global Q1Q2_derived_arch Q2Q3_derived_arch Q3Q1_derived_arch
+        function triangle_joint_variables_speed(Q1Q2arcoDerivata, Q2Q3arcoDerivata, Q3Q1arcoDerivata)
+            global t12 t23 t31;
             figure();
-            plot(t12, Q1Q2_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t12, Q1Q2_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t12, Q1Q2_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t23, Q2Q3_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t23, Q2Q3_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t23, Q2Q3_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t31, Q3Q1_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t31, Q3Q1_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t31, Q3Q1_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t12, Q1Q2_derived_arch(1,:), "*", "Color", "b"); hold on;
-            plot(t12, Q1Q2_derived_arch(2,:), "*", "Color", "r"); hold on;
-            plot(t12, Q1Q2_derived_arch(3,:), "*", "Color", "g"); hold on;
-            plot(t23, Q2Q3_derived_arch(1,:), "*", "Color", "b"); hold on;
-            plot(t23, Q2Q3_derived_arch(2,:), "*", "Color", "r"); hold on;
-            plot(t23, Q2Q3_derived_arch(3,:), "*", "Color", "g"); hold on;
-            plot(t31, Q3Q1_derived_arch(1,:), "*", "Color", "b"); hold on;
-            plot(t31, Q3Q1_derived_arch(2,:), "*", "Color", "r"); hold on;
-            plot(t31, Q3Q1_derived_arch(3,:), "*", "Color", "g"); hold on;
-            title("CIRCUMFERENCE JOINT VARIABLES SPEED"); 
-            xlabel("\lambda"); ylabel("joint variables speed"); 
-            legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
+            plot(t12, Q1Q2arcoDerivata(1,:),'Color', 'b'); hold on;plot(t12, Q1Q2arcoDerivata(2,:),'Color', 'r'); hold on;plot(t12, Q1Q2arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t23, Q2Q3arcoDerivata(1,:),'Color', 'b'); hold on;plot(t23, Q2Q3arcoDerivata(2,:),'Color', 'r'); hold on;plot(t23, Q2Q3arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t31, Q3Q1arcoDerivata(1,:),'Color', 'b'); hold on;plot(t31, Q3Q1arcoDerivata(2,:),'Color', 'r'); hold on;plot(t31, Q3Q1arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t12, Q1Q2arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t12, Q1Q2arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t12, Q1Q2arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            plot(t23, Q2Q3arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t23, Q2Q3arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t23, Q2Q3arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            plot(t31, Q3Q1arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t31, Q3Q1arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t31, Q3Q1arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            title("VELOCITA' GIUNTI percorso circonferenza"); xlabel("\lambda"); ylabel("velocita' variabili di giunto"); legend('Q1Q2d','Q2Q3d','Q3Q1d'); grid;
         end
         
-        function circumference_coverage_speed()
-            global t12 t23 t31
-            global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
+        function VelocitaCoperturaCirconferenza(P1P2arcoDerivata, P2P3arcoDerivata, P3P1arcoDerivata)
+            global t12 t23 t31;
             figure(); 
-            plot(t12, P1P2_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t12, P1P2_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t12, P1P2_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t23, P2P3_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t23, P2P3_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t23, P2P3_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t31, P3P1_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t31, P3P1_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t31, P3P1_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t12, P1P2_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t12, P1P2_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t12, P1P2_derived_arch(3,:), "*","Color", "g"); hold on;
-            plot(t23, P2P3_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t23, P2P3_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t23, P2P3_derived_arch(3,:), "*","Color", "g"); hold on;
-            plot(t31, P3P1_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t31, P3P1_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t31, P3P1_derived_arch(3,:), "*","Color", "g"); hold on;
-            title("CIRCUMFERENCE COVERAGE SPEED"); 
-            xlabel("\lambda"); ylabel("speed"); 
-            legend("P1P2d","P2P3d","P3P1d"); grid on;
+            plot(t12, P1P2arcoDerivata(1,:),'Color', 'b'); hold on;plot(t12, P1P2arcoDerivata(2,:),'Color', 'r'); hold on;plot(t12, P1P2arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t23, P2P3arcoDerivata(1,:),'Color', 'b'); hold on;plot(t23, P2P3arcoDerivata(2,:),'Color', 'r'); hold on;plot(t23, P2P3arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t31, P3P1arcoDerivata(1,:),'Color', 'b'); hold on;plot(t31, P3P1arcoDerivata(2,:),'Color', 'r'); hold on;plot(t31, P3P1arcoDerivata(3,:),'Color', 'g'); hold on;
+            plot(t12, P1P2arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t12, P1P2arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t12, P1P2arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            plot(t23, P2P3arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t23, P2P3arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t23, P2P3arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            plot(t31, P3P1arcoDerivata(1,:),'*','Color', 'b'); hold on;plot(t31, P3P1arcoDerivata(2,:),'*','Color', 'r'); hold on;plot(t31, P3P1arcoDerivata(3,:),'*','Color', 'g'); hold on;
+            title("VELOCITA' percorso circonferenza"); xlabel("\lambda"); ylabel("velocita'"); legend('P1P2d','P2P3d','P3P1d'); grid;
         end
         
         
