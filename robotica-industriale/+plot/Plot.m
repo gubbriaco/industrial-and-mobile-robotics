@@ -154,25 +154,26 @@ classdef Plot
             title("TRIANGLE"); legend('P1->P2','P2->P3','P3->P1');grid on;
         end
         
-        function Circonferenza(P1P2arco, P2P3arco, P3P1arco)
+        function circumference()
+            global P1P2_arch P2P3_arch P3P1_arch
             figure();
-            plot3(P1P2arco(1,:),P1P2arco(2,:),P1P2arco(3,:),'*','Color','b'); hold on;
-            plot3(P2P3arco(1,:),P2P3arco(2,:),P2P3arco(3,:),'*','Color','r'); hold on;
-            plot3(P3P1arco(1,:),P3P1arco(2,:),P3P1arco(3,:),'*','Color','g'); hold on;
-            plot3(P1P2arco(1,:),P1P2arco(2,:),P1P2arco(3,:),'Color','b'); hold on;
-            plot3(P2P3arco(1,:),P2P3arco(2,:),P2P3arco(3,:),'Color','r'); hold on;
-            plot3(P3P1arco(1,:),P3P1arco(2,:),P3P1arco(3,:),'Color','g');
-            title("CIRCONFERENZA"); legend('P1->P2','P2->P3','P3->P1');grid on;
+            plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'*','Color','b'); hold on;
+            plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),'*','Color','r'); hold on;
+            plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),'*','Color','g'); hold on;
+            plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'Color','b'); hold on;
+            plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),'Color','r'); hold on;
+            plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),'Color','g');
+            title("CIRCUMFERENCE"); legend('P1->P2','P2->P3','P3->P1'); grid on;
         end
     
-        function Segmento(i, PP, QQ)
+        function segment(i, PP, QQ)
               global robot;
               plot3(PP(:,1), PP(:,2), PP(:,3), '>', 'Color', 'b'); hold on;
               robot.plot(QQ(i,:));
         end
        
         
-        function Arco(i, PP, QQ)
+        function arch(i, PP, QQ)
             global robot;
             plot3(PP(1,:), PP(2,:), PP(3,:), '>', 'Color', 'b'); hold on;
             robot.plot(QQ(i,:));

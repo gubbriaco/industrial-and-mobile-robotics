@@ -44,7 +44,7 @@ Plot.triangle();
 Plot.triangle_joint_variables();
 Plot.triangle_joint_variables_speed();
 Plot.triangle_coverage_speed();
-return
+
 
 %% CIRCONFERENZA
 global circumference_center circumference_radius
@@ -56,15 +56,19 @@ circumference_radius = 0.25;
 
 Plot.points();
 import circumference.circumference_exec;
+global P1P2_arch P2P3_arch P3P1_arch
+global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
+global Q1Q2_arch Q2Q3_arch Q3Q1_arch
+global Q1Q2_derived_arch Q2Q3_derived_arch Q3Q1_derived_arch
 circumference_exec();
 
 
 %% ERRORE circonferenza
-Errore.Circonferenza(P1P2_arch, Q1Q2_arch, P2P3_arch, Q2Q3_arch, P3P1_arch, Q3Q1_arch);
+Error.circumference();
 
 %% PLOT PERCORSO CIRCONFERENZA
-Plot.Circonferenza(P1P2_arch, P2P3_arch, P3P1_arch);
-
+Plot.circumference();
+return
 Plot.VariabiliDiGiuntoCirconferenza(Q1Q2_arch, Q2Q3_arch, Q3Q1_arch);
 Plot.VariabiliDiGiuntoDerivataCirconferenza(Q1Q2_derived_arch, Q2Q3_derived_arch, Q3Q1_derived_arch);
 Plot.VelocitaCoperturaCirconferenza(P1P2_derived_arch, P2P3_derived_arch, P3P1_derived_arch);
