@@ -38,6 +38,7 @@ function init_exec()
     % della classe PUMA560Configuration che riceve i parametri utili alla sua
     % configurazione
     global puma560
+    import puma560.PUMA560Configuration;
     puma560 = PUMA560Configuration(links, alphas, ds, thetas, R0b);
 
     % definisco ,tramite il Robotic Toolbox, gli oggetti 'Link', cioe' quelli

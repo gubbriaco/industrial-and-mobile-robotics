@@ -1,52 +1,47 @@
 clear; close all; clc;
 
-%% ********************************************************************
-%% ********************************************************************
-global links P1 P2 P3
-
 
 %% INITIAL CONFIGURATION
+% function che inizializza tutte le variabili (punti, robot, ...)
 init_exec();
+
 
 %% KINEMATICS
 import kinematics.kinematics;
-[Qp, T01, T12, T23] = kinematics();
+kinematics();
 
 
 %% LAMBDA AND SIGMA
 import sigma_lambda.sigma_lambda_exec;
-global sigma_step sigma lambda derived_lambda
 sigma_lambda_exec();
+
 
 %% TIME DEFINITION 
 import time.time_definition;
 T = time_definition();
  
+
 %% TRIANGLE
 import plot.Plot;
 Plot.points();
 import triangle.triangle_exec;
-global P1P2_segment P2P3_segment P3P1_segment
-global P1P2_derived_segment P2P3_derived_segment P3P1_derived_segment
-global Q1Q2_segment Q2Q3_segment Q3Q1_segment
-global Q1Q2_derived_segment Q2Q3_derived_segment Q3Q1_derived_segment
-triangle_exec(T, Qp);
+triangle_exec(T);
 
 
-%% ERRORE triangolo
+%% TRIANGLE PATH ERROR 
 import error.Error;
 Error.triangle();
 
-%% PLOT PERCORSO TRIANGOLO
+
+%% TRIANGLE PATH PLOT 
 import plot.Plot;
 Plot.triangle();
-
 Plot.triangle_joint_variables();
 Plot.triangle_joint_variables_speed();
 Plot.triangle_coverage_speed();
 
 
-%% CIRCONFERENZA
+%% CIRCUMFERENCE
 global circumference_center circumference_radius
 
 %centro circonferenza
@@ -54,26 +49,29 @@ circumference_center = [1;0.95;0.5];
 %raggio circonferenza
 circumference_radius = 0.25;
 
+import plot.Plot;
 Plot.points();
 import circumference.circumference_exec;
-global P1P2_arch P2P3_arch P3P1_arch
-global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
-global Q1Q2_arch Q2Q3_arch Q3Q1_arch
-global Q1Q2_derived_arch Q2Q3_derived_arch Q3Q1_derived_arch
 circumference_exec();
 
 
-%% ERRORE circonferenza
+%% CIRCUMFERENCE ERROR
+import error.Error;
 Error.circumference();
 
-%% PLOT PERCORSO CIRCONFERENZA
-Plot.circumference();
 
+%% CIRCUMFERENCE PATH PLOT
+import plot.Plot;
+Plot.circumference();
 Plot.circumference_joint_variables();
 Plot.circumference_joint_variables_speed();
 Plot.circumference_coverage_speed();
-return
 
-%% PLOT CON TEMPO
-Plot.Triangolo40Secondi(Q1Q2_segment, P1P2_segment, Q2Q3_segment, P2P3_segment, Q3Q1_segment, P3P1_segment);
-Plot.Circonferenza40Secondi(Q1Q2_arch, P1P2_arch, Q2Q3_arch, P2P3_arch, Q3Q1_arch, P3P1_arch);
+
+%% PLOT WITH TIME
+import plot.Plot;
+Plot.triangle_40sec();
+Plot.circumference_40sec();
+
+
+

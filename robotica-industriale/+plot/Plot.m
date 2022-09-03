@@ -2,6 +2,7 @@ classdef Plot
 
     methods(Static)
         
+
         function points()
             % function che effettua il plot dei punti P1, P2 e P3
             global P1 P2 P3
@@ -70,6 +71,8 @@ classdef Plot
         end
         
         function triangle_coverage_speed()
+            % function che effettua il plot della velocita' con cui viene
+            % coperto il percorso del triangolo
             global t12 t23 t31
             global P1P2_derived_segment P2P3_derived_segment P3P1_derived_segment
             figure(); 
@@ -99,6 +102,8 @@ classdef Plot
         
         
         function circumference_joint_variables()
+            % function che effettua il plot dell'andamento delle variabili 
+            % di giunto riguardo il percorso della circonferenza
             global Q1Q2_arch Q2Q3_arch Q3Q1_arch
             global t12 t23 t31;
             figure();
@@ -126,6 +131,9 @@ classdef Plot
         end
         
         function circumference_joint_variables_speed()
+            % function che effettua il plot dell'andamento delle velocita'
+            % delle variabili di giunto riguardo il percorso della
+            % circonferenza
             global t12 t23 t31
             global Q1Q2_derived_arch Q2Q3_derived_arch Q3Q1_derived_arch
             figure();
@@ -153,6 +161,8 @@ classdef Plot
         end
         
         function circumference_coverage_speed()
+            % function che effettua il plot della velocita' con cui viene
+            % coperto il percorso della circonferenza
             global t12 t23 t31
             global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
             figure(); 
@@ -182,6 +192,7 @@ classdef Plot
         
         
         function triangle()
+            % function che effettua il plot del triangolo
             global P1P2_segment P2P3_segment P3P1_segment
             figure();
             plot3(P1P2_segment(:,1),P1P2_segment(:,2),P1P2_segment(:,3), ...
@@ -200,6 +211,7 @@ classdef Plot
         end
         
         function circumference()
+            % function che effettua il plot della circonferenza
             global P1P2_arch P2P3_arch P3P1_arch
             figure();
             plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'*','Color','b'); hold on;
@@ -211,7 +223,10 @@ classdef Plot
             title("CIRCUMFERENCE"); legend('P1->P2','P2->P3','P3->P1'); grid on;
         end
     
+
         function segment(i, PP, QQ)
+                % function che effettua il plot del segmento tramite il
+                % robot
               global robot;
               plot3(PP(:,1), PP(:,2), PP(:,3), '>', 'Color', 'b'); hold on;
               robot.plot(QQ(i,:));
@@ -219,64 +234,83 @@ classdef Plot
        
         
         function arch(i, PP, QQ)
+            % function che effettua il plot dell'arco tramite il robot
             global robot;
             plot3(PP(1,:), PP(2,:), PP(3,:), '>', 'Color', 'b'); hold on;
             robot.plot(QQ(i,:));
         end
 
         
-        function Triangolo40Secondi(Q1Q2segmento, P1P2segmento, Q2Q3segmento, P2P3segmento, Q3Q1segmento, P3P1segmento)
-            global robot;
-            figure();
-            title('COPERTURA PERCORSO TRIANGOLO in circa 40sec');
-            Q1Q2segmento = Q1Q2segmento';
-            Qstart12SEGMENTO = Q1Q2segmento(:,1);
-            Qend12SEGMENTO = Q1Q2segmento(:,length(Q1Q2segmento));
-            [Q12SEGMENTO,Q12D,Q12DD] = jtraj(Qstart12SEGMENTO, Qend12SEGMENTO, 45);
-            robot.plot(Q12SEGMENTO); hold on;
-            plot3(P1P2segmento(:,1),P1P2segmento(:,2),P1P2segmento(:,3),'LineWidth',1); hold on;
+        function triangle_40sec()
+            % function che effettua il plot della copertura del percorso
+            % del triangolo in 40 secondi tramite il robot
+            global robot
+            global P1P2_segment P2P3_segment P3P1_segment
+            global Q1Q2_segment Q2Q3_segment Q3Q1_segment
 
-            Q2Q3segmento = Q2Q3segmento';
-            Qstart23SEGMENTO = Q2Q3segmento(:,1);
-            Qend23SEGMENTO = Q2Q3segmento(:,length(Q2Q3segmento));
-            [Q23SEGMENTO,Q23D,Q23DD] = jtraj(Qstart23SEGMENTO, Qend23SEGMENTO, 45);
-            robot.plot(Q23SEGMENTO); hold on;
-            plot3(P2P3segmento(:,1),P2P3segmento(:,2),P2P3segmento(:,3),'LineWidth',1); hold on;
+            figure(); title("TRIANGLE COVERAGE PATH IN 40 SECONDS");
 
-            Q3Q1segmento = Q3Q1segmento';
-            Qstart31SEGMENTO = Q3Q1segmento(:,1);
-            Qend31SEGMENTO = Q3Q1segmento(:,length(Q3Q1segmento));
-            [Q31SEGMENTO,Q31D,Q31DD] = jtraj(Qstart31SEGMENTO, Qend31SEGMENTO, 45);
-            robot.plot(Q31SEGMENTO); hold on;
-            plot3(P3P1segmento(:,1),P3P1segmento(:,2),P3P1segmento(:,3),'LineWidth',1); hold on;
+            Q1Q2_segment = Q1Q2_segment';
+            Qstart12SEGMENT = Q1Q2_segment(:,1);
+            Qend12SEGMENT = Q1Q2_segment(:,length(Q1Q2_segment));
+            [Q12SEGMENT,Q12D,Q12DD] = jtraj(Qstart12SEGMENT, Qend12SEGMENT, 45);
+            robot.plot(Q12SEGMENT); hold on;
+            plot3(P1P2_segment(:,1),P1P2_segment(:,2),P1P2_segment(:,3),"LineWidth",1); 
+            hold on;
+
+            Q2Q3_segment = Q2Q3_segment';
+            Qstart23SEGMENT = Q2Q3_segment(:,1);
+            Qend23SEGMENT = Q2Q3_segment(:,length(Q2Q3_segment));
+            [Q23SEGMENT,Q23D,Q23DD] = jtraj(Qstart23SEGMENT, Qend23SEGMENT, 45);
+            robot.plot(Q23SEGMENT); hold on;
+            plot3(P2P3_segment(:,1),P2P3_segment(:,2),P2P3_segment(:,3),"LineWidth",1);
+            hold on;
+
+            Q3Q1_segment = Q3Q1_segment';
+            Qstart31SEGMENT = Q3Q1_segment(:,1);
+            Qend31SEGMENT = Q3Q1_segment(:,length(Q3Q1_segment));
+            [Q31SEGMENT,Q31D,Q31DD] = jtraj(Qstart31SEGMENT, Qend31SEGMENT, 45);
+            robot.plot(Q31SEGMENT); hold on;
+            plot3(P3P1_segment(:,1),P3P1_segment(:,2),P3P1_segment(:,3),"LineWidth",1); 
+            hold on;
         end
         
-        function Circonferenza40Secondi(Q1Q2arco, P1P2arco, Q2Q3arco, P2P3arco, Q3Q1arco, P3P1arco)
-            global robot;
-            figure();
-            title('COPERTURA PERCORSO CIRCONFERENZA in circa 40sec');
-            Q1Q2arco = Q1Q2arco';
-            Qstart12ARCO = Q1Q2arco(:,1);
-            Qend12ARCO = Q1Q2arco(:,length(Q1Q2arco));
-            [Q12ARCO,Q12D,Q12DD] = jtraj(Qstart12ARCO, Qend12ARCO, 45);
-            robot.plot(Q12ARCO); hold on;
-            plot3(P1P2arco(1,:),P1P2arco(2,:),P1P2arco(3,:),'LineWidth',1); hold on;
 
-            Q2Q3arco = Q2Q3arco';
-            Qstart23ARCO = Q2Q3arco(:,1);
-            Qend23ARCO = Q2Q3arco(:,length(Q2Q3arco));
-            [Q23ARCO,Q23D,Q23DD] = jtraj(Qstart23ARCO, Qend23ARCO, 45);
-            robot.plot(Q23ARCO); hold on;
-            plot3(P2P3arco(1,:),P2P3arco(2,:),P2P3arco(3,:),'LineWidth',1); hold on;
+        function circumference_40sec()
+            % function che effettua il plot della copertura del percorso
+            % della circonferenza in 40 secondi tramite il robot
+            global robot
+            global P1P2_arch P2P3_arch P3P1_arch
+            global Q1Q2_arch Q2Q3_arch Q3Q1_arch
 
-            Q3Q1arco = Q3Q1arco';
-            Qstart31ARCO = Q3Q1arco(:,1);
-            Qend31ARCO = Q3Q1arco(:,length(Q3Q1arco));
-            [Q31ARCO,Q31D,Q31DD] = jtraj(Qstart31ARCO, Qend31ARCO, 45);
-            robot.plot(Q31ARCO); hold on;
-            plot3(P3P1arco(1,:),P3P1arco(2,:),P3P1arco(3,:),'LineWidth',1); hold on;
+            figure(); title("CIRCUMFERENCE COVERAGE PATH IN 40 SECONDS");
+            
+            Q1Q2_arch = Q1Q2_arch';
+            Qstart12ARCH = Q1Q2_arch(:,1);
+            Qend12ARCH = Q1Q2_arch(:,length(Q1Q2_arch));
+            [Q12ARCH,Q12D,Q12DD] = jtraj(Qstart12ARCH, Qend12ARCH, 45);
+            robot.plot(Q12ARCH); hold on;
+            plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),"LineWidth",1);
+            hold on;
+
+            Q2Q3_arch = Q2Q3_arch';
+            Qstart23ARCH = Q2Q3_arch(:,1);
+            Qend23ARCH = Q2Q3_arch(:,length(Q2Q3_arch));
+            [Q23ARCH,Q23D,Q23DD] = jtraj(Qstart23ARCH, Qend23ARCH, 45);
+            robot.plot(Q23ARCH); hold on;
+            plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),"LineWidth",1); 
+            hold on;
+
+            Q3Q1_arch = Q3Q1_arch';
+            Qstart31ARCH = Q3Q1_arch(:,1);
+            Qend31ARCH = Q3Q1_arch(:,length(Q3Q1_arch));
+            [Q31ARCH,Q31D,Q31DD] = jtraj(Qstart31ARCH, Qend31ARCH, 45);
+            robot.plot(Q31ARCH); hold on;
+            plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),"LineWidth",1);
+            hold on;
         end
     
+
     end
 
 end

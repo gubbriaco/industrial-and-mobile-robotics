@@ -1,4 +1,4 @@
-function triangle_exec(T, Qp)
+function triangle_exec(T)
 
     global P1 P2 P3
 
@@ -7,6 +7,7 @@ function triangle_exec(T, Qp)
     T3 = T(3);
     T4 = T(4);
 
+    global Qp
     Qp1 = Qp(:,1);
     Qp2 = Qp(:,2);
     Qp3 = Qp(:,3);
