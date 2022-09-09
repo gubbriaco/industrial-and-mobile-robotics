@@ -1,4 +1,4 @@
-function static_plot(environment, evolutionAL, evolutionNL, evolutionFL)
+function static_plot(environment, evolutionAL, evolutionNL, evolutionFL, title_plot)
 
     f=figure(); f.Position=[25 342 1500 420]; 
     
@@ -20,4 +20,5 @@ function static_plot(environment, evolutionAL, evolutionNL, evolutionFL)
     title("INPUT-OUTPUT LINEARIZATION"); 
     legend("start", "goal", "trajectory output with control","Location","northwest");
     
+    sgtitle(title_plot + " TRAJECTORY TRACKING") 
 end

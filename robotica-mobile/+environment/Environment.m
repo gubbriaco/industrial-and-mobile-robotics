@@ -16,8 +16,8 @@ classdef Environment
        end
        
        function inizialize(environment)
-           % e' una function che permette di inizializzare l'environment
-           global grid X Y gridni Xni Yni
+            % e' una function che permette di inizializzare l'environment
+            global grid X Y gridni Xni Yni
             % Genero una mappa di ostacoli che sistemo in una griglia binaria di occupazione
             % dello spazio. Di conseguenza per rappresentare gli ostacoli posso sfruttare una
             % meshgrid. 
@@ -196,20 +196,42 @@ classdef Environment
        
        function plot2D(environment)
            % e' una function che permette il plot 2D dell'environment
-           global start goal obstacles obstaclesni
+           global start goal obstacles obstaclesni radius_robot width height
            hold on; plot(start(1),start(2), "*", "Color","b", "DisplayName","start");
            hold on; plot(goal(1),goal(2), "*", "Color","g", "DisplayName","goal");
            hold on;
+           
            % plot walls
+           % under wall
+           ob = obstacles(1,:);
+           x_ob=ob(1); y_ob=ob(3); w_ob=ob(2)-ob(1); h_ob=ob(4)-ob(3);
+           rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","red");
+           x_obi=x_ob+radius_robot; y_obi=y_ob+radius_robot; 
+           w_obi=w_ob-(2*radius_robot); h_obi=h_ob;
+           rectangle("position",[x_obi y_obi w_obi h_obi], "facecolor","#f5c0ba");
+           % over wall
+           ob = obstacles(2,:);
+           x_ob=ob(1); y_ob=ob(3); w_ob=ob(2)-ob(1); h_ob=ob(4)-ob(3);
+           rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","red");
+           x_obi=x_ob+radius_robot; y_obi=y_ob-radius_robot; 
+           w_obi=w_ob-(2*radius_robot); h_obi=h_ob;
+           rectangle("position",[x_obi y_obi w_obi h_obi], "facecolor","#f5c0ba");
+           % left wall
+           ob = obstacles(3,:);
+           x_ob=ob(1); y_ob=ob(3); w_ob=ob(2)-ob(1); h_ob=ob(4)-ob(3);
+           rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","red");
+           x_obi=x_ob+radius_robot; y_obi=y_ob+radius_robot; 
+           w_obi=w_ob; h_obi=h_ob-(2*radius_robot);
+           rectangle("position",[x_obi y_obi w_obi h_obi], "facecolor","#f5c0ba");
+           % right wall
+           ob = obstacles(4,:);
+           x_ob=ob(1); y_ob=ob(3); w_ob=ob(2)-ob(1); h_ob=ob(4)-ob(3);
+           rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","red");
+           x_obi=x_ob-radius_robot; y_obi=y_ob+radius_robot; 
+           w_obi=w_ob; h_obi=h_ob-(2*radius_robot);
+           rectangle("position",[x_obi y_obi w_obi h_obi], "facecolor","#f5c0ba");
+           
            nr_walls=4;
-           for i = 1 : nr_walls
-               ob = obstacles(i,:);
-               x_ob = ob(1);
-               y_ob = ob(3);
-               w_ob = ob(2)-ob(1);
-               h_ob = ob(4)-ob(3);
-               rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","red");
-           end 
            % plot ostacoli ingrassati
            for j = (nr_walls+1) : size(obstacles)
                ob = obstacles(j,:);

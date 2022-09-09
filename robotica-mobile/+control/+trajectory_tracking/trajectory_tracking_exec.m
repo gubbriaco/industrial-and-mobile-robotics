@@ -4,7 +4,8 @@ function [evolutionAL, evolutionNL, evolutionFL] = trajectory_tracking_exec(DYNA
                                                                             xstar, ystar,...
                                                                             xdstar, ydstar, ...
                                                                             xddstar, yddstar,...
-                                                                            thetastar)
+                                                                            thetastar,...
+                                                                            title_plot)
                               
                               
     import control.trajectory_tracking.approximated_linearization.linear_control_exec;
@@ -19,7 +20,9 @@ function [evolutionAL, evolutionNL, evolutionFL] = trajectory_tracking_exec(DYNA
    
                                         
     import control.trajectory_tracking.trajectory_tracking_plot;                       
-    trajectory_tracking_plot(DYNAMIC_ON, environment, evolutionAL, evolutionNL, evolutionFL);                                
+    trajectory_tracking_plot(DYNAMIC_ON, ...
+                             environment, evolutionAL, evolutionNL, evolutionFL, ...
+                             title_plot);                                
          
     
 
