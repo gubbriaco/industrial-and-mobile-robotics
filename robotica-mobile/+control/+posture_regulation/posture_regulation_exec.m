@@ -1,4 +1,5 @@
-function posture_regulation_exec(DYNAMIC_ON, evolution, Ts, angle, t_simulazione)
+function posture_regulation_exec(DYNAMIC_ON, evolution, Ts, angle, t_simulazione,...
+                                   nr_subplot, nc_subplot, subplot_index ,title_evolution)
 
     global goal
 
@@ -17,8 +18,10 @@ function posture_regulation_exec(DYNAMIC_ON, evolution, Ts, angle, t_simulazione
     
     import control.posture_regulation.cartesian_regulation.cartesian_regulation_exec;
     import control.posture_regulation.complete_regulation.complete_regulation_exec;
-    cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, cartesian_posture);
-    complete_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, complete_posture);
-    
+    cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, cartesian_posture,...
+                              nr_subplot, nc_subplot, subplot_index, title_evolution);
+    subplot_index = subplot_index+3;
+    complete_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, complete_posture,...
+                              nr_subplot, nc_subplot, subplot_index, title_evolution);
 
 end

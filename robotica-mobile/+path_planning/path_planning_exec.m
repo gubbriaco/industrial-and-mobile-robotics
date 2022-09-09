@@ -38,7 +38,8 @@ function path_planning_exec(environment)
     title("ARTIFICIAL POTENTIAL FIELDS SHORTEST PATH");
     legend("Location","northwest");
     Ts=0.1; samples=(length(P)/Ts)*2;
-    control_exec(environment, P, Ts, samples);
+    title_plot = "ARTIFICIAL POTENTIAL FIELDS";
+    control_exec(environment, P, Ts, samples, title_plot);
 
     
 % ************************************************************************  
@@ -51,7 +52,8 @@ function path_planning_exec(environment)
     title("DISCRETE POTENTIAL FIELDS SHORTEST PATH");
     legend("Location","northwest");
     Ts=0.1; samples=(length(P)/Ts)*2;
-    control_exec(environment, P, Ts, samples);
+    title_plot = "DISCRETE POTENTIAL FIELDS";
+    control_exec(environment, P, Ts, samples, title_plot);
 
     
 %% ************************************************************************   
@@ -64,7 +66,8 @@ function path_planning_exec(environment)
     title("VORONOI DIAGRAMS SHORTEST PATH");
     legend("Location","northwest");
     Ts=0.1; samples=length(P)/Ts;
-    control_exec(environment, P, Ts, samples);
+    title_plot = "VORONOI DIAGRAMS";
+    control_exec(environment, P, Ts, samples, title_plot);
 
     
 %% ************************************************************************    
@@ -82,7 +85,8 @@ function path_planning_exec(environment)
     Ts=0.1; samples=(length(P)/Ts);
     P = discretize_distances(P, samples);
     Ts=0.1; samples=(length(P)/Ts)*7;
-    control_exec(environment, P, Ts, samples);
+    title_plot = "VISIBILITY GRAPH";
+    control_exec(environment, P, Ts, samples, title_plot);
 
 
     
