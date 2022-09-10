@@ -1,9 +1,5 @@
 function circumference_exec(DYNAMIC_ON)
 
-    % theta1 = pi+0.6435; theta2 = theta1+1.8546;
-    % theta3 = theta2; theta4 = theta3+pi/2+0.6435;
-    % theta5 = pi/2; theta6 = theta5+pi/2+0.6435;
-
     
     global circumference_radius
     h=0.15; angle=asin(h/circumference_radius);

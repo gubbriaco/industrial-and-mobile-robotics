@@ -68,7 +68,6 @@ classdef Plot
             legend("P1P2d","P2P3d","P3P1d"); grid on;
         end
         
-        
         function triangle_joint_variables()
             % function che effettua il plot dell'andamento delle variabili 
             % di giunto riguardo il percorso del triangolo
@@ -155,8 +154,7 @@ classdef Plot
             legend("P1P2","P2P3","P3P1"); grid on;
         end
         
-        
-         function circumference_coverage_speed()
+        function circumference_coverage_speed()
             % function che effettua il plot della velocita' con cui viene
             % coperto il percorso della circonferenza
             global t12 t23 t31
@@ -179,11 +177,10 @@ classdef Plot
             plot(t31, P3P1_derived_arch(1,:), "*","Color", "b"); hold on;
             plot(t31, P3P1_derived_arch(2,:), "*","Color", "r"); hold on;
             plot(t31, P3P1_derived_arch(3,:), "*","Color", "g"); hold on;
-            title("CIRCUMFERENCE COVERAGE SPEED"); 
-            xlabel("\lambda"); ylabel("speed"); 
+            title("CIRCUMFERENCE COVERAGE SPEED");
+            xlabel("\lambda"); ylabel("speed");
             legend("P1P2d","P2P3d","P3P1d"); grid on;
         end
-        
         
         function circumference_joint_variables()
             % function che effettua il plot dell'andamento delle variabili 
@@ -242,10 +239,7 @@ classdef Plot
             legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
         end
         
-       
-        
-        
-        
+      
         function triangle()
             % function che effettua il plot del triangolo
             global P1P2_segment P2P3_segment P3P1_segment
