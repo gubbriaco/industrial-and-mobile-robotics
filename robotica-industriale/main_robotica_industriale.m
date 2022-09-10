@@ -34,15 +34,12 @@ triangle_exec(T, DYNAMIC_ON);
 %% TRIANGLE PATH PLOT 
 import plot.Plot;
 Plot.triangle();
+
 f=figure(); f.Position=[350 350 800 400];
-subplot(2,2,1);
-Plot.triangle_coverage();
-subplot(2,2,3);
-Plot.triangle_coverage_speed();
-subplot(2,2,2);
-Plot.triangle_joint_variables();
-subplot(2,2,4);
-Plot.triangle_joint_variables_speed();
+subplot(2,2,1); Plot.triangle_coverage();
+subplot(2,2,3); Plot.triangle_coverage_speed();
+subplot(2,2,2); Plot.triangle_joint_variables();
+subplot(2,2,4); Plot.triangle_joint_variables_speed();
 sgtitle("TRIANGLE COVERAGE TREND");
 
 %% TRIANGLE PATH ERROR 
@@ -68,15 +65,12 @@ circumference_exec(DYNAMIC_ON);
 %% CIRCUMFERENCE PATH PLOT
 import plot.Plot;
 Plot.circumference();
+
 f=figure(); f.Position=[350 350 800 400];
-subplot(2,2,1);
-Plot.circumference_coverage();
-subplot(2,2,4)
-Plot.circumference_coverage_speed();
-subplot(2,2,3)
-Plot.circumference_joint_variables();
-subplot(2,2,2)
-Plot.circumference_joint_variables_speed();
+subplot(2,2,1); Plot.circumference_coverage();
+subplot(2,2,4); Plot.circumference_coverage_speed();
+subplot(2,2,3); Plot.circumference_joint_variables();
+subplot(2,2,2); Plot.circumference_joint_variables_speed();
 sgtitle("CIRCUMFERENCE COVERAGE TREND");
 
 %% CIRCUMFERENCE ERROR

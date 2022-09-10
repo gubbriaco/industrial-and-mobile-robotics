@@ -4,7 +4,7 @@ function [T] = time_definition()
     % P1->P2 t2-t1 40/3
     % P2->P3 t3-t2 40/3
     % P3->P1 t4-t3 40/3
-    offset = 10;
+    
     T1 = 0;
     T2 = T1+(TEMPO_TOTALE/3);
     T3 = T2+(TEMPO_TOTALE/3);
