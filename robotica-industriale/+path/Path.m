@@ -2,7 +2,7 @@ classdef Path
 
     methods(Static)
     
-        function [PP, PPd, QQ, QQd] = segment(T1, T2, P1, P2, Q1, Q2)
+        function [PP, PPd, QQ, QQd] = segment(T1, T2, P1, P2, DYNAMIC_ON)
             global links lambda derived_lambda;
             N = length(lambda);
             import kinematics.inverse_kinematics.inverse_kinematics;
@@ -20,13 +20,15 @@ classdef Path
                 QQ(i,:) = Q;
                 PP(i,:) = P;
                 
-                Plot.segment(i, PP, QQ);
+                if isequal(DYNAMIC_ON, 1)
+                    Plot.segment(i, PP, QQ);
+                end
                 
                 % calcolare J(Q)
-                JP = geometric_jacobian(links,[Q1 Q2]);
+                JP = geometric_jacobian(links, Q);
                 
                 % risolvere il sistema di eq. lineari J(Q)*Qd=Pd
-                Pd = (P2-P1)*derived_lambda(i) / (T2-T1);
+                Pd = ((P2-P1)/(T2-T1))*derived_lambda(i);
                 PPd(i,:) = Pd;
                 
                 if( isequal(det(JP), 0) )
@@ -40,7 +42,7 @@ classdef Path
         end
 
         
-        function [PP, PPd, QQ, QQd] = arch(theta1, theta2)
+        function [PP, PPd, QQ, QQd] = arch(theta1, theta2, DYNAMIC_ON)
             global links lambda derived_lambda circumference_radius circumference_center;
             N = length(lambda);
             import kinematics.inverse_kinematics.inverse_kinematics;
@@ -51,7 +53,9 @@ classdef Path
                 PP(:,i) = circumference_center + circumference_radius*[cos(theta);sin(theta);0];
                 QQ(i,:) = inverse_kinematics(links, PP(:,i));
                 
-                Plot.arch(i, PP, QQ);
+                if isequal(DYNAMIC_ON, 1)
+                    Plot.arch(i, PP, QQ);
+                end
 
                 PPd(:,i) = circumference_radius*[-sin(theta);cos(theta);0] * derived_lambda(i) * (theta2-theta1);
                 JP = geometric_jacobian(links,[QQ(i,1) QQ(i,2) QQ(i,3)]);

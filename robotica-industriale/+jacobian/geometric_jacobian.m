@@ -1,7 +1,7 @@
-function JP = geometric_jacobian(links, angles)
+function JP = geometric_jacobian(links, Q)
 
-    L1 = links(1); L2 = links(2); L3 = links(3); 
-    Q1 = angles(1); Q2 = angles(2); Q3 = angles(3);
+    L1=links(1); L2=links(2); L3=links(3); 
+    Q1=Q(1); Q2=Q(2); Q3=Q(3);
     
     c1 = cos(Q1);
     c2 = cos(Q2);

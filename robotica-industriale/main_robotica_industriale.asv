@@ -86,8 +86,7 @@ Error.circumference();
 
 %% PLOT WITH TIME
 % valore input per scegliere se avere anche i plot dinamici riguardo la
-% "copertura" rispettivamente del percorso triangolo e circonferenza in 
-% circa 40 secondi
+% copertura del percorso triangolo e circonferenza in circa 40 secondi
 PLOT_WITH_TIME = 0;
 if isequal(PLOT_WITH_TIME, 1)
     import plot.Plot;
