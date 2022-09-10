@@ -9,15 +9,71 @@ classdef Plot
             figure();
             plot3(P1(1), P1(2), P1(3), "o", "Color","red"); hold on;
             plot3(P2(1), P2(2), P2(3), "o", "Color","red"); hold on;
-            plot3(P3(1), P3(2), P3(3), "o", "Color","red"); 
+            plot3(P3(1), P3(2), P3(3), "o", "Color","red");
         end
+        
+        function triangle_coverage()
+            % function che effettua il plot dei punti "coperti" riguardo il
+            % percorso del triangolo
+            global t12 t23 t31
+            global P1P2_segment P2P3_segment P3P1_segment
+            plot(t12, P1P2_segment(:,1), "Color","b"); hold on;
+            plot(t12, P1P2_segment(:,2), "Color","r"); hold on;
+            plot(t12, P1P2_segment(:,3), "Color","g"); hold on;
+            plot(t23, P2P3_segment(:,1), "Color","b"); hold on;
+            plot(t23, P2P3_segment(:,2), "Color","r"); hold on;
+            plot(t23, P2P3_segment(:,3), "Color","g"); hold on;
+            plot(t31, P3P1_segment(:,1), "Color","b"); hold on;
+            plot(t31, P3P1_segment(:,2), "Color","r"); hold on;
+            plot(t31, P3P1_segment(:,3), "Color","g"); hold on;
+            plot(t12, P1P2_segment(:,1), "*","Color","b"); hold on;
+            plot(t12, P1P2_segment(:,2), "*","Color","r"); hold on;
+            plot(t12, P1P2_segment(:,3), "*","Color","g"); hold on;
+            plot(t23, P2P3_segment(:,1), "*","Color","b"); hold on;
+            plot(t23, P2P3_segment(:,2), "*","Color","r"); hold on;
+            plot(t23, P2P3_segment(:,3), "*","Color","g"); hold on;
+            plot(t31, P3P1_segment(:,1), "*","Color","b"); hold on;
+            plot(t31, P3P1_segment(:,2), "*","Color","r"); hold on;
+            plot(t31, P3P1_segment(:,3), "*","Color","g"); hold on;
+            title("TRIANGLE POINTS COVERAGE"); 
+            xlabel("\lambda"); ylabel("points trend"); 
+            legend("P1P2","P2P3","P3P1"); grid on;
+        end
+        
+        function triangle_coverage_speed()
+            % function che effettua il plot della velocita' con cui viene
+            % coperto il percorso del triangolo
+            global t12 t23 t31
+            global P1P2_derived_segment P2P3_derived_segment P3P1_derived_segment
+            plot(t12, P1P2_derived_segment(:,1), "Color","b"); hold on;
+            plot(t12, P1P2_derived_segment(:,2), "Color","r"); hold on;
+            plot(t12, P1P2_derived_segment(:,3), "Color","g"); hold on;
+            plot(t23, P2P3_derived_segment(:,1), "Color","b"); hold on;
+            plot(t23, P2P3_derived_segment(:,2), "Color","r"); hold on;
+            plot(t23, P2P3_derived_segment(:,3), "Color","g"); hold on;
+            plot(t31, P3P1_derived_segment(:,1), "Color","b"); hold on;
+            plot(t31, P3P1_derived_segment(:,2), "Color","r"); hold on;
+            plot(t31, P3P1_derived_segment(:,3), "Color","g"); hold on;
+            plot(t12, P1P2_derived_segment(:,1), "*","Color","b"); hold on;
+            plot(t12, P1P2_derived_segment(:,2), "*","Color","r"); hold on;
+            plot(t12, P1P2_derived_segment(:,3), "*","Color","g"); hold on;
+            plot(t23, P2P3_derived_segment(:,1), "*","Color","b"); hold on;
+            plot(t23, P2P3_derived_segment(:,2), "*","Color","r"); hold on;
+            plot(t23, P2P3_derived_segment(:,3), "*","Color","g"); hold on;
+            plot(t31, P3P1_derived_segment(:,1), "*","Color","b"); hold on;
+            plot(t31, P3P1_derived_segment(:,2), "*","Color","r"); hold on;
+            plot(t31, P3P1_derived_segment(:,3), "*","Color","g"); hold on;
+            title("TRIANGLE COVERAGE SPEED"); 
+            xlabel("\lambda"); ylabel("speed"); 
+            legend("P1P2d","P2P3d","P3P1d"); grid on;
+        end
+        
         
         function triangle_joint_variables()
             % function che effettua il plot dell'andamento delle variabili 
             % di giunto riguardo il percorso del triangolo
             global t12 t23 t31
             global Q1Q2_segment Q2Q3_segment Q3Q1_segment
-            figure();
             plot(t12, Q1Q2_segment(:,1), "Color","b"); hold on;
             plot(t12, Q1Q2_segment(:,2), "Color","r"); hold on;
             plot(t12, Q1Q2_segment(:,3), "Color","g"); hold on;
@@ -46,7 +102,6 @@ classdef Plot
             % delle variabili di giunto riguardo il percorso del triangolo
             global t12 t23 t31
             global Q1Q2_derived_segment Q2Q3_derived_segment Q3Q1_derived_segment
-            figure();
             plot(t12, Q1Q2_derived_segment(:,1), "Color","b"); hold on;
             plot(t12, Q1Q2_derived_segment(:,2), "Color","r"); hold on;
             plot(t12, Q1Q2_derived_segment(:,3), "Color","g"); hold on;
@@ -70,35 +125,64 @@ classdef Plot
             legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
         end
         
-        function triangle_coverage_speed()
-            % function che effettua il plot della velocita' con cui viene
-            % coperto il percorso del triangolo
+        
+        
+        function circumference_coverage()
+            % function che effettua il plot dei punti "coperti" riguardo il
+            % percorso della circonferenza
             global t12 t23 t31
-            global P1P2_derived_segment P2P3_derived_segment P3P1_derived_segment
-            figure(); 
-            plot(t12, P1P2_derived_segment(:,1), "Color","b"); hold on;
-            plot(t12, P1P2_derived_segment(:,2), "Color","r"); hold on;
-            plot(t12, P1P2_derived_segment(:,3), "Color","g"); hold on;
-            plot(t23, P2P3_derived_segment(:,1), "Color","b"); hold on;
-            plot(t23, P2P3_derived_segment(:,2), "Color","r"); hold on;
-            plot(t23, P2P3_derived_segment(:,3), "Color","g"); hold on;
-            plot(t31, P3P1_derived_segment(:,1), "Color","b"); hold on;
-            plot(t31, P3P1_derived_segment(:,2), "Color","r"); hold on;
-            plot(t31, P3P1_derived_segment(:,3), "Color","g"); hold on;
-            plot(t12, P1P2_derived_segment(:,1), "*","Color","b"); hold on;
-            plot(t12, P1P2_derived_segment(:,2), "*","Color","r"); hold on;
-            plot(t12, P1P2_derived_segment(:,3), "*","Color","g"); hold on;
-            plot(t23, P2P3_derived_segment(:,1), "*","Color","b"); hold on;
-            plot(t23, P2P3_derived_segment(:,2), "*","Color","r"); hold on;
-            plot(t23, P2P3_derived_segment(:,3), "*","Color","g"); hold on;
-            plot(t31, P3P1_derived_segment(:,1), "*","Color","b"); hold on;
-            plot(t31, P3P1_derived_segment(:,2), "*","Color","r"); hold on;
-            plot(t31, P3P1_derived_segment(:,3), "*","Color","g"); hold on;
-            title("TRIANGLE COVERAGE SPEED"); 
+            global P1P2_arch P2P3_arch P3P1_arch 
+            plot(t12, P1P2_arch(1,:), "Color", "b"); hold on;
+            plot(t12, P1P2_arch(2,:), "Color", "r"); hold on;
+            plot(t12, P1P2_arch(3,:), "Color", "g"); hold on;
+            plot(t23, P2P3_arch(1,:), "Color", "b"); hold on;
+            plot(t23, P2P3_arch(2,:), "Color", "r"); hold on;
+            plot(t23, P2P3_arch(3,:), "Color", "g"); hold on;
+            plot(t31, P3P1_arch(1,:), "Color", "b"); hold on;
+            plot(t31, P3P1_arch(2,:), "Color", "r"); hold on;
+            plot(t31, P3P1_arch(3,:), "Color", "g"); hold on;
+            plot(t12, P1P2_arch(1,:), "*","Color", "b"); hold on;
+            plot(t12, P1P2_arch(2,:), "*","Color", "r"); hold on;
+            plot(t12, P1P2_arch(3,:), "*","Color", "g"); hold on;
+            plot(t23, P2P3_arch(1,:), "*","Color", "b"); hold on;
+            plot(t23, P2P3_arch(2,:), "*","Color", "r"); hold on;
+            plot(t23, P2P3_arch(3,:), "*","Color", "g"); hold on;
+            plot(t31, P3P1_arch(1,:), "*","Color", "b"); hold on;
+            plot(t31, P3P1_arch(2,:), "*","Color", "r"); hold on;
+            plot(t31, P3P1_arch(3,:), "*","Color", "g"); hold on;
+            title("CIRCUMFERENCE POINTS COVERAGE"); 
+            xlabel("\lambda"); ylabel("speed"); 
+            legend("P1P2","P2P3","P3P1"); grid on;
+        end
+        
+        
+         function circumference_coverage_speed()
+            % function che effettua il plot della velocita' con cui viene
+            % coperto il percorso della circonferenza
+            global t12 t23 t31
+            global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
+            plot(t12, P1P2_derived_arch(1,:), "Color", "b"); hold on;
+            plot(t12, P1P2_derived_arch(2,:), "Color", "r"); hold on;
+            plot(t12, P1P2_derived_arch(3,:), "Color", "g"); hold on;
+            plot(t23, P2P3_derived_arch(1,:), "Color", "b"); hold on;
+            plot(t23, P2P3_derived_arch(2,:), "Color", "r"); hold on;
+            plot(t23, P2P3_derived_arch(3,:), "Color", "g"); hold on;
+            plot(t31, P3P1_derived_arch(1,:), "Color", "b"); hold on;
+            plot(t31, P3P1_derived_arch(2,:), "Color", "r"); hold on;
+            plot(t31, P3P1_derived_arch(3,:), "Color", "g"); hold on;
+            plot(t12, P1P2_derived_arch(1,:), "*","Color", "b"); hold on;
+            plot(t12, P1P2_derived_arch(2,:), "*","Color", "r"); hold on;
+            plot(t12, P1P2_derived_arch(3,:), "*","Color", "g"); hold on;
+            plot(t23, P2P3_derived_arch(1,:), "*","Color", "b"); hold on;
+            plot(t23, P2P3_derived_arch(2,:), "*","Color", "r"); hold on;
+            plot(t23, P2P3_derived_arch(3,:), "*","Color", "g"); hold on;
+            plot(t31, P3P1_derived_arch(1,:), "*","Color", "b"); hold on;
+            plot(t31, P3P1_derived_arch(2,:), "*","Color", "r"); hold on;
+            plot(t31, P3P1_derived_arch(3,:), "*","Color", "g"); hold on;
+            title("CIRCUMFERENCE COVERAGE SPEED"); 
             xlabel("\lambda"); ylabel("speed"); 
             legend("P1P2d","P2P3d","P3P1d"); grid on;
         end
-        
         
         
         function circumference_joint_variables()
@@ -106,7 +190,6 @@ classdef Plot
             % di giunto riguardo il percorso della circonferenza
             global Q1Q2_arch Q2Q3_arch Q3Q1_arch
             global t12 t23 t31;
-            figure();
             plot(t12, Q1Q2_arch(:,1), "Color", "b"); hold on;
             plot(t12, Q1Q2_arch(:,2), "Color", "r"); hold on;
             plot(t12, Q1Q2_arch(:,3), "Color", "g"); hold on;
@@ -136,7 +219,6 @@ classdef Plot
             % circonferenza
             global t12 t23 t31
             global Q1Q2_derived_arch Q2Q3_derived_arch Q3Q1_derived_arch
-            figure();
             plot(t12, Q1Q2_derived_arch(1,:), "Color", "b"); hold on;
             plot(t12, Q1Q2_derived_arch(2,:), "Color", "r"); hold on;
             plot(t12, Q1Q2_derived_arch(3,:), "Color", "g"); hold on;
@@ -160,34 +242,7 @@ classdef Plot
             legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
         end
         
-        function circumference_coverage_speed()
-            % function che effettua il plot della velocita' con cui viene
-            % coperto il percorso della circonferenza
-            global t12 t23 t31
-            global P1P2_derived_arch P2P3_derived_arch P3P1_derived_arch
-            figure(); 
-            plot(t12, P1P2_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t12, P1P2_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t12, P1P2_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t23, P2P3_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t23, P2P3_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t23, P2P3_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t31, P3P1_derived_arch(1,:), "Color", "b"); hold on;
-            plot(t31, P3P1_derived_arch(2,:), "Color", "r"); hold on;
-            plot(t31, P3P1_derived_arch(3,:), "Color", "g"); hold on;
-            plot(t12, P1P2_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t12, P1P2_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t12, P1P2_derived_arch(3,:), "*","Color", "g"); hold on;
-            plot(t23, P2P3_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t23, P2P3_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t23, P2P3_derived_arch(3,:), "*","Color", "g"); hold on;
-            plot(t31, P3P1_derived_arch(1,:), "*","Color", "b"); hold on;
-            plot(t31, P3P1_derived_arch(2,:), "*","Color", "r"); hold on;
-            plot(t31, P3P1_derived_arch(3,:), "*","Color", "g"); hold on;
-            title("CIRCUMFERENCE COVERAGE SPEED"); 
-            xlabel("\lambda"); ylabel("speed"); 
-            legend("P1P2d","P2P3d","P3P1d"); grid on;
-        end
+       
         
         
         
