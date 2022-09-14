@@ -18,9 +18,9 @@ classdef Environment
        function inizialize(environment)
             % e' una function che permette di inizializzare l'environment
             global grid X Y gridni Xni Yni
-            % Genero una mappa di ostacoli che sistemo in una griglia binaria di occupazione
-            % dello spazio. Di conseguenza per rappresentare gli ostacoli posso sfruttare una
-            % meshgrid. 
+            % Genero una mappa di ostacoli che sistemo in una griglia 
+            % binaria di occupazione dello spazio. Di conseguenza per 
+            % rappresentare gli ostacoli posso sfruttare una meshgrid. 
 
             %% GRID ENVIRONMENT
             %nr = 100; nc = 100;

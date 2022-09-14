@@ -1,5 +1,6 @@
 clear; close all; clc;
 
+
 %% ROBOT
 global radius_robot
 % definisco il raggio del robot:
@@ -20,7 +21,7 @@ x_start=5; y_start=5;
 % definisco le coordinate di goal
 x_goal=90; y_goal=90;
 global start goal
-start = [x_start y_start]; goal = [x_goal y_goal];
+start=[x_start y_start]; goal=[x_goal y_goal];
 
 %% ENVIRONMENT
 % definisco larghezza e altezza (in termini di plot) dell'ambiente
