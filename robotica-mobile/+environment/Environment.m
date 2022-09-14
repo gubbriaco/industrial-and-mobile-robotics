@@ -30,6 +30,7 @@ classdef Environment
             % la griglia generata sara' la griglia utilizzata per gli
             % ostacoli ingrassati
             grid = zeros(environment.nr, environment.nc);
+            
             % y = linspace(x1,x2,n) genera n punti. La distanza tra i punti
             % è (x2-x1)/(n-1). 
             % linspace è simile all'operatore due punti, “:”, ma da' il 
