@@ -8,8 +8,6 @@ function trajectory = discrete_potential_fields(start, goal, width, height, grid
     import path_planning.discrete_potential_fields.search_path;
     [trajectory, dpf_map] = search_path(start(1),start(2), discrete_potential_map);
 
-    
-    figure(); surface(dpf_map); title("DISCRETE POTENTIAL FIELDS MAP");
-    
-    
+figure()
+surfa
 end

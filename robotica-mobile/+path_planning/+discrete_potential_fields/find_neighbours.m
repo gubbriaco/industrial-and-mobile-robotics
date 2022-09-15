@@ -1,135 +1,135 @@
 %funzione 'findNeighbours'
-function [neighbours,N,E,S,W] = findNeighbours( Rig, Col, map)
+function [neighbours,nord,est,sud,ovest] = find_neighbours( riga, colonna, mappa)
 
-    [m,n] = size(map);
+    [m,n] = size(mappa);
     neighbours=[];
-    N=0; E=0; S=0; W=0;
+    nord=0; est=0; sud=0; ovest=0;
     
-    if Col>1
-        W=1;
+    if colonna>1
+        ovest=1;
     end
-    if Col<n
-        E=1;
+    if colonna<n
+        est=1;
     end
-    if Rig>1
-        N=1;
+    if riga>1
+        nord=1;
     end
-    if Rig<m
-        S=1;
+    if riga<m
+        sud=1;
     end
     
-    if N && E && S && W
+    if nord && est && sud && ovest
         
         neighbours=zeros(8,2);
         i=1;
         for r=-1:1
             for c=-1:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif N && E && S
+    elseif nord && est && sud
         
         neighbours=zeros(5,2);
         i=1;
         for r=-1:1
             for c=0:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif N && E && W
+    elseif nord && est && ovest
         
         neighbours=zeros(5,2);
         i=1;
         for r=-1:0
             for c=-1:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif N && S && W
+    elseif nord && sud && ovest
         
         neighbours=zeros(5,2);
         i=1;
         for r=-1:1
             for c=-1:0
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif E && S && W
+    elseif est && sud && ovest
         
         neighbours=zeros(5,2);
         i=1;
         for r=0:1
             for c=-1:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif N && W
+    elseif nord && ovest
         
         neighbours=zeros(3,2);
         i=1;
         for r=-1:0
             for c=-1:0
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif N && E
+    elseif nord && est
         
        neighbours=zeros(3,2);
         i=1;
         for r=-1:0
             for c=0:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif W && S
+    elseif ovest && sud
     
         neighbours=zeros(3,2);
         i=1;
         for r=0:1
             for c=-1:0
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end
         end
         
-    elseif S && E
+    elseif sud && est
         
         neighbours=zeros(3,2);
         i=1;
         for r=0:1
             for c=0:1
                 if r~=0 || c~=0
-                    neighbours(i,:)=[Rig+r,Col+c];
+                    neighbours(i,:)=[riga+r,colonna+c];
                     i=i+1;
                 end
             end

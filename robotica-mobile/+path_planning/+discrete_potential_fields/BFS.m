@@ -15,20 +15,20 @@ function map = BFS( Xstart, Ystart, map )
     while numel(queue) ~= 0                     % coda non vuota
     
         import path_planning.discrete_potential_fields.poll;
-        [R, C, queue] = poll(queue);            % estrazione del primo elemento
+        [riga, colonna, queue] = poll(queue);            % estrazione del primo elemento
         import path_planning.discrete_potential_fields.find_neighbours;
-        neighbours = find_neighbours(R,C,map);   % neighbours matrice mx2 con le coppie (riga,col) dei vicini
+        neighbours = find_neighbours(riga,colonna,map);   % neighbours matrice mx2 con le coppie (riga,col) dei vicini
         
         for i=1:length(neighbours)
             
-            R_neigh = neighbours(i,1);
-            C_neigh = neighbours(i,2);
+            riga_neigh = neighbours(i,1);
+            colonna_neigh = neighbours(i,2);
             
-            if ( C_neigh~=Xstart || R_neigh~=Ystart ) && map( R_neigh, C_neigh) == 0
+            if ( colonna_neigh~=Xstart || riga_neigh~=Ystart ) && map( riga_neigh, colonna_neigh) == 0
                 
-                map( R_neigh, C_neigh ) = map( R, C ) + 1;        % assegna potenziale
+                map( riga_neigh, colonna_neigh ) = map( riga, colonna ) + 1;        % assegna potenziale
                 import path_planning.discrete_potential_fields.offer; 
-                queue = offer( R_neigh, C_neigh, queue );         % aggiungi alla coda
+                queue = offer( riga_neigh, colonna_neigh, queue );         % aggiungi alla coda
             end
         end
                 
