@@ -38,11 +38,8 @@ function [cell_path, path_map] = search_path( Xstart, Ystart, distance_map )
     cell_path(:,1) = path(:,1);
     cell_path(:,2) = path(:,2);
     
+   
+    path_map = distance_map;
     
-    % disegna percorso
-    for r = 1:length(path)
-        distance_map(path(r,2),path(r,1))= -1111;
-    end
-    path_map=distance_map;
-    
+
 end

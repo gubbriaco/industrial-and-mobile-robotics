@@ -25,7 +25,7 @@
  
     route = start_coords;
     point_on_route = start_coords;
-    %un valore grande permette di arrivare velocemente al goal ma può 
+    % un valore grande permette di arrivare velocemente al goal ma può 
     % determinare anche per esempio degli overshoot
     speed = 3; 
     %è una misura della soglia: se è troppo piccola è accurata ma la 
@@ -35,9 +35,10 @@
     
     while( max_its > 0 )
         
-        % controllo che il robot sia arrivato al goal
+        % controllo che il robot sia arrivato in un intorno del goal
         if(norm(end_coords-point_on_route) < tolerance)
-            % interrompo il ciclo perche' il robot e' arrivato al goal
+            % interrompo il ciclo perche' il robot e' arrivato nell'intorno
+            % del goal
             break;
         end
         
