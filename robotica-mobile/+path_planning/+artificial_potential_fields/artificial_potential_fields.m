@@ -2,11 +2,11 @@ function P = artificial_potential_fields(environment)
 
     global goal start grid X Y width height;
 
+    
+    
+    %% CALCOLO DELLA FORZA REPULSIVA
     d = bwdist(grid); %bdwist function restituisce la distanza da ogni 
     % "true" element nell'array degli ostacoli
-
-    
-    % Ridimensionamento e trasformazione delle distanze
 
     Rho = (d/10) + 1; %aggiungiamo l'1 perchè qualche valore di d=0 e 
     % potremmo avere problemi nel calcolo del repulsivo
@@ -20,14 +20,12 @@ function P = artificial_potential_fields(environment)
     % formula repulsivo
     repulsive = (1/2)*Eta*((1./Rho - 1/d0).^2);
 
-    
     % se la distanza da cui si trova il robot e' maggiore di Rho allora il
     % repulsivo in questo punto sara' pari a 0
     repulsive (Rho > d0) = 0;
 
 
-    % Compute attractive force
-
+    %% CALCOLO DELLA FORZA ATTRATTIVA
     xi = 1/15; % usato per controllare la forza attrattiva -> per esempio 
     % se xi=1/1000 il robot non raggiunge il goal perchè la forza 
     % attrattiva è poca per xi=1/10, il robot passa attraverso gli ostacoli
@@ -36,10 +34,11 @@ function P = artificial_potential_fields(environment)
     attractive = xi * ( (X - goal(1)).^2 + (Y - goal(2)).^2 );
 
     
-    % Combine terms
-    % potenziale totale
+    %% CALCOLO DEL POTENZIALE TOTALE
     fAR = attractive + repulsive;
 
+    
+    %% PLOT
     f=figure(); f.Position=[25 342 1500 420]; 
     subplot(1,3,1); m=mesh(repulsive); m.FaceLighting = 'phong'; axis equal;
     title ("REPULSIVE POTENTIAL");
@@ -49,10 +48,10 @@ function P = artificial_potential_fields(environment)
     title ("TOTAL POTENTIAL");
 
     
+    %% CALCOLO DELLA TRAIETTORIA
     import path_planning.artificial_potential_fields.gradient_based_planner; 
     P = gradient_based_planner(fAR, start, goal, 1000);
 
-  
 
     %% QUIVER PLOT
     % calcolo l'anti-gradiente
@@ -72,6 +71,8 @@ function P = artificial_potential_fields(environment)
     xidx = 1 : step : width;
     yidx = 1 : step : height;
 
+    
+    %% PLOT TRAIETTORIA
     figure();
     % quiver(___,scale) regola la lunghezza delle frecce:
     % quando lo scale e' un numero positivo, quiver automaticamente regola
@@ -95,5 +96,6 @@ function P = artificial_potential_fields(environment)
     plot(goal(1),goal(2), "g.", "MarkerSize",30);
     plot (P(:,1),P(:,2), "r", "LineWidth",2);
     title("ARTIFICIAL POTENTIAL FIELDS QUIVER PLOT");
+    
     
 end
