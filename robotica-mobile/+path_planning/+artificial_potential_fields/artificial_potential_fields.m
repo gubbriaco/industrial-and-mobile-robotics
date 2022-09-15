@@ -94,6 +94,6 @@ function P = artificial_potential_fields(environment)
     plot(start(1),start(2), "r.", "MarkerSize",30);
     plot(goal(1),goal(2), "g.", "MarkerSize",30);
     plot (P(:,1),P(:,2), "r", "LineWidth",2);
-    
+    title("ARTIFICIAL POTENTIAL FIELDS QUIVER PLOT");
     
 end
