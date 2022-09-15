@@ -6,14 +6,14 @@ function P = artificial_potential_fields(environment)
     % "true" element nell'array degli ostacoli
 
     
-    % Rescale and transform distances
+    % Ridimensionamento e trasformazione delle distanze
 
     Rho = (d/10) + 1; %aggiungiamo l'1 perchè qualche valore di d=0 e 
     % potremmo avere problemi nel calcolo del repulsivo
-    d0 = 2;     % peso del repulsivo. Se il robot si allonana più di d0 il 
+    d0 = 2; % peso del repulsivo. Se il robot si allonana più di d0 il 
     % repulsivo sarà pari a 0
-    Eta = 163.4000; %utilizzando per controllare la forza del repulsivo Eta 
-    % grande crea molta differenza tra forza repulsiva e attrattiva. 
+    Eta = 163.4000; %utilizzato per controllare la forza del repulsivo 
+    % un Eta grande crea molta differenza tra forza repulsiva e attrattiva. 
     % Bisogna mettere il repulsivo ampio per fare in modo che il robot non 
     % vada contro l'ostacolo
 
@@ -28,8 +28,8 @@ function P = artificial_potential_fields(environment)
 
     % Compute attractive force
 
-    xi = 1/15;     % usato per controllare la forza attrattiva -> per 
-    % esempio se xi=1/1000 il robot non raggiunge il goal perchè la forza 
+    xi = 1/15; % usato per controllare la forza attrattiva -> per esempio 
+    % se xi=1/1000 il robot non raggiunge il goal perchè la forza 
     % attrattiva è poca per xi=1/10, il robot passa attraverso gli ostacoli
 
     % formula attrattivo
@@ -73,20 +73,20 @@ function P = artificial_potential_fields(environment)
     yidx = 1 : step : height;
 
     figure();
-    % quiver(___,scale) adjusts the length of arrows:
-    % When scale is a positive number, the quiver function automatically 
-    % adjusts the lengths of arrows so they do not overlap, then stretches 
-    % them by a factor of scale. For example, a scale of 2 doubles the 
-    % length of arrows, and a scale of 0.5 halves the length of arrows.
-    % When scale is 'off' or 0, such as quiver(X,Y,U,V,'off'), then 
-    % automatic scaling is disabled
+    % quiver(___,scale) regola la lunghezza delle frecce:
+    % quando lo scale e' un numero positivo, quiver automaticamente regola
+    % la lunghezza delle frecce in modo che non si sovrappongano, quindi le
+    % allunga di un fattore di scala. Ad esempio, uno scale di 2 raddoppia
+    % la lunghezza delle frecce, ed uno scale di 0.5 dimezza la lunghezza 
+    % delle frecce. Quando il fattore di scale e' "off" o 0, lo scaling e'
+    % automaticamente disattivato
     %
-    % quiver(X,Y,U,V) plots arrows with directional components U and V at 
-    % the Cartesian coordinates specified by X and Y. For example, the 
-    % first arrow originates from the point X(1) and Y(1), extends 
-    % horizontally according to U(1), and extends vertically according to 
-    % V(1). By default, the quiver function scales the arrow lengths so 
-    % that they do not overlap.
+    % quiver(X,Y,U,V) plotta le frecce con componenti direzionali U e V 
+    % alle coordinate cartesiane specificate da X e Y. Ad esempio, la prima
+    % freccia ha origine dal punto X(1),Y(1) e si estende orizzontalmente
+    % secondo U(1) e verticalmente secondo V(1). Per impostazione 
+    % predefinita, quiver dimensiona la lunghezza delle frecce in modo che
+    % non si sovrappongano.
     scale = 0.7;
     quiver (X(yidx,xidx),Y(yidx,xidx), gx(yidx,xidx),gy(yidx,xidx), scale);
     axis ([1 width 1 height]); xlabel("X"), ylabel("Y");
