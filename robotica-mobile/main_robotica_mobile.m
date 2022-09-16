@@ -30,6 +30,7 @@ width=100; height=100;
 nc=100; nr=100;
 import environment.Environment;
 % definisco il tipo di oggetto Environment
+global environment
 environment = Environment(width, height, nc, nr);
 % inizializzo l'environment
 inizialize(environment);
@@ -49,6 +50,8 @@ subplot(1,2,2); plot3D(environment);
 % ogni path planning viene eseguito ogni algoritmo di controllo progettato
 % @see path_planning.path_planning_exec
 import path_planning.path_planning_exec;
+disp("PER TERMINARE IL PROGRAMMA CLICCARE CTRL + C SULLA TASTIERA.");
+disp(" ");
 disp("Scegliere una tra le tipologie elencate. Gli input sono non case sensitive.");
 disp("I formati di input per la tipologia di path planning sono:");
 disp("artificial := Artificial Potential Fields");
