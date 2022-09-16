@@ -15,7 +15,7 @@ function newXg = approximated_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar
     
     
     a = 1;
-    delta = 0.99;
+    delta = 3;
     
     K1 = 2*delta*a;
     if vstar < 0.001
