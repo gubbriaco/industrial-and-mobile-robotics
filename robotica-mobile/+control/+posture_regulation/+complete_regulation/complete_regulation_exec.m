@@ -23,9 +23,10 @@ function complete_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, comp
     if isequal(DYNAMIC_ON, 0)
         subplot(nr_subplot, nc_subplot, subplot_index); 
         axis([0 100 0 100]); hold on; 
-        plot(start(1), start(2), "*", "Color","blue");
-        plot(goal(1), goal(2), "*", "Color","green");
-        plot(posture(:,1), posture(:,2), "or");
+        global environment
+        import environment.Environment;
+        plot2D(environment);
+        plot(posture(:,1), posture(:,2), "or", "MarkerSize",1.85);
         import control.posture_regulation.plot_triangle;
         plot_triangle([posture(end,1),posture(end,2)], posture(end,3));
         title(title_evolution + " COMPLETE REGULATION");
