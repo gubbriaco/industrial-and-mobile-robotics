@@ -1,17 +1,12 @@
-function DYNAMIC_ON = control_input()
-
-    % questa function permette all'utente che esegue il programma di
-    % scegliere tramite console se effettuare plot statici o dinamici delle
-    % traiettorie generate dopo aver applicato i vari algoritmi di
-    % controllo.
+function c = control_input()
 
     disp(" "); disp(" ");
-    disp("Scegliere se effettuare plot statici o dinamici.");
-    disp("I formati di input per la tipologia di plot:");
-    disp("s := static plot");
-    disp("d := dynamic plot");
+    disp("Scegliere la tipologia di controllo a cui applicare la posture regulation:");
+    disp("l := linear control");
+    disp("n := non linear control");
+    disp("io := input-output control");
     disp(" ");
-    DYNAMIC_ON = input("Inserire la tipologia di path planning da simulare: ", "s");
-    DYNAMIC_ON = "" + DYNAMIC_ON;
+    c = input("Inserire la tipologia di controllo: " , "s");
+    c = "" + c;
 
 end

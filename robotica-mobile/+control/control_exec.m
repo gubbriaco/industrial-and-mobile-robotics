@@ -3,8 +3,8 @@ function control_exec(environment, P, Ts, samples, title_plot)
     
 %% ************************************************************************
     %% DYNAMIC PLOTS
-    import data_input.control_input;
-    DYNAMIC_ON = control_input();
+    import data_input.plot_input;
+    DYNAMIC_ON = plot_input();
     if strcmpi(DYNAMIC_ON, "d")
         DYNAMIC_ON=1;
     elseif strcmpi(DYNAMIC_ON, "s")
@@ -48,14 +48,8 @@ function control_exec(environment, P, Ts, samples, title_plot)
     end
     
     if isequal(DYNAMIC_ON, 1)
-        disp(" "); disp(" ");
-        disp("Scegliere la tipologia di controllo a cui applicare la posture regulation:");
-        disp("l := linear control");
-        disp("n := non linear control");
-        disp("io := input-output control");
-        disp(" ");
-        c = input("Inserire la tipologia di controllo: " , "s");
-        c = "" + c;
+        import data_input.control_input;
+        c = control_input();
     end
     
     if isequal(DYNAMIC_ON, 1)
