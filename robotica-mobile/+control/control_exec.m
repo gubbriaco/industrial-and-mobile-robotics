@@ -7,7 +7,22 @@ function control_exec(environment, P, Ts, samples, title_plot)
     % di controllo:
     % - 0 : solo plot statici
     % - 1 : sia plot statici che dinamici
-    DYNAMIC_ON = 0;
+    disp(" "); disp(" ");
+    disp("Scegliere se effettuare plot statici o dinamici.");
+    disp("I formati di input per la tipologia di plot:");
+    disp("static := static plot");
+    disp("dynamic := dynamic plot");
+    disp(" ");
+    DYNAMIC_ON = input("Inserire la tipologia di path planning da simulare: ", "s");
+    DYNAMIC_ON = "" + DYNAMIC_ON;
+    if strcmpi(DYNAMIC_ON, "dynamic")
+        DYNAMIC_ON=1;
+    elseif strcmpi(DYNAMIC_ON, "static")
+        DYNAMIC_ON=0;
+    else
+        error("Input non valido.")
+    end
+    %     DYNAMIC_ON = 0;
     
     
 %% ************************************************************************

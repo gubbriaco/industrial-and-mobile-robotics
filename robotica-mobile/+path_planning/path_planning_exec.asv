@@ -44,6 +44,7 @@ function path_planning_exec(environment, type)
         legend("Location","northwest");
         Ts=0.1; samples=(length(P)/Ts)*2;
         title_plot = "ARTIFICIAL POTENTIAL FIELDS";
+        
         control_exec(environment, P, Ts, samples, title_plot);
 
     

@@ -49,14 +49,8 @@ subplot(1,2,2); plot3D(environment);
 % ogni path planning viene eseguito ogni algoritmo di controllo progettato
 % @see path_planning.path_planning_exec
 import path_planning.path_planning_exec;
-disp("Scegliere una tra le tipologie elencate. Gli input sono non case sensitive.");
 disp("I formati di input per la tipologia di path planning sono:");
-disp("artificial := Artificial Potential Fields");
-disp("discrete := Discrete Potential Fields");
-disp("voronoi := Voronoi Diagrams");
-disp("visibility := Visibility Graphs");
-disp(" ");
-type = input("Inserire la tipologia di path planning da simulare: ", "s");
-type = "" + type;
+disp("Artificial");
+type = input("Inserire la tipologia di path planning da simulare:");
 path_planning_exec(environment, type);
 
