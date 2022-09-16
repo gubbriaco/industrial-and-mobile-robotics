@@ -33,21 +33,22 @@ function trajectory = voronoi(environment)
 
     %% Ritrazione 
 
-    % Unisco i punti di start e goal alla mappa di voronoi generata. In realtá qui la
-    % ritrazione avviene in maniera molto naive: si dovrebbe controllare se innanzitutto
-    % esiste e in caso se i due segmenti non intersecano nessun ostacolo. Qui connetto i
-    % punti di start e goal semplicemente al nodo piú vicino della mappa di voronoi.
+    % Unisco i punti di start e goal alla mappa di voronoi generata. In 
+    % realtá qui la ritrazione avviene in maniera molto naive: si dovrebbe 
+    % controllare se innanzitutto esiste e in caso se i due segmenti non 
+    % intersecano nessun ostacolo. Qui connetto i punti di start e goal 
+    % semplicemente al nodo piú vicino della mappa di voronoi.
 
     % Metto tutti i vertici in unico vettore v:
-    % inserisco la "v" precedente cosi' che il nuovo "v" avra' il v' precedente
-    % piu' i "nuovi" ([vx(1,i) vy(1,i)] ; [vx(2,i) vy(2,i)])
+    % inserisco la "v" precedente cosi' che il nuovo "v" avra' il v' 
+    % precedente piu' i "nuovi" ([vx(1,i) vy(1,i)] ; [vx(2,i) vy(2,i)])
     v = [];
     for i = 1 : length(vx)
         v = [v ; [vx(1,i) vy(1,i)] ; [vx(2,i) vy(2,i)]];
     end
 
-    % Cerco quindi tra i vertici di v quello che é meno distante da start e goal e unisco
-    % quest'ultimi al vettore v
+    % Cerco quindi tra i vertici di v quello che é meno distante da start e
+    % goal e unisco quest'ultimi al vettore v
     % diminuisco il vettore v rispettivamente delle coordinate di start e
     % goal cosi' da ottenere i vertici diminuiti da essi -> in questa
     % maniera potro' calcolare le distanze rispettivamente da start e goal
@@ -78,10 +79,11 @@ function trajectory = voronoi(environment)
     
     %% Creazione grafo tramite matrice di adiacenza
 
-    % Siccome in v la sequenza di segmenti é alla rinfusa, vertici adiacenti possono 
-    % essere in posizioni molto diverse. Quindi, tramite findZeroRows trovo vertici 
-    % coincidenti in v. In seguito, si segue il principio che i vertici viaggiano a coppie 
-    % in cui il primo vertice é di indice dispari e il secondo di indice pari.
+    % Siccome in v la sequenza di segmenti é alla rinfusa, vertici 
+    % adiacenti possono essere in posizioni molto diverse. Quindi, tramite 
+    % find_zero_rows trovo vertici coincidenti in v. In seguito, si segue il 
+    % principio che i vertici viaggiano a coppie in cui il primo vertice é 
+    % di indice dispari e il secondo di indice pari.
 
     % definisco la matrice di adiacenza
     A = zeros(length(v));
@@ -90,8 +92,8 @@ function trajectory = voronoi(environment)
     for i = length(vtemp) : -1 : 1
         % diminuisco vtemp della riga i-esima di vtemp
         temp = (vtemp-vtemp(i,:));
-        import path_planning.voronoi_diagram.findZeroRows;
-        occ = findZeroRows(temp);
+        import path_planning.voronoi_diagram.find_zero_rows;
+        occ = find_zero_rows(temp);
         for j = 1 : length(occ)
             index = occ(j);
             if mod(index,2) == 0

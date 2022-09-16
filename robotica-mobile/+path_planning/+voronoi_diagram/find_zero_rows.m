@@ -1,7 +1,7 @@
-% Funzione che, dato in ingresso un vettore v, restituisce gli indici di tutte le
-% righe che si trovano interamente sotto una certa soglia
+function index = find_zero_rows(v)
 
-function index = findZeroRows(v)
+    % Funzione che, dato in ingresso un vettore v, restituisce gli indici 
+    % di tutte le righe che si trovano interamente sotto una certa soglia
 
     index = [];
 
