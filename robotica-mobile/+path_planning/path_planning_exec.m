@@ -91,7 +91,7 @@ function path_planning_exec(environment, type)
     elseif strcmpi(type, "vi")
         obstacle_height=1; add_obstacles(environment, obstacle_height);
         import path_planning.visibility_graph.visibility_graph;
-        P = visibility_graph(start, goal, obstacles);
+        P = visibility_graph();
         figure(); plot2D(environment);
         hold on; plot(P(:,1),P(:,2), "DisplayName","shortest path");
         title("VISIBILITY GRAPH SHORTEST PATH");
