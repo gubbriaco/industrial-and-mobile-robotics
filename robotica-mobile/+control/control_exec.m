@@ -18,7 +18,7 @@ function control_exec(environment, P, Ts, samples, title_plot)
     %% TRAJECTORY GENERATION
     import control.trajectory_tracking.trajectory_generation;
     [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
-                                           = trajectory_generation(P, samples);
+                                       = trajectory_generation(P, samples);
     x0 = xstar(1)-0.1;
     y0 = ystar(1)+0.1;
     theta0 = thetastar(1)+deg2rad(0.1);
