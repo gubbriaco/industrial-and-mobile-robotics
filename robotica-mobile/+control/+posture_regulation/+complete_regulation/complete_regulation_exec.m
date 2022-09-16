@@ -35,7 +35,6 @@ function complete_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, comp
         figure(); axis([0 100 0 100]); hold on; 
         import control.posture_regulation.plot_robot;
         plot_robot(posture);
-        exit;
     end
     
     

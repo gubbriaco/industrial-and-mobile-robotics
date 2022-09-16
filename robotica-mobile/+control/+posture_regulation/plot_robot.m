@@ -11,7 +11,7 @@ function plot_robot(evolution)
             iteration=iteration+1;
         end
         
-        plot(evolution(i,1), evolution(i,2), "or", "MarkerSize", 5);
+        plot(evolution(i,1), evolution(i,2), "or", "MarkerSize", 3);
         import control.posture_regulation.plot_triangle;
         triangle = plot_triangle([evolution(i,1),evolution(i,2)], evolution(i,3));
         pause(0.0001);

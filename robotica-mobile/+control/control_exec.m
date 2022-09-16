@@ -10,14 +10,14 @@ function control_exec(environment, P, Ts, samples, title_plot)
     disp(" "); disp(" ");
     disp("Scegliere se effettuare plot statici o dinamici.");
     disp("I formati di input per la tipologia di plot:");
-    disp("static := static plot");
-    disp("dynamic := dynamic plot");
+    disp("s := static plot");
+    disp("d := dynamic plot");
     disp(" ");
     DYNAMIC_ON = input("Inserire la tipologia di path planning da simulare: ", "s");
     DYNAMIC_ON = "" + DYNAMIC_ON;
-    if strcmpi(DYNAMIC_ON, "dynamic")
+    if strcmpi(DYNAMIC_ON, "d")
         DYNAMIC_ON=1;
-    elseif strcmpi(DYNAMIC_ON, "static")
+    elseif strcmpi(DYNAMIC_ON, "s")
         DYNAMIC_ON=0;
     else
         error("Input non valido.")
@@ -60,8 +60,8 @@ function control_exec(environment, P, Ts, samples, title_plot)
     if isequal(DYNAMIC_ON, 1)
         disp(" "); disp(" ");
         disp("Scegliere la tipologia di controllo a cui applicare la posture regulation:");
-        disp("linear := linear control");
-        disp("non := non linear control");
+        disp("l := linear control");
+        disp("n := non linear control");
         disp("io := input-output control");
         disp(" ");
         c = input("Inserire la tipologia di controllo: " , "s");
@@ -70,10 +70,10 @@ function control_exec(environment, P, Ts, samples, title_plot)
     
     if isequal(DYNAMIC_ON, 1)
         subplot_index=0; title_evolution="";
-        if strcmpi(c, "linear")
+        if strcmpi(c, "l")
             posture_regulation_exec(DYNAMIC_ON, evolutionAL, Ts, angle, t_simulazione,...
                                        nr_subplot, nc_subplot, subplot_index, title_evolution);
-        elseif strcmpi(c, "non")
+        elseif strcmpi(c, "n")
             posture_regulation_exec(DYNAMIC_ON, evolutionNL, Ts, angle, t_simulazione,...
                                        nr_subplot, nc_subplot, subplot_index, title_evolution);
         elseif strcmpi(c, "io")

@@ -34,7 +34,7 @@ function path_planning_exec(environment, type)
     % che guidano il moto del robot derivate in genere da un campo di 
     % potenziali artificiali: forza attrattiva verso il goal, forze 
     % repulsive dagli ostacoli
-    if strcmpi(type, "artificial")
+    if strcmpi(type, "a")
         obstacle_height=1; add_obstacles(environment, obstacle_height);
         import path_planning.artificial_potential_fields.artificial_potential_fields;
         P = artificial_potential_fields(environment);
@@ -52,7 +52,7 @@ function path_planning_exec(environment, type)
     % Tale tecnica presenta potenziali attrattivi e repulsivi tale da avere
     % valori di J piu' alti vicino agli ostacoli e valori di J piu' bassi
     % vicino alla posizione del goal
-    elseif strcmpi(type, "discrete")
+    elseif strcmpi(type, "d")
         obstacle_height=Inf; add_obstacles(environment, obstacle_height);
         import path_planning.discrete_potential_fields.discrete_potential_fields;
         P = discrete_potential_fields(start, goal, width, height, grid, obstacles);
@@ -70,7 +70,7 @@ function path_planning_exec(environment, type)
     % Tale tecnica si basa nel partizionare un piano in regioni vicine a
     % ciascun dato insieme di oggetti. Ogni regione e' denominata "cella di
     % Voronoi".
-    elseif strcmpi(type, "voronoi")
+    elseif strcmpi(type, "vo")
         obstacle_height=1; add_obstacles(environment, obstacle_height);
         import path_planning.voronoi_diagram.voronoi;
         P = voronoi(environment);
@@ -88,7 +88,7 @@ function path_planning_exec(environment, type)
     % Tale tecnica si basa nel collegare i vertici di ogni ostacolo senza
     % intersecare gli altri ostacoli. Tale collegamento e' denominato "edge
     % del visibility graph".
-    elseif strcmpi(type, "visibility")
+    elseif strcmpi(type, "vi")
         obstacle_height=1; add_obstacles(environment, obstacle_height);
         import path_planning.visibility_graph.visibility_graph;
         P = visibility_graph(start, goal, obstacles);
