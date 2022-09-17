@@ -40,7 +40,7 @@ function control_exec(environment, P, Ts, samples, title_plot)
 %% ************************************************************************
     %% POSTURE REGULATION
     import control.posture_regulation.posture_regulation_exec;
-    t_simulazione = 7000;
+    t_simulazione = 200;
     angle = (270/180)*pi;
     nr_subplot=2; nc_subplot=3;
     if isequal(DYNAMIC_ON, 0)
