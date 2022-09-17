@@ -20,11 +20,21 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
         posture(k,3) = enroll_theta(Xdot(3));
     end
     
+    % se l'angolo ottenuto è maggiore dell'angolo giro, allora sottraggo
+    % l'angolo giro fin quando non ottengo un angolo che è minore
+    % dell'angolo giro
     Xdot(3)=180+abs((Xdot(3)*180)/pi);
     while Xdot(3) > 360
         Xdot(3) = Xdot(3)-360;
     end
     
+    % controllo che la configurazione finale ottenuta sia idonea alla
+    % configurazione obiettivo che doveva raggiungere la posture
+    % regulation.
+    % se tale configurazione è stata raggiunta allora può essere
+    % considerata valida, altrimenti il programma solleva un eccezione
+    % poich' la configurazione finale ottenuta non e' adeguata per
+    % terminare l'esecuzione.
     Xdot(1)=round(Xdot(1)); Xdot(2)=round(Xdot(2)); Xdot(3)=round(Xdot(3));
     angle=(angle*180)/pi;
     soglia = 1;
@@ -42,10 +52,10 @@ function cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, car
         Xdot(3)=angle;
     end
     
-    disp(" ");
-    disp(title_evolution + " cartesian regulation: ");
-    Xdot'
-    disp(" ");
+%     disp(" ");
+%     disp(title_evolution + " cartesian regulation: ");
+%     Xdot'
+%     disp(" ");
     
     posture = [evolution ; posture];
    
