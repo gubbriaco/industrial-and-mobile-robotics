@@ -1,14 +1,13 @@
-function [trajectory] = visibilitygraph(start, goal, obstacles)
+function [trajectory] = visibility_graph()
 
     vertices_map = {};
     
-    global width height
-    delta = 0.25;
+    global width height start goal obstacles radius_robot
     vertices_walls = zeros(4,2);
-    vertices_walls(1,:) = [width-delta,height-delta];        % angolo alto dx
-    vertices_walls(2,:) = [delta,height-delta];          % angolo alto sx
-    vertices_walls(3,:) = [delta,delta];            % angolo basso sx
-    vertices_walls(4,:) = [width-delta,delta];          % angolo basso dx
+    vertices_walls(1,:) = [width-2*radius_robot,height-2*radius_robot]; % angolo alto dx
+    vertices_walls(2,:) = [2*radius_robot,height-2*radius_robot]; % angolo alto sx
+    vertices_walls(3,:) = [2*radius_robot,2*radius_robot]; % angolo basso sx
+    vertices_walls(4,:) = [width-2*radius_robot,2*radius_robot]; % angolo basso dx
     
     vertices_map = {vertices_walls};
     
@@ -26,7 +25,10 @@ function [trajectory] = visibilitygraph(start, goal, obstacles)
 
     
     import path_planning.visibility_graph.graph_creation;
-    [path, distanza] = graph_creation(start, goal, vertices_map, vertices_map, obstacles);
+    [path, distanza] = graph_creation(start, goal, vertices_map, ...
+                                      vertices_map);
     
     trajectory = path;
+    
+    
 end

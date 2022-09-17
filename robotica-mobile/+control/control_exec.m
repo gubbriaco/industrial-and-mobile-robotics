@@ -3,18 +3,8 @@ function control_exec(environment, P, Ts, samples, title_plot)
     
 %% ************************************************************************
     %% DYNAMIC PLOTS
-    % valore input per scegliere se avere plot dinamici per ogni algoritmo
-    % di controllo:
-    % - 0 : solo plot statici
-    % - 1 : sia plot statici che dinamici
-    disp(" "); disp(" ");
-    disp("Scegliere se effettuare plot statici o dinamici.");
-    disp("I formati di input per la tipologia di plot:");
-    disp("s := static plot");
-    disp("d := dynamic plot");
-    disp(" ");
-    DYNAMIC_ON = input("Inserire la tipologia di path planning da simulare: ", "s");
-    DYNAMIC_ON = "" + DYNAMIC_ON;
+    import data_input.plot_input;
+    DYNAMIC_ON = plot_input();
     if strcmpi(DYNAMIC_ON, "d")
         DYNAMIC_ON=1;
     elseif strcmpi(DYNAMIC_ON, "s")
@@ -28,7 +18,7 @@ function control_exec(environment, P, Ts, samples, title_plot)
     %% TRAJECTORY GENERATION
     import control.trajectory_tracking.trajectory_generation;
     [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
-                                           = trajectory_generation(P, samples);
+                                       = trajectory_generation(P, samples);
     x0 = xstar(1)-0.1;
     y0 = ystar(1)+0.1;
     theta0 = thetastar(1)+deg2rad(0.1);
@@ -44,7 +34,7 @@ function control_exec(environment, P, Ts, samples, title_plot)
                                                                        xdstar, ydstar, ...
                                                                        xddstar, yddstar,...
                                                                        thetastar,...
-                                                                       title_plot);
+                                                                       title_plot, P);
                                                                    
     hold off;                                           
 %% ************************************************************************
@@ -58,14 +48,8 @@ function control_exec(environment, P, Ts, samples, title_plot)
     end
     
     if isequal(DYNAMIC_ON, 1)
-        disp(" "); disp(" ");
-        disp("Scegliere la tipologia di controllo a cui applicare la posture regulation:");
-        disp("l := linear control");
-        disp("n := non linear control");
-        disp("io := input-output control");
-        disp(" ");
-        c = input("Inserire la tipologia di controllo: " , "s");
-        c = "" + c;
+        import data_input.control_input;
+        c = control_input();
     end
     
     if isequal(DYNAMIC_ON, 1)

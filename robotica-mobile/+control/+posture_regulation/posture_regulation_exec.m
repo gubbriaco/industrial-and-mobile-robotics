@@ -27,13 +27,8 @@ function posture_regulation_exec(DYNAMIC_ON, evolution, Ts, angle, t_simulazione
     end
     
     if isequal(DYNAMIC_ON, 1)
-        disp(" "); disp(" ");
-        disp("Scegliere la tipologia di posture da visualizzare in maniera dinamica:");
-        disp("ca := cartesian regulation");
-        disp("co := complete regulation");
-        disp(" ");
-        p = input("Inserire la tipologia di posture regulation: " , "s");
-        p = "" + p;
+        import data_input.posture_input;
+        p = posture_input();
         if strcmpi(p, "ca")
             cartesian_regulation_exec(DYNAMIC_ON, t_simulazione, X0, evolution, cartesian_posture,...
                                   nr_subplot, nc_subplot, subplot_index, title_evolution);

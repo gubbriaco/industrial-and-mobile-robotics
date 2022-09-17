@@ -1,6 +1,8 @@
 function [xstar, ystar, xdstar, ydstar, xddstar, yddstar, thetastar]...
     = trajectory_generation(P, samples)
 
+    % questa function permette la generazione della traiettoria di
+    % riferimento tramite la function trapveltraj.
 
     Px = P(:,1)';
     Py = P(:,2)';

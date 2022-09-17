@@ -12,7 +12,7 @@ function newXg = non_linearization(Ts, Xg, xstar, ystar, xdstar, ydstar,...
     omegastar = (yddstar*xdstar-ydstar*xddstar)/(vstar^2);
 
     K1 = @(vstar,omegastar)(ones(size(vstar)));
-    K2 = 1;
+    K2 = 10;
     K3 = @(vstar,omegastar)(ones(size(vstar)));
     
     

@@ -1,5 +1,5 @@
 %funzione che si occupa della costruzione del grafo di visibilita'
-function [ path, dist ] = graph_creation( start, goal, map, vertices_map, obstacles)
+function [ path, dist ] = graph_creation( start, goal, map, vertices_map)
     
     import path_planning.visibility_graph.adjacency_matrix;
     %si costruisce la matrice di adiacenza 
@@ -24,19 +24,9 @@ function [ path, dist ] = graph_creation( start, goal, map, vertices_map, obstac
     [pathx pathy] = gplot(M(path(i), path(i)), V(path(i),:));
     path = [pathx pathy];
     
-    %plot ostacoli
-    hold on;
-    for j = 1 : size(obstacles)
-        ob = obstacles(j,:);
-        x_ob = ob(1);
-        y_ob = ob(3);
-        w_ob = ob(2)-ob(1);
-        h_ob = ob(4)-ob(3);
-        rectangle("position",[x_ob y_ob w_ob h_ob], "facecolor","r");
-    end
-    %plot start e goal
-    hold on; plot(start(1), start(2), "ok", "linewidth",2);
-    hold on; plot(goal(1), goal(2), "ok", "linewidth",2);
+    global environment
+    import environment.Environment;
+    plot2D(environment);
 
     
 end

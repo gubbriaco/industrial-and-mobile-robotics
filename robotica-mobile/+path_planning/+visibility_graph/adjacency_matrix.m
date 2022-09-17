@@ -26,7 +26,8 @@ function [M, V, W] = adjacency_matrix(start, goal, map, vertices_map)
     for i = 1:length(V)-1
         for j = i+1:length(V)
             import path_planning.visibility_graph.visible_vertices;
-            if visible_vertices( V(i,1), V(i,2), V(j,1), V(j,2), map)==1  %bool = verticiVisibili( Xs, Ys, Xf, Yf, Map )
+            %bool = verticiVisibili( Xs, Ys, Xf, Yf, Map )
+            if visible_vertices( V(i,1), V(i,2), V(j,1), V(j,2), map)==1  
                 rig = [rig, j];
                 col = [col, i]; 
                 import path_planning.visibility_graph.euclidean_distance;
