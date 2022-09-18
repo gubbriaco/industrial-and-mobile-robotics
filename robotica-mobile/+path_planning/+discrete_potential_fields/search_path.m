@@ -1,9 +1,9 @@
-%funzione che si occupa di determinare il cammino minimo a partire dalla 
-%mappa dei potenziali discreti tramite un algoritmo greedy
 function [cell_path, path_map] = search_path( Xstart, Ystart, distance_map )
 
-    % controllo input
+    % funzione che si occupa di determinare il cammino minimo a partire 
+    % dalla mappa dei potenziali discreti tramite un algoritmo greedy
 
+    % controllo degli input
     [m,n] = size(distance_map);
     if (Xstart < 1) || (Xstart > n)
         error('coordinata X di arrivo fuori dalla mappa ');

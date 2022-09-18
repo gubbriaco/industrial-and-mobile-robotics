@@ -1,6 +1,6 @@
 function index = find_zero_rows(v)
 
-    % Funzione che, dato in ingresso un vettore v, restituisce gli indici 
+    % function che, dato in ingresso un vettore v, restituisce gli indici 
     % di tutte le righe che si trovano interamente sotto una certa soglia
 
     index = [];

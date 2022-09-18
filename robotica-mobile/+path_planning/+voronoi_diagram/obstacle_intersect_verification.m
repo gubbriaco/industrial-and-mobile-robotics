@@ -1,7 +1,8 @@
-% Funzione che calcola se esiste un'interesezione tra un segmento la cui x varia da
-% xline(1) a xline(2), come anche la y, e un ostacolo di forma rettangolare
-
 function [intersect] = obstacle_intersect_verification(xline,yline,xobst,yobst)
+    
+    % function che calcola se esiste un'interesezione tra un segmento la 
+    % cui x varia da xline(1) a xline(2), come anche la y, e un ostacolo
+
 
     % prendo punto iniziale e finale della x e della y dell'ostacolo
     % corrispondente
@@ -13,15 +14,6 @@ function [intersect] = obstacle_intersect_verification(xline,yline,xobst,yobst)
     xline = linspace(xline(1), xline(2), 10)';
     yline = linspace(yline(1), yline(2), 10)';
 
-
-%     % se sono lo stesso punto allora li trasformo in un vettore cosi' da
-%     % poterlo confrontare successivamente per verificare se l'edge di voronoi e
-%     % l'ostacolo sono lo stesso punto
-%     if length(xline) == 1
-%         xline = ones(length(yline),1)*xline;
-%     elseif length(yline) == 1
-%         yline = ones(length(xline),1)*yline;
-%     end
 
     % vettore logico
     % contiene valori booleani per ogni posizione tale che se pari a 1

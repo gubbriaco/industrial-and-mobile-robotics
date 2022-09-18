@@ -1,4 +1,3 @@
-%funzione 'findLower'
 function [boolean,path] = find_lower( distanceMap, R, C, r, path )
 
     

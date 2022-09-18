@@ -1,4 +1,3 @@
-%funzione 'findNeighbours'
 function [neighbours,nord,est,sud,ovest] = find_neighbours( riga, colonna, mappa)
 
     [m,n] = size(mappa);

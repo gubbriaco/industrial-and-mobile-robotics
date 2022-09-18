@@ -1,4 +1,3 @@
-%funzione 'offer'
 function queue = offer( riga, colonna, queue )
     
     [m,n] = size(queue);

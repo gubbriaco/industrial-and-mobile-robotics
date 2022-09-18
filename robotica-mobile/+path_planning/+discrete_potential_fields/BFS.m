@@ -1,4 +1,3 @@
-%funzione 'BFS'
 function map = BFS( Xstart, Ystart, map )
    
     % Coordinata X ---> colonne della matrice map

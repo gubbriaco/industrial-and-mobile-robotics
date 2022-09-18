@@ -1,8 +1,8 @@
-%funzione che restituisce l'espressione di una retta passante per due punti,
-%ovvero il segmento che li congiunge
 function [ x, y ] = segment( Xs, Ys, Xf, Yf, step )
 
-    
+    % function che restituisce l'espressione di una retta passante per due 
+    % punti, ovvero il segmento che li congiunge
+
     % i punti x,y restituiti sono sempre nell'ordine
     % LEFT-RIGHT DOWN-UP
 

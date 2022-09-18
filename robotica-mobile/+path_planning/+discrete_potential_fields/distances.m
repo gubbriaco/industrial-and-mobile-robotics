@@ -1,7 +1,4 @@
-%funzione 'distanze'
 function  map = distances( Xstar, Ystar, map )
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
 
     [m,n] = size(map);
     if (Xstar < 1) || (Xstar > n)
