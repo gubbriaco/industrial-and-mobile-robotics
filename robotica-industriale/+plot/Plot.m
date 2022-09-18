@@ -35,9 +35,9 @@ classdef Plot
             plot(t31, P3P1_segment(:,1), "*","Color","b"); hold on;
             plot(t31, P3P1_segment(:,2), "*","Color","r"); hold on;
             plot(t31, P3P1_segment(:,3), "*","Color","g"); hold on;
-            title("TRIANGLE POINTS COVERAGE"); 
-            xlabel("\lambda"); ylabel("points trend"); 
-            legend("P1P2","P2P3","P3P1"); grid on;
+            title("TRIANGLE COORDINATES TREND"); 
+            xlabel("\lambda"); ylabel("Px  Py  Pz"); 
+            legend("Px","Py","Pz"); grid on;
         end
         
         function triangle_coverage_speed()
@@ -63,9 +63,9 @@ classdef Plot
             plot(t31, P3P1_derived_segment(:,1), "*","Color","b"); hold on;
             plot(t31, P3P1_derived_segment(:,2), "*","Color","r"); hold on;
             plot(t31, P3P1_derived_segment(:,3), "*","Color","g"); hold on;
-            title("TRIANGLE COVERAGE SPEED"); 
-            xlabel("\lambda"); ylabel("speed"); 
-            legend("P1P2d","P2P3d","P3P1d"); grid on;
+            title("TRIANGLE POINTS COVERAGE SPEED"); 
+            xlabel("\lambda"); ylabel("Pxd  Pyd  Pzd"); 
+            legend("Pxd","Pyd","Pzd"); grid on;
         end
         
         function triangle_joint_variables()
@@ -92,8 +92,8 @@ classdef Plot
             plot(t31, Q3Q1_segment(:,2), "*","Color","r"); hold on;
             plot(t31, Q3Q1_segment(:,3), "*","Color","g"); hold on;
             title("TRIANGLE JOINT VARIABLES"); 
-            xlabel("\lambda"); ylabel("joint variables"); 
-            legend("Q1Q2","Q2Q3","Q3Q1"); grid on;
+            xlabel("\lambda"); ylabel("Q1  Q2  Q3"); 
+            legend("Q1","Q2","Q3"); grid on;
         end
         
         function triangle_joint_variables_speed()
@@ -120,8 +120,8 @@ classdef Plot
             plot(t31, Q3Q1_derived_segment(:,2), "*","Color","r"); hold on;
             plot(t31, Q3Q1_derived_segment(:,3), "*","Color","g"); hold on;
             title("TRIANGLE JOINT VARIABLES SPEED"); 
-            xlabel("\lambda"); ylabel("joint variables speed"); 
-            legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
+            xlabel("\lambda"); ylabel("Q1d  Q2d  Q3d"); 
+            legend("Q1d","Q2d","Q3d"); grid on;
         end
         
         
@@ -149,9 +149,9 @@ classdef Plot
             plot(t31, P3P1_arch(1,:), "*","Color", "b"); hold on;
             plot(t31, P3P1_arch(2,:), "*","Color", "r"); hold on;
             plot(t31, P3P1_arch(3,:), "*","Color", "g"); hold on;
-            title("CIRCUMFERENCE POINTS COVERAGE"); 
-            xlabel("\lambda"); ylabel("speed"); 
-            legend("P1P2","P2P3","P3P1"); grid on;
+            title("CIRCUMFERENCE COORDINATES TREND"); 
+            xlabel("\lambda"); ylabel("Px  Py  Pz"); 
+            legend("Px","Py","Pz"); grid on;
         end
         
         function circumference_coverage_speed()
@@ -177,9 +177,9 @@ classdef Plot
             plot(t31, P3P1_derived_arch(1,:), "*","Color", "b"); hold on;
             plot(t31, P3P1_derived_arch(2,:), "*","Color", "r"); hold on;
             plot(t31, P3P1_derived_arch(3,:), "*","Color", "g"); hold on;
-            title("CIRCUMFERENCE COVERAGE SPEED");
-            xlabel("\lambda"); ylabel("speed");
-            legend("P1P2d","P2P3d","P3P1d"); grid on;
+            title("CIRCUMFERENCE POINTS COVERAGE SPEED");
+            xlabel("\lambda"); ylabel("Pxd  Pyd  Pzd");
+            legend("Pxd","Pyd","Pzd"); grid on;
         end
         
         function circumference_joint_variables()
@@ -206,8 +206,8 @@ classdef Plot
             plot(t31, Q3Q1_arch(:,2), "*", "Color", "r"); hold on;
             plot(t31, Q3Q1_arch(:,3), "*", "Color", "g"); hold on;
             title("CIRCUMFERENCE JOINT VARIABLES"); 
-            xlabel("\lambda"); ylabel("joint variables"); 
-            legend("Q1Q2","Q2Q3","Q3Q1"); grid on;
+            xlabel("\lambda"); ylabel("Q1  Q2  Q3"); 
+            legend("Q1","Q2","Q3"); grid on;
         end
         
         function circumference_joint_variables_speed()
@@ -235,8 +235,8 @@ classdef Plot
             plot(t31, Q3Q1_derived_arch(2,:), "*", "Color", "r"); hold on;
             plot(t31, Q3Q1_derived_arch(3,:), "*", "Color", "g"); hold on;
             title("CIRCUMFERENCE JOINT VARIABLES SPEED"); 
-            xlabel("\lambda"); ylabel("joint variables speed"); 
-            legend("Q1Q2d","Q2Q3d","Q3Q1d"); grid on;
+            xlabel("\lambda"); ylabel("Q1d  Q2d  Q3d"); 
+            legend("Q1d","Q2d","Q3d"); grid on;
         end
         
       
@@ -245,11 +245,11 @@ classdef Plot
             global P1P2_segment P2P3_segment P3P1_segment
             figure();
             plot3(P1P2_segment(:,1),P1P2_segment(:,2),P1P2_segment(:,3), ...
-                                                 '*','Color','b'); hold on;
+                                                 '>','Color','b'); hold on;
             plot3(P2P3_segment(:,1),P2P3_segment(:,2),P2P3_segment(:,3), ...
-                                                 '*','Color','r'); hold on;
+                                                 '>','Color','r'); hold on;
             plot3(P3P1_segment(:,1),P3P1_segment(:,2),P3P1_segment(:,3), ...
-                                                 '*','Color','g'); hold on;
+                                                 '>','Color','g'); hold on;
             plot3(P1P2_segment(:,1),P1P2_segment(:,2),P1P2_segment(:,3), ...
                                                      'Color','b'); hold on;
             plot3(P2P3_segment(:,1),P2P3_segment(:,2),P2P3_segment(:,3), ...
@@ -263,9 +263,9 @@ classdef Plot
             % function che effettua il plot della circonferenza
             global P1P2_arch P2P3_arch P3P1_arch
             figure();
-            plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'*','Color','b'); hold on;
-            plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),'*','Color','r'); hold on;
-            plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),'*','Color','g'); hold on;
+            plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'>','Color','b'); hold on;
+            plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),'>','Color','r'); hold on;
+            plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),'>','Color','g'); hold on;
             plot3(P1P2_arch(1,:),P1P2_arch(2,:),P1P2_arch(3,:),'Color','b'); hold on;
             plot3(P2P3_arch(1,:),P2P3_arch(2,:),P2P3_arch(3,:),'Color','r'); hold on;
             plot3(P3P1_arch(1,:),P3P1_arch(2,:),P3P1_arch(3,:),'Color','g');

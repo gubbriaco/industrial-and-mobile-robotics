@@ -6,12 +6,7 @@ function triangle_exec(T, DYNAMIC_ON)
     T2 = T(2);
     T3 = T(3);
     T4 = T(4);
-
-    global Qp
-    Qp1 = Qp(:,1);
-    Qp2 = Qp(:,2);
-    Qp3 = Qp(:,3);
-
+    
 
     import path.Path;
     global P1P2_segment P2P3_segment P3P1_segment
