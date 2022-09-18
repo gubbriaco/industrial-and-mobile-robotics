@@ -7,6 +7,7 @@ DYNAMIC_ON = main_input();
 
 %% INITIAL CONFIGURATION
 % function che inizializza tutte le variabili (punti, robot, ...)
+import init.init_exec;
 init_exec();
 
 
