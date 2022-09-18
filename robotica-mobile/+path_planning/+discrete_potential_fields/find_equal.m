@@ -1,4 +1,3 @@
-%funzione 'findEqual'
 function path = find_equal( distanceMap, R, C, r, path )
     
     [m,n] = size(distanceMap);

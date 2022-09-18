@@ -1,5 +1,7 @@
-%funzione che calcola la distanza tra due punti secondo il metodo euclideo
 function dist = euclidean_distance(A, B)
+    
+    % function che calcola la distanza tra due punti secondo il metodo 
+    % euclideo
 
     [m,n] = size(A);
     if m==1

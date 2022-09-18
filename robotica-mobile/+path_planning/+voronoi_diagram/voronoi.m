@@ -1,4 +1,6 @@
 function trajectory = voronoi(environment)
+
+
     global start goal X Y grid obstacles
 
     x_start = start(1); x_goal = goal(1);

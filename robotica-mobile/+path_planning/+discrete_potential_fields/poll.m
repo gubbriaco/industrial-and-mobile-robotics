@@ -1,9 +1,8 @@
-%funzione 'poll'
 function  [r, c, queue] = poll( queue )
 
 
-    % queue e' una matrice nx2 dove ogni riga 
-    % e' una coordinata (riga,colonna)
+    % queue e' una matrice nx2 dove ogni riga e' una coordinata 
+    % (riga,colonna)
 
     r=[]; c=[];
     m = size(queue);

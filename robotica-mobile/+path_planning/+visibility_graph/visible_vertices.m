@@ -1,7 +1,9 @@
-%funzione che si occupa di verificare se e' possibile tracciare una linea 
-%di visibilita' tra i due vertici che si stanno considerando.
-%Questo e' possibile se la linea non interseca nessuno degli ostacoli presenti sulla mappa
 function bool = visible_vertices(Xi, Yi, Xf, Yf, map)
+
+    % function che si occupa di verificare se e' possibile tracciare una 
+    % linea di visibilita' tra i due vertici che si stanno considerando.
+    % Questo e' possibile se la linea non interseca nessuno degli ostacoli 
+    % presenti sulla mappa
 
     delta=0.01;     % 1 cm
 
@@ -24,8 +26,6 @@ function bool = visible_vertices(Xi, Yi, Xf, Yf, map)
 
         i=i+1;
     end
-
-    %risultato
 
     bool = ~intersect;
 
